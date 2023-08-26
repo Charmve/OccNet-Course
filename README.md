@@ -2,9 +2,11 @@
 
 Surrounding Semantic Occupancy Perception Course for Autonomous Driving
 
-<img src="src/assert/occupanc_1.gif">
+<img align="center"  src="src/assert/occupanc_1.gif">
 
+<br><br>
 
+------
 
 大家好！
 
@@ -22,6 +24,7 @@ Surrounding Semantic Occupancy Perception Course for Autonomous Driving
 
 特斯拉用下图的具体例子来展现Occupancy Network的强大。不同于3D的框，occupancy这种表征对物体没有过多的几何假设，因此可以建模任意形状的物体和任意形式的物体运动。图中展示了一个两节的公交车正在启动的场景，蓝色表示运动的体素，红色表示静止的体素，Occupancy Network精确地估计出了公交车的第一节已经开始运动，而第二节还处于静止状态。
 
+![image](https://github.com/Charmve/OccNet-Course/assets/29084184/0344a9f0-2787-43ff-a299-d0ec28891524)
 
 ▲对正在启动的两节公交车的occupancy估计，蓝色表示运动的体素，红色表示静止的体素
 
@@ -33,21 +36,21 @@ Surrounding Semantic Occupancy Perception Course for Autonomous Driving
 
 不光是上述提到的BEVFormer、PETR算法，我们在本课程中会详细的分析、总结和对比不同算法之间的来龙去脉，各自发展的过程，核心思想和优化点。
 
-
-▲Occupancy Network结构
-
-特征融合后，一个基于deconvolution的解码器会解码出每个3D空间位置的occupancy，semantics以及flow。由于这个网络的输出是稠密（dense）的，输出的分辨率会受到内存的限制。因此，受到神经隐式表示（neural implicit representation）的启发，模型的最后额外设计了一个隐式queryable MLP decoder，输入任意坐标值(x,y,z)，可解码出该空间位置的信息，即occupancy，semantics，flow。该方法打破了模型分辨率的限制，被认为是设计上的一个亮点。
-
 这一工作的分享，激发了大家对自动驾驶感知算法方向的探讨，普遍认为占据网络是未来感知算法的终极解决方案 。通过稠密的空间体素占用确定自动驾驶车辆的感知结果，为预测和规划提供更加准备的条件。更加有利于特征时序融合、做到自动驾驶端到端的解决方案，最终实现L4，直至L5完全无人驾驶。
 
-<h2>不知道怎么学习占据网络？学习难度大？</h2>
+![demo](https://github.com/zhangyp15/OccFormer/raw/main/assets/nusc_snippet.gif)
+![legend](https://github.com/zhangyp15/OccFormer/raw/main/assets/nusc_legend.png)
+
+<h2 align="center">不知道怎么学习占据网络？学习难度大？</h2>
 
 今年来，学术界和工业界都在视觉occupancy方面有了大量的工作，从纯视觉的方案到多传感器的方案、从前向预测到后向预测，再到最近提出的forward-backward联合方案。对于我们初学者，造成了极大的学习困难。一下子不知道如何下手，从哪开始。本课程的出发点就是为了解决这个痛点，应该算是国内外对于占据网络全面讲解的第一个课程或者专题内容。
 
 在接下来的很长一段时间，我会从自动驾驶从业者的角度，跟大家一起学习和分享占据网络的发展及其算法原理，同时我们也提供了代码实践内容。以通俗的语言讲解从2D目标检测到BEV视角下的3D目标检测，再到3D空间占用算法的整个过程。并且尤其关注到算法原理本身，对比不同算法，详细分析其核心思想和各算法的优化点。更为特别的，在本课程中，我们会给出两个占据网络的复现和优化，让你快速复现，学以致用。尤其适合目前正在求职的朋友、对自动驾驶感知算法感兴趣的跨行就职者。每个章节都会有详细的课件和答疑群，欢迎大家一起交流！课程后，会有一个大作业，根据给出的条件和目标，思路提示，完成占据网络算法的优化，提升mIoU指标。
 
+<img src="https://github.com/Charmve/OccNet-Course/assets/29084184/ce1ca3e5-d8e5-4b39-a9d7-1c34e312d021" align="center">
 
-<h2>课程特色</h2>
+<h2 align="center">课程特色</h2>
+
 •	由浅入深，通俗易懂
 作者根据多年的自动驾驶经验，从占据网络的发展过程详细的阐述从2D检测到BEV 3D检测再到占据网络，讲清楚为什么前一方法不适用，各自方法有什么局限性。占据网络的神力又在哪里？由浅入深，一个问题一个问题解答。
 •	Occ算法全覆盖，高度提炼
@@ -55,28 +58,53 @@ Surrounding Semantic Occupancy Perception Course for Autonomous Driving
 •	理论结合实战
 项目实战和理论结合，实战课程的课后配套实战代码和操作文档，随学随练、快速掌握。
 
-<h2>课件代码一应俱全</h2>
+<h2 align="center">课件代码一应俱全</h2>
+
 细致的讲解，不光要有理论，代码及实践也一定要讲透彻！通过全套的视频讲解，帮你在脑海中搭建模型的基本框架，彻底搞懂每一个知识点，从而提高写代码的效率和速度。
 
+<div align="center">
+  <img src="https://github.com/Charmve/OccNet-Course/assets/29084184/b7c61b9d-ddb0-4527-b0c6-16fc7a08ecfc">
+  <br>
+  <img src="https://github.com/Charmve/OccNet-Course/assets/29084184/9fd622fc-a17d-4f2d-ba1a-28dacf64c623">
+</div>
 
-<h2>讲师介绍</h2>
-我是Charmve，在多家自动驾驶头部公司任职，主要关注在BEV视觉感知、3D场景重建，有多个自动驾驶量产项目经验。近年来，尤其关注在占据网络的研发上，根据个人所学所思和工作实践，跟大家一起分享这个主题内容。
+<h2 align="center">讲师介绍</h2>
+我是[Charmve]()，在多家自动驾驶头部公司任职，主要关注在BEV视觉感知、3D场景重建，有多个自动驾驶量产项目经验。近年来，尤其关注在占据网络的研发上，根据个人所学所思和工作实践，跟大家一起分享这个主题内容。
 
-<h2>课程学后收获</h2>
+<h2 align="center">课程学后收获</h2>
 1.	对占据网络有较为全面的认识，深入理解各种算法的核心思想和原理，尽可能做到融会贯通，结合实际工作，改善和提高系统感知能力；
 2.	对自动驾驶系统的感知算法会有较深入的理解，掌握感知算法的设计痛点和难点；
 3.	学完本课程，并理解本课程所讲解的内容，你将会是占据网络掌握的少数人！
 4.	提高从业竞争力，卷过同级身边人，同时也能够结识许多行业从业人员与学习合作伙伴！
 
-<h2>适合人群</h2>
+<h2 align="center">适合人群</h2>
 1.	计算机视觉与自动驾驶感知相关研究方向的本科/硕士/博士；
 2.	CV与自动驾驶2D/3D感知相关算法工程人员；
 3.	对占据网络算法感兴趣的朋友，要是有实际需求会更好；
 4.	对计算机视觉有部分了解，具有一定的Python、Pytorch基础的小伙伴；
 
-<h2>开课时间与学习方式</h2>
+<h2 align="center">开课时间与学习方式</h2>
 
 2023年9月份开始学习之路，历经两个月，离线视频授课。主讲老师在微信学习群内答疑，对课程中的算法、代码、环境配置等问题一一解惑！
+
+<div align="center">
+<p>
+
+<h2 align="center">课程咨询与购买</h2>
+
+<img width="360" src="https://github.com/Charmve/OccNet-Course/assets/29084184/707b8789-ba70-4c1b-b3d6-459ef6b51072">
+<br>
+vip专享8折优惠券
+</p>
+<p>
+
+扫码学习课程<br>
+
+<img width="360" src="https://github.com/Charmve/OccNet-Course/assets/29084184/efaee50b-b4e3-43eb-90a4-b599ecb080e4">
+<br>
+咨询小助理微信咨询：AIDriver004
+</p>
+</div>
 
 
 
