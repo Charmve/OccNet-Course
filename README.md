@@ -1,5 +1,7 @@
 # OccNet-Course
 
+<code>文档</code>&nbsp;<code>代码</code>&nbsp;<code>视频</code>&nbsp;<code>课后答疑</code>
+
 Surrounding Semantic Occupancy Perception Course for Autonomous Driving
 
 <p align="center">
@@ -100,6 +102,8 @@ Surrounding Semantic Occupancy Perception Course for Autonomous Driving
   <tbody>
    <tr>
     <td>
+    </td>
+    <td>
         课程章节（点击标题展开章节详情🔎）
     </td>
     <td>
@@ -113,6 +117,9 @@ Surrounding Semantic Occupancy Perception Course for Autonomous Driving
     </td>
    </tr>
    <tr>
+    <td>
+    <code>🔥 试看</code>
+    </td>
     <td>
     <details><summary>一、BEV感知概述（3周）</summary>
 
@@ -130,7 +137,7 @@ Surrounding Semantic Occupancy Perception Course for Autonomous Driving
     </details>
     </td>
     <td>
-	[<a href="Chapter01-BEV感知概述/占据网络专题-第二章-占据网络概述.mp4"><code>📹</code> Video</a>] | [<code><img height="18" src="https://user-images.githubusercontent.com/29084184/127970991-fcb23d68-8369-47af-918a-fef8f0becccd.png" alt="Baidu Cloud" title="Baidu Cloud" style="vertical-align:bottom;"/></code><a href="https://pan.baidu.com/s/1gEZuL8Wk1CUm0teRW5cQjg">百度网盘</a>] 提取码: swvc 
+	[<a href="Chapter01-BEV感知概述/占据网络专题-第一章-BEV感知概述.pptx"><code>📹</code> Video</a>] | [<code><img height="18" src="https://user-images.githubusercontent.com/29084184/127970991-fcb23d68-8369-47af-918a-fef8f0becccd.png" alt="Baidu Cloud" title="Baidu Cloud" style="vertical-align:bottom;"/></code><a href="https://pan.baidu.com/s/1hDjWfMyh0gM81RNUlUhXuA">百度网盘</a>] 提取码: mnee
     </td>
     <td>
       [PPT]() | [百度网盘]
@@ -139,6 +146,9 @@ Surrounding Semantic Occupancy Perception Course for Autonomous Driving
     </td>
    </tr>
    <tr>
+    <td>
+    <code>🔥 试看</code>
+    </td>
     <td>
     <details><summary>二、占据栅格网络概述(1.5周)</summary>
 
@@ -153,15 +163,17 @@ Surrounding Semantic Occupancy Perception Course for Autonomous Driving
     </details>
     </td>
     <td>
-     [<a href="Chapter02-占据栅格网络概述/占据网络专题-第二章-占据网络概述.mp4"><code>📹</code> Video</a>] | [<code><img height="18" src="https://user-images.githubusercontent.com/29084184/127970991-fcb23d68-8369-47af-918a-fef8f0becccd.png" alt="Baidu Cloud" title="Baidu Cloud" style="vertical-align:bottom;"/></code><a href="https://pan.baidu.com/s/1W3POk6IOTXzbllZUI9L1-Q">百度网盘</a>] 提取码: 1dp7 
+     [<a href="Chapter02-占据栅格网络概述/占据网络专题-第二章-占据网络概述.mp4"><code>📹</code> Video</a>] | [<code><img height="18" src="https://user-images.githubusercontent.com/29084184/127970991-fcb23d68-8369-47af-918a-fef8f0becccd.png" alt="Baidu Cloud" title="Baidu Cloud" style="vertical-align:bottom;"/></code><a href="https://pan.baidu.com/s/1FBH8EjO5YeCdPMIQ-JlPUg">百度网盘</a>] 提取码: akkb
     </td>
     <td>
-      [PPT]() | [百度网盘]
+      [PPT]() | [百度网盘]()
     </td>
     <td>
     </td>
    </tr>
    <tr>
+    <td>
+    </td>
     <td>
     <details><summary>三、重要数据集和Benchmark介绍（1周）</summary>
 
@@ -176,10 +188,10 @@ Surrounding Semantic Occupancy Perception Course for Autonomous Driving
 </details>
     </td>
     <td>
-     [📹 Video] | [百度网盘]
+     [📹 Video] | [百度网盘]()
     </td>
     <td>
-      [PPT]() | [百度网盘]
+      [PPT]() | [百度网盘]()
     </td>
     <td>
     </td>
@@ -216,15 +228,17 @@ Surrounding Semantic Occupancy Perception Course for Autonomous Driving
 </details>
     </td>
     <td>
-      [📹 Video] | [百度网盘]
+      [📹 Video] | [百度网盘]()
     </td>
     <td>
-      [PPT]() | [百度网盘]
+      [PPT]() | [百度网盘]()
     </td>
     <td>
     </td>
    </tr>
    <tr>
+    <td>
+    </td>
     <td>
     <details><summary>五、基于点云和多模态融合的Occ方案（4周）</summary>
 
@@ -241,15 +255,17 @@ Surrounding Semantic Occupancy Perception Course for Autonomous Driving
 </details>
     </td>
     <td>
-     [📹 Video] | [百度网盘]
+     [📹 Video] | [百度网盘]()
     </td>
     <td>
-      [PPT]() | [百度网盘]
+      [PPT]() | [百度网盘]()
     </td>
     <td>
     </td>
    </tr>
    <tr>
+    <td>
+    </td>
     <td>
     <details><summary>六、课程展望与总结（1周）</summary>
 
@@ -267,6 +283,8 @@ Surrounding Semantic Occupancy Perception Course for Autonomous Driving
     </td>
    </tr>
    <tr>
+    <td>
+    </td>
     <td>
     <details><summary>七、大作业(实践内容)（2周）</summary>
 
@@ -286,6 +304,9 @@ Surrounding Semantic Occupancy Perception Course for Autonomous Driving
    </tr>
    <tr>
     <td>
+    <code>🔥 试看</code>
+    </td>
+    <td>
     <details><summary>八、补充材料（1周）</summary>
 
 [课程目录](Chapter08-Appendix)
@@ -303,6 +324,7 @@ Surrounding Semantic Occupancy Perception Course for Autonomous Driving
     </td>
    </tr>
    <tr>
+    <td></td>
     <td>
     <details><summary>🎉 课程彩蛋</summary>
     <code>这是一个彩蛋 🥚</code>
@@ -337,11 +359,9 @@ scripts/goto_dev_docker.sh
   <p>
     <img src="https://github.com/Charmve/OccNet-Course/assets/29084184/b7c61b9d-ddb0-4527-b0c6-16fc7a08ecfc">
     <br> 图4 课程源代码
-  </p>
-
-  <br>
+  </p><br>
   <p>
-    <img src="https://github.com/Charmve/OccNet-Course/assets/29084184/9fd622fc-a17d-4f2d-ba1a-28dacf64c623">
+    <img src="https://github.com/Charmve/OccNet-Course/assets/29084184/ac259bc8-8cd9-4fab-9caf-ca071df0b3a8" alt="图5 课件PPT">
     <br> 图5 课件PPT
   </p>
 </div>
@@ -382,23 +402,25 @@ scripts/goto_dev_docker.sh
 
 2023年11月份开始学习之路，历经两个月，离线视频授课。主讲老师在微信学习群内答疑，对课程中的算法、代码、环境配置等问题一一解惑！
 
-<div align="center">
-<p>
-
 [Index](#课程目录)
 
 <h2 align="center">课程咨询与购买</h2>
 
-<br>
-vip专享8折优惠券
-</p>
+<div align="center">
 <p>
+  <kbd align="center" valign="center">
+    <img width="200" height="16">
+    VIP 专享<u><b>8折</b>优惠券</u>
+    <img width="200" height="16">
+  </kbd>
+</p>
 
-扫码学习课程<br>
+<p>
+  扫码学习课程<br>
 
-<img width="360" src="https://github.com/Charmve/computer-vision-in-action/assets/29084184/05068a02-dd55-471e-90ea-f9e5ba6974fe">
-<br>
-微信咨询：Charmve
+  <img width="360" src="https://github.com/Charmve/computer-vision-in-action/assets/29084184/05068a02-dd55-471e-90ea-f9e5ba6974fe">
+  <br>
+  微信咨询：Charmve
 </p>
 </div>
 
@@ -406,4 +428,4 @@ vip专享8折优惠券
 
 <br><br>
 
-![@Maiwei.ai](src/assert/maiwei_ai.png)
+<img width="360" src="src/assert/maiwei_ai.png" alt="@Maiwei.ai">
