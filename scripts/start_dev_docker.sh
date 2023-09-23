@@ -1,13 +1,13 @@
 #!/bin/bash
 set -u
 
-CHARMVE_ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd -P)"
+MWAY_ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd -P)"
 # shellcheck disable=SC1090,SC1091
-source "${CHARMVE_ROOT_DIR}/docker/scripts/docker_helper.sh"
+source "${MWAY_ROOT_DIR}/docker/scripts/docker_helper.sh"
 # shellcheck disable=SC1090,SC1091
-source "${CHARMVE_ROOT_DIR}/scripts/util/util.sh"
+source "${MWAY_ROOT_DIR}/scripts/util/util.sh"
 
-TOP_DIR="${CHARMVE_ROOT_DIR}"
+TOP_DIR="${MWAY_ROOT_DIR}"
 
 HOST_ARCH="$(uname -m)"
 IS_CI="${IS_CI:-false}"
@@ -17,19 +17,18 @@ if [[ "${IS_ORIN_CROSS_COMPILE}" == false && "${HOST_ARCH}" == "x86_64" && "${IS
   # Go two levels up for CI shell-runner to run forked repos
   TOP_DIR="$(cd "${TOP_DIR}/../.." && pwd -P)"
 fi
-info "TOP_DIR: [${TOP_DIR}], CHARMVE_ROOT_DIR: [${CHARMVE_ROOT_DIR}]"
+info "TOP_DIR: [${TOP_DIR}], MWAY_ROOT_DIR: [${MWAY_ROOT_DIR}]"
 
-# Note(jiaming): So that users can use CTRL+C to interrupt
+# Note: So that users can use CTRL+C to interrupt
 trap sigint_handler INT
 
 readonly INDENT="    " # 4 spaces
 readonly CAR_ID="${CAR_ID:-}"
 readonly LAPTOP_IP="${LAPTOP_IP:-192.168.5.125}"
 
-readonly DEV_CONTAINER_DEFAULT="charmve_dev_${USER}"
+readonly DEV_CONTAINER_DEFAULT="myway_dev_${USER}"
 DEV_CONTAINER="${DEV_CONTAINER_DEFAULT}"
 
-OFFICE="${OFFICE:-}"
 HOME_IN="/home/${USER}"
 
 DOCKER_IMG=
@@ -44,7 +43,7 @@ ENABLE_CORE_DUMP="${ENABLE_CORE_DUMP:-true}"
 MOUNT_NFS="${MOUNT_NFS:-true}"
 USE_GOOFYS="${USE_GOOFYS:-true}"
 
-# NOTE(jiaming): Use of Env vars is discouraged for cmdline execution.
+# NOTE: Use of Env vars is discouraged for cmdline execution.
 BAZEL_DIST_DIR="${HOME}/.distdir"
 USE_GPU_HOST=true
 USE_LOCAL_IMAGE=false
@@ -63,7 +62,7 @@ fi
 
 function create_bazel_cache_dirs() {
   for dirent in "bazel" "repository_cache" "distdir"; do
-    dirent="${CHARMVE_ROOT_DIR}/.cache/${dirent}"
+    dirent="${MWAY_ROOT_DIR}/.cache/${dirent}"
     [[ -d "${dirent}" ]] || mkdir -p "${dirent}"
   done
 }
@@ -71,11 +70,11 @@ function create_bazel_cache_dirs() {
 function determine_local_volumes() {
   local -n _volumes="$1"
   local map_dir="$2"
-  if [[ ! -e "${HOME}/charmve_data/core/backup" ]]; then
-    mkdir -p "${HOME}/charmve_data/core/backup" || true
+  if [[ ! -e "${HOME}/mway_data/core/backup" ]]; then
+    mkdir -p "${HOME}/mway_data/core/backup" || true
   fi
   _volumes=(
-    "-v" "${TOP_DIR}:/charmve"
+    "-v" "${TOP_DIR}:/mway"
     "-v" "${TOP_DIR}/onboard/params/run_params/vehicles:/vehicles"
     "-v" "/media:/media"
     "-v" "/usr/src:/usr/src"
@@ -86,7 +85,7 @@ function determine_local_volumes() {
     "-v" "/var/run/docker.sock:/var/run/docker.sock:rw"
     "-v" "/tmp/.X11-unix:/tmp/.X11-unix:rw"
     "-v" "${HOME}:/hosthome:rw"
-    "-v" "${CHARMVE_ROOT_DIR}/.gitconfig:/etc/gitconfig"
+    "-v" "${MWAY_ROOT_DIR}/.gitconfig:/etc/gitconfig"
     "-v" "${HOME}/.ssh:${HOME_IN}/.ssh"
     "-v" "${HOME}/.aws:${HOME_IN}/.aws"
     "-v" "${HOME}/.bash_history:${HOME_IN}/.bash_history"
@@ -95,15 +94,15 @@ function determine_local_volumes() {
     "-v" "/etc/network:/etc/network:rw"
     "-v" "/etc/netplan:/etc/netplan:rw"
     "-v" "/usr/bin/nvidia-docker:/usr/bin/nvidia-docker"
-    "-v" "/home/charmve/charmve_data/core:/core"
+    "-v" "/home/mway/mway_data/core:/core"
   )
 
   if [[ -n "${map_dir}" ]]; then
-    if [[ -d "${map_dir}/charmve-maps" ]]; then
-      _volumes+=("-v" "${map_dir}/charmve-maps:/charmve-maps")
+    if [[ -d "${map_dir}/mway-maps" ]]; then
+      _volumes+=("-v" "${map_dir}/mway-maps:/mway-maps")
     fi
-    if [[ -d "${map_dir}/charmve-maps-china" ]]; then
-      _volumes+=("-v" "${map_dir}/charmve-maps-china:/charmve-maps-china")
+    if [[ -d "${map_dir}/mway-maps-china" ]]; then
+      _volumes+=("-v" "${map_dir}/mway-maps-china:/mway-maps-china")
     fi
   fi
 
@@ -143,7 +142,7 @@ function determine_local_volumes() {
   fi
 
   # Mount per user bashrc so that it can be sync'ed inside/outside Docker
-  # NOTE(jiaming): Differences between '-v' and '--mount' behavior:
+  # NOTE: Differences between '-v' and '--mount' behavior:
   # A) If you use '-v' or '--volume' to bind-mount a file or directory that
   #    does not yet exist on the Docker host, -v creates the endpoint for you.
   #    It is always created as a directory.
@@ -191,13 +190,13 @@ function determine_local_volumes() {
   done
 
   # Support vscode-server
-  local vscode_server_dir="${CHARMVE_ROOT_DIR}/.vscode-server"
+  local vscode_server_dir="${MWAY_ROOT_DIR}/.vscode-server"
   if [[ -d "${vscode_server_dir}" ]]; then
     _volumes+=("--mount" "type=bind,source=${vscode_server_dir},target=${HOME_IN}/.vscode-server")
   fi
 
   # Support git worktree
-  local git_dir="${CHARMVE_ROOT_DIR}/.git"
+  local git_dir="${MWAY_ROOT_DIR}/.git"
   if [[ -f "${git_dir}" ]]; then
     local git_worktree_dir
     git_worktree_dir="$(head -n 1 "${git_dir}" | awk -F': ' '{print $2}')"
@@ -205,14 +204,14 @@ function determine_local_volumes() {
     _volumes+=("--mount" "type=bind,source=${git_worktree_dir},target=${git_worktree_dir}")
   fi
 
-  # Note(jiaming):
+  # Note:
   # 1) multiple workspaces share the same distdir
   # 2) disable writes to distdir from inside Docker to avoid deletion by mistake
   if [[ "${HOST_ARCH}" == "aarch64" || "${IS_CI}" == false ]]; then
     create_bazel_cache_dirs
-    _volumes+=("-v" "${CHARMVE_ROOT_DIR}/.cache:/charmve_cache")
+    _volumes+=("-v" "${MWAY_ROOT_DIR}/.cache:/mway_cache")
     if [[ -d "${BAZEL_DIST_DIR}" ]]; then
-      _volumes+=("-v" "${BAZEL_DIST_DIR}:/charmve_cache/distdir:ro")
+      _volumes+=("-v" "${BAZEL_DIST_DIR}:/mway_cache/distdir:ro")
     fi
   else
     _volumes+=(
@@ -234,11 +233,10 @@ function determine_docker_env_vars() {
     "-e" "DOCKER_GRP=$GRP"
     "-e" "DOCKER_GRP_ID=$GRP_ID"
     "-e" "DOCKER_IMG=${DOCKER_IMG}"
-    "-e" "OFFICE=${OFFICE}"
     "-e" "CAR_ID=${CAR_ID}"
     "-e" "LAPTOP_IP=${LAPTOP_IP}"
     "-e" "MACHINE_HOSTNAME=${HOSTNAME_HOST}"
-    "-e" "CHARMVE_ROOT_DIR_HOST=${CHARMVE_ROOT_DIR}"
+    "-e" "MWAY_ROOT_DIR_HOST=${MWAY_ROOT_DIR}"
     "-e" "USE_GPU_HOST=${use_gpu_host}"
     "-e" "OMP_NUM_THREADS=1"
     "-e" "NVIDIA_DRIVER_CAPABILITIES=video,compute,utility,display"
@@ -249,7 +247,7 @@ function determine_docker_env_vars() {
 
   # vantage or other ui app on omc
   if [[ "${HOST_ARCH}" == "x86_64" ]]; then
-    # NOTE(jiaming): QT_* was introduced by Da Fang in MR 4304
+    # NOTE: QT_* was introduced by Da Fang in MR 4304
     _env_vars+=(
       "-e" "DISPLAY=${display}"
       "-e" "QT_X11_NO_MITSHM=1"
@@ -286,8 +284,7 @@ function usage() {
   cat << EOF
 Usage: $0 [options] ...
 OPTIONS:
-    -n, --name   <NAME>     Specify Docker container name as charmve_dev_<NAME>
-    -o, --office <OFFICE>   Specify office location (bayarea-scott/beijing-tf/suzhou-tc/shenzhen-yx)
+    -n, --name   <NAME>     Specify Docker container name as mway_dev_<NAME>
     -t, --tag    <TAG>      Specify Dev image named ${dev_docker_repo}:<TAG> to start
     -l, --local             Use local Docker image if possible. Usually used in
                               combination with the '-t' option.
@@ -318,13 +315,12 @@ EOF
 
   cat << EOF
 E.g.
-    $0 -n 2nd -f            Force start a container named charmve_dev_2nd
+    $0 -n 2nd -f            Force start a container named mway_dev_2nd
     $0 -l -t bazel-compl    Start a Dev container based on local image tagged 'bazel-compl'
 EOF
 }
 
 function parse_cmdline_args() {
-  local office=
   local name=
   local distdir=
   local image_tag=
@@ -336,7 +332,7 @@ function parse_cmdline_args() {
   while [[ $# -gt 0 ]]; do
     local opt="$1"
     shift
-    # Note(jiaming): sort options alphabetically
+    # Note: sort options alphabetically
     case "${opt}" in
       --distdir)
         distdir="$1"
@@ -378,11 +374,6 @@ function parse_cmdline_args() {
       --nomount_nfs)
         MOUNT_NFS=false
         ;;
-      -o | --office)
-        office="$1"
-        shift
-        optarg_check_for_opt "${opt}" "${office}"
-        ;;
       --ml)
         use_ml=true
         ;;
@@ -423,8 +414,7 @@ function parse_cmdline_args() {
     esac
   done
 
-  [[ -z "${office}" ]] || OFFICE="${office}"
-  [[ -z "${name}" ]] || DEV_CONTAINER="charmve_dev_${name}"
+  [[ -z "${name}" ]] || DEV_CONTAINER="mway_dev_${name}"
   [[ -z "${shm_size}" ]] || SHM_SIZE="${shm_size}"
   [[ -z "${mem_size}" ]] || MEM_SIZE="${mem_size}"
   if [[ -n "${SHM_SIZE}" || -n "${MEM_SIZE}" ]]; then
@@ -444,50 +434,6 @@ function parse_cmdline_args() {
   DOCKER_IMG="$(dev_docker_image "${image_tag}" "${HOST_ARCH}")"
 }
 
-function interactive_office_setup() {
-  local success=false
-
-  while [[ "${success}" == false ]]; do
-    local answer
-    print_green "Please type a number to select your office interactively:"
-    echo "  1: Beijing"
-    echo "  2: Suzhou"
-    echo "  3: Shenzhen"
-    echo "  4: Bayarea"
-    echo "  5: Guangzhou"
-    read -p "Your choice is: " -r -n1 answer
-    case "${answer}" in
-      1)
-        OFFICE="beijing-tf" # TODO(jiaming): Canonical office name
-        success=true
-        ;;
-      2)
-        OFFICE="suzhou-tc"
-        success=true
-        ;;
-      3)
-        OFFICE="shenzhen-yx"
-        success=true
-        ;;
-      4)
-        OFFICE="bayarea-scott"
-        success=true
-        ;;
-      5)
-        OFFICE="guangzhou"
-        success=true
-        ;;
-      *) ;;
-    esac
-    echo
-    if [[ "${success}" == true ]]; then
-      ok "Your choice is [${answer}:${OFFICE}]"
-    else
-      warning "Choice of [${answer}] is invalid. Please try again."
-    fi
-  done
-}
-
 function main() {
   if [[ "$(id -u)" == 0 ]]; then
     error "Start Dev Docker as ROOT is prohibited."
@@ -499,7 +445,7 @@ function main() {
   parse_cmdline_args "$@"
 
   if [[ "${IS_CI}" == false ]]; then
-    # make sure ${CHARMVE_ROOT_DIR}/.gitconfig is included by local repo
+    # make sure ${MWAY_ROOT_DIR}/.gitconfig is included by local repo
     git config --local include.path "../.gitconfig"
   fi
 
@@ -514,30 +460,6 @@ function main() {
   else
     determine_gpu_use_host use_gpu_host docker_run_cmd
   fi
-
-  # NOTE(jiaming): iff office is not set and in interactive mode
-  if [[ -z "${OFFICE}" && "${ASSUME_YES}" == true ]]; then
-    error "OFFICE is empty. Exiting..."
-    exit 1
-  elif [[ -z "${OFFICE}" ]]; then
-    interactive_office_setup
-  fi
-
-  local office
-  office="$(canonical_office "${OFFICE}")"
-  if ! validate_office "${office}"; then
-    error "OFFICE=${OFFICE} is invalid. Exiting..."
-    exit 1
-  fi
-
-  local country
-  country="$(country_of_office "${office}")"
-  if [[ "${country}" == "us" ]] && [[ "${USE_GOOFYS}" == true ]]; then
-    warning "goofys will not be used in US"
-    USE_GOOFYS=false
-  fi
-
-  readonly office
 
   # Resolve running container conflicts
   resolve_container_conflict "${DEV_CONTAINER}" "${ENFORCE}"
@@ -555,7 +477,7 @@ function main() {
 
   if [[ "${should_pull_image}" == true ]]; then
     info "Pull Docker image ${DOCKER_IMG} from registry."
-    if ! docker_pull_image "${DOCKER_IMG}" "${office}"; then
+    if ! docker_pull_image "${DOCKER_IMG}"; then
       error "Failed to pull Dev Docker image: ${DOCKER_IMG}"
       exit 1
     fi
@@ -590,8 +512,6 @@ function main() {
           exit 1
         fi
       fi
-      # Note(jiaming): to avoid duplicate check there, which is unnecessary.
-      bash -c ". ${CHARMVE_ROOT_DIR}/scripts/mount_nfs.sh && mount_nfs ${office} ${USE_GOOFYS}"
     fi
     if [[ "${MOUNT_DEBUGFS}" == true ]]; then
       mount_debugfs
@@ -612,7 +532,6 @@ function main() {
 
   info "Starting docker container \"${DEV_CONTAINER}\" ..."
   echo "============ VARS BEGIN ==============="
-  echo "OFFICE: ${OFFICE}"
   echo "USE_GPU_HOST: ${use_gpu_host}"
   echo "DOCKER_RUN_CMD: ${docker_run_cmd[*]}"
   echo "DOCKER_IMG: ${DOCKER_IMG}"
@@ -635,7 +554,7 @@ function main() {
     -itd
     --privileged
     --name="${DEV_CONTAINER}"
-    --workdir=/charmve
+    --workdir=/mway
   )
 
   local hostname_in="${DEV_CONTAINER//_/-}"
@@ -674,11 +593,11 @@ function main() {
   docker_start_user "${DEV_CONTAINER}" "${USER}" "${USER_ID}" "${GRP}" "${GRP_ID}"
 
   if [[ "${IS_CI}" == false ]]; then
-    setup_user_bazelrc "${DEV_CONTAINER}" "${office}" "${use_gpu_host}"
+    setup_user_bazelrc "${DEV_CONTAINER}" "${use_gpu_host}"
   fi
 
   if [[ "${ONBOARD_YES}" == true ]]; then
-    docker exec -it -u "${USER}" "${DEV_CONTAINER}" /charmve/scripts/start_service.sh
+    docker exec -it -u "${USER}" "${DEV_CONTAINER}" /mway/scripts/start_service.sh
   fi
 
   ok "Successfully started Docker container [${DEV_CONTAINER}] based on image: [${DOCKER_IMG}]"
@@ -686,7 +605,7 @@ function main() {
   if [[ "${DEV_CONTAINER}" == "${DEV_CONTAINER_DEFAULT}" ]]; then
     echo "${INDENT}${INDENT}scripts/goto_dev_docker.sh"
   else
-    echo "${INDENT}${INDENT}scripts/goto_dev_docker.sh --name ${DEV_CONTAINER#charmve_dev_}"
+    echo "${INDENT}${INDENT}scripts/goto_dev_docker.sh --name ${DEV_CONTAINER#mway_dev_}"
   fi
 
   ok "Enjoy!"

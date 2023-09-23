@@ -1,16 +1,10 @@
 #! /usr/bin/env bash
 set -u
 
-QCRAFT_ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd -P)"
-source "${QCRAFT_ROOT_DIR}/scripts/docker_base.sh"
+MWAY_ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd -P)"
+source "${MWAY_ROOT_DIR}/scripts/docker_base.sh"
 
-BEIJING_HABOR_REPO="harbor-bj.qcraftai.com"
-readonly BEIJING_HABOR_REPO
-
-SUZHOU_HABOR_REPO="harbor-suzhou.qcraftai.com"
-readonly SUZHOU_HABOR_REPO
-
-BAYAREA_HABOR_REPO="docker-img.qcraftai.com"
+BAYAREA_HABOR_REPO="docker-img.mwayai.com"
 readonly BAYAREA_HABOR_REPO
 
 SUPPORTED_ARCHS=(
@@ -50,41 +44,26 @@ function remove_container() {
 }
 
 #############################################
-# Pull Docker image based on office
+# Pull Docker image
 # Globals:
 #   ALIYUN_REGISTRY
 # Arguments:
 #   $1 image to pull
-#   $2 office name (canonical)
 # Returns:
 #   0 on success, non-zero otherwise
 #############################################
 function docker_pull_image() {
   local image="$1"
-  local office="$2"
   local registry_image
-  case "${office}" in
-    beijing)
-      registry_image="${BEIJING_HABOR_REPO}/${image}"
-      ;;
-    suzhou)
-      registry_image="${SUZHOU_HABOR_REPO}/${image}"
-      ;;
-    bayarea)
-      registry_image="${BAYAREA_HABOR_REPO}/${image}"
-      ;;
-    *)
-      registry_image=
-      ;;
-  esac
+  registry_image="${BAYAREA_HABOR_REPO}/${image}"
 
   if [[ -n "${registry_image}" ]]; then
     if docker pull "${registry_image}"; then
       docker_rename_image "${registry_image}" "${image}"
-      ok "Successfully pulled Docker image ${image} from ${office^} Habor."
+      ok "Successfully pulled Docker image ${image} Habor."
       return 0
     else
-      warning "Failed to pull Docker image ${image} from ${office^} Habor."
+      warning "Failed to pull Docker image ${image} Habor."
       warning "Now switch to AliYun Registry."
     fi
   fi
@@ -104,14 +83,14 @@ function docker_pull_image() {
 ##########################################
 # Resolve Dev Docker container conflicts
 # Globals:
-#   QCRAFT_ROOT_DIR
+#   MWAY_ROOT_DIR
 #######################################
 function resolve_container_conflict() {
   local container="$1"
   local enforce="$2"
 
   local existing_containers
-  readarray -t existing_containers < <(docker ps -a --filter "name=^qcraft_dev_" --format '{{.Names}}')
+  readarray -t existing_containers < <(docker ps -a --filter "name=^mway_dev_" --format '{{.Names}}')
 
   if [[ "${#existing_containers[@]}" -eq 0 ]]; then
     info "No other Dev container(s) found."
@@ -136,7 +115,7 @@ function resolve_container_conflict() {
   fi
 
   for entry in "${existing_containers[@]}"; do
-    # Note(jiaming): Already processed.
+    # Note: Already processed.
     if [[ "${entry}" == "${container}" ]]; then
       continue
     fi
@@ -149,14 +128,14 @@ function resolve_container_conflict() {
     fi
 
     local root_dir_host
-    root_dir_host="$(docker exec "${entry}" printenv QCRAFT_ROOT_DIR_HOST)"
-    if [[ "${root_dir_host}" == "${QCRAFT_ROOT_DIR}" ]]; then
-      warning "Container conflict found, another container [${entry}] already in workspace [${QCRAFT_ROOT_DIR}](host)"
+    root_dir_host="$(docker exec "${entry}" printenv MWAY_ROOT_DIR_HOST)"
+    if [[ "${root_dir_host}" == "${MWAY_ROOT_DIR}" ]]; then
+      warning "Container conflict found, another container [${entry}] already in workspace [${MWAY_ROOT_DIR}](host)"
       if [[ "${enforce}" == false ]]; then
         warning "  Consider starting Dev Docker with the '-f/--force' option. Exiting."
         exit 1
       fi
-      info "Force removal of [${entry}] in workspace [${QCRAFT_ROOT_DIR}]..."
+      info "Force removal of [${entry}] in workspace [${MWAY_ROOT_DIR}]..."
       remove_container "${entry}"
     fi
   done
@@ -174,7 +153,7 @@ function docker_start_user() {
   local group="$4"
   local gid="$5"
   if [[ "${user}" != "root" ]]; then
-    local work_dir="/qcraft"
+    local work_dir="/mway"
     docker exec -u root "${container}" \
       bash -c "${work_dir}/docker/scripts/docker_start_user.sh ${user} ${uid} ${group} ${gid}"
   fi
@@ -224,14 +203,14 @@ function determine_host_map_dir() {
   local curr_dir="$2"
 
   # Try-and-mount local map git repo first
-  if [[ -d "${curr_dir}/qcraft-maps" || -d "${curr_dir}/qcraft-maps-china" ]]; then
+  if [[ -d "${curr_dir}/mway-maps" || -d "${curr_dir}/mway-maps-china" ]]; then
     ok "Non-shared maps under the [${curr_dir}] directory will be used."
     _map_dir="${curr_dir}"
     return
   fi
 
   upper_dir="$(dirname "${curr_dir}")"
-  if [[ -d "${upper_dir}/qcraft-maps" ]] || [[ -d "${upper_dir}/qcraft-maps-china" ]]; then
+  if [[ -d "${upper_dir}/mway-maps" ]] || [[ -d "${upper_dir}/mway-maps-china" ]]; then
     ok "Shared maps under the [${upper_dir}] directory will be used."
     _map_dir="${upper_dir}"
     return
@@ -240,13 +219,13 @@ function determine_host_map_dir() {
 }
 
 function determine_display() {
-  # Note(jiaming):
+  # Note:
   # DISPLAY was unbounded for remote SSH sessions, we parse it from `w`
   # output for the following scenario:
   # Dev Docker started via remote SSH w/ GUI programs run later from local X env
   local display="${DISPLAY:-}"
   if [[ -z "${display}" ]]; then
-    display="$(w -hs | awk -v user="${USER:-qcraft}" '$1 == user {
+    display="$(w -hs | awk -v user="${USER:-mway}" '$1 == user {
         if ($2 ~ /^:[0-9]+$/) {print $2; exit;}
     }')"
     warning "[Env] Fake DISPLAY from TTY: ${display}"
@@ -282,7 +261,7 @@ function determine_gpu_use_host() {
   host_arch="$(uname -m)"
 
   if [[ "${host_arch}" == "aarch64" ]]; then
-    #TODO(jiaming): Refer to Xavier:/etc/systemd/nv.sh
+    #TODO: Refer to Xavier:/etc/systemd/nv.sh
     _use_gpu=1
   elif [[ "${host_arch}" == "x86_64" ]]; then
     if [[ ! -x "$(command -v nvidia-smi)" ]]; then
@@ -326,11 +305,9 @@ function run() {
 
 function setup_user_bazelrc() {
   local container="$1"
-  local office="$2"
-  local use_gpu="$3"
-  my_cmd=(
-    "/qcraft/docker/scripts/setup_user_bazelrc.py"
-    "--office=${office}"
+  local use_gpu="$2"
+  local my_cmd=(
+    "/mway/docker/scripts/setup_user_bazelrc.py"
   )
   if [[ "${use_gpu}" -gt 0 ]]; then
     my_cmd+=("--use_gpu")
@@ -392,9 +369,9 @@ function check_tools_docker() {
 }
 
 function run_tools_docker_sh() {
-  local RUNNING_CONTAINER="qcraft-tools"
+  local RUNNING_CONTAINER="mway-tools"
   local existing_containers
-  readarray -t existing_containers < <(docker ps -a --filter "name=^qcraft-tools" --format '{{.Names}}')
+  readarray -t existing_containers < <(docker ps -a --filter "name=^mway-tools" --format '{{.Names}}')
 
   for entry in "${existing_containers[@]}"; do
     if [[ "${entry}" == "${RUNNING_CONTAINER}" ]]; then
@@ -404,11 +381,11 @@ function run_tools_docker_sh() {
         local docker_run_cmd
         docker_run_cmd="docker start"
         run ${docker_run_cmd} ${RUNNING_CONTAINER}
-        run docker exec -e USER="${USER}" -u "${USER}" -it "${RUNNING_CONTAINER}" /qcraft/scripts/"$1".sh "${dev_param[@]}"
+        run docker exec -e USER="${USER}" -u "${USER}" -it "${RUNNING_CONTAINER}" /mway/scripts/"$1".sh "${dev_param[@]}"
         exit
       fi
       if [[ "${docker_status}" == "running" ]]; then
-        run docker exec -e USER="${USER}" -u "${USER}" -it "${RUNNING_CONTAINER}" /qcraft/scripts/"$1".sh "${dev_param[@]}"
+        run docker exec -e USER="${USER}" -u "${USER}" -it "${RUNNING_CONTAINER}" /mway/scripts/"$1".sh "${dev_param[@]}"
         exit
       fi
     fi

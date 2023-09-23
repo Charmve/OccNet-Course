@@ -270,7 +270,7 @@ Surrounding Semantic Occupancy Perception Course for Autonomous Driving
     <td>
     <details><summary>七、大作业(实践内容)（2周）</summary>
 
-[课程目录](Chapter07-大作业)
+[课程目录](Chapter07-FinalProject)
 - 7.1 复现一个纯视觉方案，走通数据标定、3D目标检测、BEV视角坐标对齐、3D语义场景补全补全完整流程。
 - 7.2 参考答案
 </details>
@@ -280,6 +280,24 @@ Surrounding Semantic Occupancy Perception Course for Autonomous Driving
     </td>
     <td>
       [PPT]() | [百度网盘]
+    </td>
+    <td>
+    </td>
+   </tr>
+   <tr>
+    <td>
+    <details><summary>八、补充材料（1周）</summary>
+
+[课程目录](Chapter08-Appendix)
+- 8.1 Transformer in Vision
+- 8.2 BEV+Transformer
+- 8.3 E2E、LLM、Data-driven
+</details>
+    </td>
+    <td>
+     [📹 Video] | [百度网盘]
+    </td>
+    <td>
     </td>
     <td>
     </td>
@@ -300,6 +318,16 @@ Surrounding Semantic Occupancy Perception Course for Autonomous Driving
   </tbody>
 </table>
 
+## Quick-start
+
+```bash
+git clone https://github.com/Charmve/OccNet-Course ～/mway
+cd ～/mway/OccNet-Course
+
+scripts/start_dev_docker.sh
+scripts/goto_dev_docker.sh
+
+```
 
 <h2 align="center">课件代码一应俱全</h2>
 
@@ -318,9 +346,13 @@ Surrounding Semantic Occupancy Perception Course for Autonomous Driving
   </p>
 </div>
 
+[Index](#课程目录)
+
 <h2 align="center">讲师介绍</h2>
 
 我是 <a href="https://github.com/Charmve">Charmve</a>，在多家自动驾驶头部公司任职，主要关注在BEV视觉感知、3D场景重建，有多个自动驾驶量产项目经验。近年来，尤其关注在占据网络的研发上，根据个人所学所思和工作实践，跟大家一起分享这个主题内容。
+
+[Index](#课程目录)
 
 <h2 align="center">课程学后收获</h2>
 <p>
@@ -332,6 +364,8 @@ Surrounding Semantic Occupancy Perception Course for Autonomous Driving
 
 </p>
 
+[Index](#课程目录)
+
 <h2 align="center">适合人群</h2>
 <p>
 
@@ -342,12 +376,16 @@ Surrounding Semantic Occupancy Perception Course for Autonomous Driving
 
 </p>
 
+[Index](#课程目录)
+
 <h2 align="center">开课时间与学习方式</h2>
 
 2023年11月份开始学习之路，历经两个月，离线视频授课。主讲老师在微信学习群内答疑，对课程中的算法、代码、环境配置等问题一一解惑！
 
 <div align="center">
 <p>
+
+[Index](#课程目录)
 
 <h2 align="center">课程咨询与购买</h2>
 
@@ -364,3 +402,8 @@ vip专享8折优惠券
 </p>
 </div>
 
+[Index](#课程目录)
+
+<br><br>
+
+![@Maiwei.ai](src/assert/maiwei_ai.png)

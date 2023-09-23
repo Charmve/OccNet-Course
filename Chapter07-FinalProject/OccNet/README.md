@@ -1,3 +1,17 @@
+<!--
+ * @Author: Charmve yidazhang1@gmail.com
+ * @Date: 2023-09-21 21:28:37
+ * @LastEditors: Charmve yidazhang1@gmail.com
+ * @LastEditTime: 2023-09-23 14:06:39
+ * @FilePath: /OccNet-Course/code/OccNet/README.md
+ * @Version: 1.0.1
+ * @Blogs: charmve.blog.csdn.net
+ * @GitHub: https://github.com/Charmve
+ * @Description: 
+ * 
+ * Copyright (c) 2023 by Charmve, All Rights Reserved. 
+ * Licensed under the MIT License.
+-->
 <div align="center">   
 
 <!-- omit in toc -->
@@ -7,8 +21,6 @@
 We believe **Occupancy** serves as a `general` representation of the scene and could facilitate perception and planning in the full-stack of autonomous driving. 
 
 https://github.com/OpenDriveLab/OccNet/assets/54334254/92fb43a0-0ee8-4eab-aa53-0984506f0ec3
-
-
 
 > **Scene as Occupancy**
 > - [Paper in arXiv](https://arxiv.org/abs/2306.02851) | [CVPR 2023 AD Challenge Occupancy Track](https://github.com/CVPR2023-3D-Occupancy-Prediction/CVPR2023-3D-Occupancy-Prediction)

@@ -1,5 +1,7 @@
 # awesome-autonomy-perception
 
+https://github.com/Charmve/autopilot-perception
+
 ## BEV
 
 - LSS https://github.com/nv-tlabs/lift-splat-shoot
@@ -11,11 +13,12 @@
 - mmdet3d https://github.com/open-mmlab/mmdetection3d
 - BEVFormer https://github.com/zhiqi-li/BEVFormer
 - BEVSegFormer https://arxiv.org/pdf/2203.04050.pdf
-- FUTR3D
+- DETR3D https://github.com/WangYueFt/detr3d
+- FUTR3D https://tsinghua-mars-lab.github.io/futr3d/
+- MUTR3D https://tsinghua-mars-lab.github.io/mutr3d/
 - BEVDistill https://github.com/zehuichen123/BEVDistill
 - PEBAL https://github.com/tianyu0207/PEBAL
 - EPro-PnP https://github.com/tjiiv-cprg/EPro-PnP
-- DETR3D https://github.com/WangYueFt/detr3d
 - FIERY https://github.com/wayveai/fiery
 - PanopticBEV http://panoptic-bev.cs.uni-freiburg.de
 - Cam2BEV https://github.com/ika-rwth-aachen/Cam2BEV
@@ -47,6 +50,7 @@ https://arxiv.org/pdf/2008.04047.pdf
 PanoOcc https://arxiv.org/pdf/2306.10013.pdf
 https://github.com/autonomousvision/occupancy_networks
 https://github.com/autonomousvision/occupancy_flow
+OCC-NeRF https://freebutuselesssoul.github.io/occnerf/
 
 https://github.com/chrischoy/3D-R2N2/
 

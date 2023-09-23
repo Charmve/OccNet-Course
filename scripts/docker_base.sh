@@ -1,22 +1,22 @@
 #! /bin/bash
 TOP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd -P)"
-source "${TOP_DIR}/scripts/qcraft_base.sh"
+source "${TOP_DIR}/scripts/mway_base.sh"
 
 ##### EXPORTED CONSTANTS AND VARIABLES #####
-export ALIYUN_REGISTRY="registry.qcraftai.com"
-export X86_64_DEV_REPO="global/qcraft-dev"
-export AARCH64_DEV_REPO="global/qcraft-aarch64-dev"
+export ALIYUN_REGISTRY="registry.mwayai.com"
+export X86_64_DEV_REPO="global/mway-dev"
+export AARCH64_DEV_REPO="global/mway-aarch64-dev"
 
 function docker_login_aliyun_registry_ro() {
-  # NOTE(jiaming):
-  # Ref: https://qcraft.atlassian.net/servicedesk/customer/portal/8/article/1288962533
-  echo "qcraft@2021" | docker login --username=registry-ro@1429873127699649 \
-    --password-stdin registry.qcraftai.com
+  # NOTE:
+  # Ref: https://mway.atlassian.net/servicedesk/customer/portal/8/article/1288962533
+  echo "mway@2021" | docker login --username=registry-ro@1429873127699649 \
+    --password-stdin registry.mwayai.com
 }
 
 function docker_login_aliyun_registry() {
   echo "1055d3e698d289f2af8" | docker login --username=registry-tmp@1429873127699649 \
-    --password-stdin registry.qcraftai.com
+    --password-stdin registry.mwayai.com
 }
 
 function docker_login_aliyun_registry_rw() {
@@ -27,13 +27,13 @@ function docker_login_aliyun_registry_rw() {
     return 1
   fi
   echo "${ALIYUN_REGISTRY_PASSWORD}" | docker login --username "${ALIYUN_REGISTRY_USERNAME}" \
-    --password-stdin registry.qcraftai.com
+    --password-stdin registry.mwayai.com
 }
 
 ############################################################
 # Get Dev Docker tag for arch defined in the docker/TAG file
 # Globals:
-#   TOP_DIR => QCRAFT_ROOT_DIR
+#   TOP_DIR => MWAY_ROOT_DIR
 # Arguments:
 #   an optional architecture name, e.g. x86_64, aarch64
 # Returns:
@@ -131,7 +131,7 @@ function check_logined_aliyun_repo() {
     return
   fi
   local TOKEN
-  TOKEN=$(jq '.auths."registry.qcraftai.com"' ~/.docker/config.json)
+  TOKEN=$(jq '.auths."registry.mwayai.com"' ~/.docker/config.json)
   if [ "$TOKEN" == "null" ]; then
     echo "false"
   else

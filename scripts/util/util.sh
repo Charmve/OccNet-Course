@@ -1,7 +1,7 @@
 #!/bin/bash
 
 TOP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd -P)"
-. "${TOP_DIR}"/scripts/qcraft_base.sh
+. "${TOP_DIR}"/scripts/mway_base.sh
 . "${TOP_DIR}"/scripts/car_release_run_error_code
 #shellcheck disable=SC2034
 readonly MAX_LOOKBACK_SECS=10
@@ -29,19 +29,6 @@ function IncNetWorkBufSize() {
     echo "net.core.rmem_max=${sz}" | sudo tee -a /etc/sysctl.conf
     echo "net.core.rmem_default=${sz}" | sudo tee -a /etc/sysctl.conf
     sudo sysctl -p > /dev/null
-  fi
-}
-
-# Note(jiaming): to-be-deprecated
-#shellcheck disable=SC2199
-#shellcheck disable=SC2076
-function CheckOffice() {
-  local office=
-  office="$(canonical_office "$1")"
-  if [[ " ${AVAILABLE_OFFICES[@]} " =~ " ${office} " ]]; then
-    return 0
-  else
-    return 1
   fi
 }
 
@@ -100,73 +87,6 @@ function MountExternalDiskForLogs() {
   fi
 }
 
-function get_repo_address() {
-  local REPO_TYPE=$1
-  local REPO_ADDRESS
-  case "$REPO_TYPE" in
-    OFFICE)
-      echo -e "Using OFFICE Repo\n"
-      REPO_ADDRESS="office.qcraft.ai"
-      ;;
-
-    REMOTE)
-      echo -e "Using REMOTE Repo\n"
-      REPO_ADDRESS="qcraft-docker.qcraft.ai"
-      # shellcheck disable=SC2034
-      IMG="${REMOTE_IMG}"
-      ;;
-
-    ECR)
-      echo -e "Using ECR Repo\n"
-      REPO_ADDRESS="548416963446.dkr.ecr.cn-northwest-1.amazonaws.com.cn"
-      # login aws, key should provide with docker environment
-      aws ecr get-login-password --region cn-northwest-1 | docker login --username AWS --password-stdin 548416963446.dkr.ecr.cn-northwest-1.amazonaws.com.cn
-      ;;
-
-    ALI)
-      echo -e "Using ALI Repo\n"
-      REPO_ADDRESS="registry.qcraftai.com"
-      ;;
-
-    *)
-      echo -e "REPO_TYPE=$REPO_TYPE, Unknown REPO_TYPE (OFFICE,REMOTE,ECR,ALI), exit"
-      exit 1
-      ;;
-  esac
-
-  eval "$2='$REPO_ADDRESS'"
-}
-
-function login_registry() {
-  local REPO_TYPE=$1
-  case "$REPO_TYPE" in
-    ALIYUN_CN)
-      echo -e "Using ALIYUN_CN Repo\n"
-      docker login registry.qcraftai.com --username="$ALIYUN_REGISTRY_USERNAME" --password "$ALIYUN_REGISTRY_PASSWORD"
-      ;;
-
-    ALIYUN_US)
-      echo -e "Using ALIYUN_US Repo\n"
-      docker login registry.us-west-1.aliyuncs.com --username="$ALIYUN_REGISTRY_USERNAME" --password "$ALIYUN_REGISTRY_PASSWORD"
-      ;;
-
-    AWS_ECR_CN)
-      echo -e "Using AWS ECR CN Repo\n"
-      aws ecr get-login-password --region cn-northwest-1 | docker login --username AWS --password-stdin 548416963446.dkr.ecr.cn-northwest-1.amazonaws.com.cn
-      ;;
-
-    AWS_ECR_US)
-      echo -e "Using AWS ECR US Repo\n"
-      aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 661656117900.dkr.ecr.us-west-2.amazonaws.com
-      ;;
-
-    *)
-      echo -e "REPO_TYPE=$REPO_TYPE, Unknown REPO_TYPE, exit"
-      exit 1
-      ;;
-  esac
-}
-
 function EnableCoreDump() {
   ulimit -c unlimited
   mkdir -p ~/release-cache/core
@@ -177,12 +97,12 @@ function EnableCoreDump() {
 function FindCIHostLocation() {
   local CI_HOST_LOCATION=""
   # us bay area office
-  if [ "$HOSTNAME" = "qcraft-ci-01" ] \
-    || [ "$HOSTNAME" = "qcraft-ci-02" ] \
-    || [ "$HOSTNAME" = "qcraft-ci-03" ] \
+  if [ "$HOSTNAME" = "mway-ci-01" ] \
+    || [ "$HOSTNAME" = "mway-ci-02" ] \
+    || [ "$HOSTNAME" = "mway-ci-03" ] \
     || [ "$HOSTNAME" = "q9001" ] \
     || [ "$HOSTNAME" = "q9999" ] \
-    || [ "$HOSTNAME" = "qcraft-xavier" ] \
+    || [ "$HOSTNAME" = "mway-xavier" ] \
     || [ "$HOSTNAME" = "ml12w" ]; then
     CI_HOST_LOCATION="bayarea-scott"
   # arm us
@@ -199,7 +119,7 @@ function FindCIHostLocation() {
     CI_HOST_LOCATION="bayarea-scott-edge-us"
   # shenzhen office
   elif [ "$HOSTNAME" = "nvidia-desktop" ] \
-    || [ "$HOSTNAME" = "qcraft" ] \
+    || [ "$HOSTNAME" = "mway" ] \
     || [ "$HOSTNAME" = "sky" ] \
     || [ "$HOSTNAME" = "ocean" ]; then
     CI_HOST_LOCATION="shenzhen-office"
@@ -242,7 +162,7 @@ function FindCIHostLocation() {
     || [ "$HOSTNAME" = "us-edge-11" ]; then
     CI_HOST_LOCATION="edge-us-aliyun"
   # dev box testing
-  elif [ "$HOSTNAME" = "qcraft-desktop" ]; then
+  elif [ "$HOSTNAME" = "mway-desktop" ]; then
     CI_HOST_LOCATION="dev-box"
   fi
   echo "$CI_HOST_LOCATION"

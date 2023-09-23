@@ -18,7 +18,7 @@ TOP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd -P)"
 # shellcheck disable=SC1091
 source "${TOP_DIR}/scripts/docker_base.sh"
 
-DEFAULT_CONTAINER="qcraft_dev_${USER}"
+DEFAULT_CONTAINER="mway_dev_${USER}"
 readonly DEFAULT_CONTAINER
 
 DEV_CONTAINER="${DEFAULT_CONTAINER}"
@@ -27,7 +27,7 @@ function usage() {
   cat << EOF
 Usage: $0 [options] ...
 OPTIONS:
-    -n, --name   <NAME>     Specify Docker container name as qcraft_dev_NAME
+    -n, --name   <NAME>     Specify Docker container name as mway_dev_NAME
     -h, --help              Show this message and exit
 EOF
 }
@@ -49,7 +49,7 @@ function parse_cmdline_args() {
         ;;
     esac
   done
-  [[ -n "${name}" ]] && DEV_CONTAINER="qcraft_dev_${name}"
+  [[ -n "${name}" ]] && DEV_CONTAINER="mway_dev_${name}"
 }
 
 function _compare_timestamp_of_docker_image() {
