@@ -1,6 +1,9 @@
-# OccNet-Course
+
+![image](https://github.com/Charmve/OccNet-Course/assets/29084184/d44f4683-17fd-4193-9f5e-34ceec52db80)
 
 <code>文档</code>&nbsp;<code>代码</code>&nbsp;<code>视频</code>&nbsp;<code>课后答疑</code>
+
+# OccNet-Course
 
 Surrounding Semantic Occupancy Perception Course for Autonomous Driving
 
@@ -198,6 +201,8 @@ Surrounding Semantic Occupancy Perception Course for Autonomous Driving
    </tr>
    <tr>
     <td>
+    </td>
+    <td>
     <details><summary>四、基于纯视觉的Occ算法（6周）</summary>
 
 [课程目录](Chapter04-基于纯视觉的Occ算法)
@@ -349,6 +354,7 @@ cd ～/mway/OccNet-Course
 scripts/start_dev_docker.sh
 scripts/goto_dev_docker.sh
 
+cd Chapter07-FinalProject/OccNet
 ```
 
 <h2 align="center">课件代码一应俱全</h2>
