@@ -367,6 +367,18 @@ Surrounding Semantic Occupancy Perception Course for Autonomous Driving
   </tbody>
 </table>
 
+<h3>课前预习材料</h3>
+
+<code>已建立微信交流群，微信 <samp>Yida_Zhang2</samp></code>
+
+- [论文一作李志琦解读BEVFormer： 基于Transformer的自动驾驶BEV纯视觉感知，CVPR2022 workshop，代码刚开源](https://www.bilibili.com/video/BV1PF411c78z/?spm_id_from=333.337.search-card.all.click&vd_source=57394ba751fad8e6886be567cccfa5bb)
+- [环视BEV感知：下一代自动驾驶感知算法新范式，BEVFormer、BEVFormer++、BEVFusion等系列算法分享](https://www.bilibili.com/video/BV1A34y1W7Lu/?spm_id_from=333.337.search-card.all.click&vd_source=57394ba751fad8e6886be567cccfa5bb)
+- [CVPR23 | 3D Occupancy 预测冠军方案：FB-OCC](https://www.bilibili.com/video/BV1PX4y1e7zz/?vd_source=57394ba751fad8e6886be567cccfa5bb)
+- [CVPR2023 Occupancy Prediction比赛方案总结](https://mp.weixin.qq.com/s/dJXvkX-b6qiYe7dzB43FMQ)
+- [迈向BEV的大一统 | 基于纯视觉策略的BEV感知](https://mp.weixin.qq.com/s/43sQJtblSOILLWBr46oMVw)
+- [BEVFusion+BEVFormer讲解](https://www.bilibili.com/video/BV1Eg4y1A7JD/?spm_id_from=333.337.search-card.all.click&vd_source=57394ba751fad8e6886be567cccfa5bb)
+- 有基础的同学，可进一步看本课程的[补充材料](Chapter09-Appendix)
+
 ## Quick-start
 
 ```bash
