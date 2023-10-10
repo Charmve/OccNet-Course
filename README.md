@@ -1,7 +1,7 @@
 
 ![image](https://github.com/Charmve/OccNet-Course/assets/29084184/d44f4683-17fd-4193-9f5e-34ceec52db80)
 
-<code>文档</code>&nbsp;<code>代码</code>&nbsp;<code>视频</code>&nbsp;<code>课后答疑</code>
+<code>文档</code>&nbsp;<code>源代码</code>&nbsp;<code>视频</code>&nbsp;<code>课后答疑</code>
 
 # OccNet-Course
 
@@ -140,7 +140,7 @@ Surrounding Semantic Occupancy Perception Course for Autonomous Driving
     </details>
     </td>
     <td>
-	[<a href="Chapter01-BEV感知概述/占据网络专题-第一章-BEV感知概述.pptx"><code>📹</code> Video</a>] | [<code><img height="18" src="https://user-images.githubusercontent.com/29084184/127970991-fcb23d68-8369-47af-918a-fef8f0becccd.png" alt="Baidu Cloud" title="Baidu Cloud" style="vertical-align:bottom;"/></code><a href="https://pan.baidu.com/s/1hDjWfMyh0gM81RNUlUhXuA">百度网盘</a>] 提取码: mnee
+	[<a href="Chapter01-BEV感知概述/占据网络专题-第一章-BEV感知概述.pptx"><code>📹</code> Video</a>] | [<code><img height="18" src="https://user-images.githubusercontent.com/29084184/127970991-fcb23d68-8369-47af-918a-fef8f0becccd.png" alt="Baidu Cloud" title="Baidu Cloud" style="vertical-align:bottom;"/></code><a href="https://pan.baidu.com/s/19fptO0aUjMXlJNM2jVn_qQ">百度网盘</a>] 提取码: qnq1
     </td>
     <td>
       [PPT]() | [百度网盘]
@@ -166,7 +166,7 @@ Surrounding Semantic Occupancy Perception Course for Autonomous Driving
     </details>
     </td>
     <td>
-     [<a href="Chapter02-占据栅格网络概述/占据网络专题-第二章-占据网络概述.mp4"><code>📹</code> Video</a>] | [<code><img height="18" src="https://user-images.githubusercontent.com/29084184/127970991-fcb23d68-8369-47af-918a-fef8f0becccd.png" alt="Baidu Cloud" title="Baidu Cloud" style="vertical-align:bottom;"/></code><a href="https://pan.baidu.com/s/1FBH8EjO5YeCdPMIQ-JlPUg">百度网盘</a>] 提取码: akkb
+     [<a href="Chapter02-占据栅格网络概述/占据网络专题-第二章-占据网络概述.mp4"><code>📹</code> Video</a>] | [<code><img height="18" src="https://user-images.githubusercontent.com/29084184/127970991-fcb23d68-8369-47af-918a-fef8f0becccd.png" alt="Baidu Cloud" title="Baidu Cloud" style="vertical-align:bottom;"/></code><a href="https://pan.baidu.com/s/1flYKlkQ-zMMQUjY6aHIeyA">百度网盘</a>] 提取码: p8cn
     </td>
     <td>
       [PPT]() | [百度网盘]()
@@ -272,11 +272,13 @@ Surrounding Semantic Occupancy Perception Course for Autonomous Driving
     <td>
     </td>
     <td>
-    <details><summary>六、课程展望与总结（1周）</summary>
+    <details><summary>六、占据网络部署小试（1.5周）</summary>
 
-[课程目录](Chapter06-课程展望与总结)
-- 6.1 Occ应用Nerf的一些思考
-- 6.2 基本现状和发展趋势
+[课程目录](Chapter06-占据网络部署小试)
+- 6.1 Cuda 基本概述
+- 6.2 TensorRT 基本概述
+- 6.3 BEVFormer 部署实战
+- 6.4 VoxFormer 部署实战
 </details>
     </td>
     <td>
@@ -291,11 +293,30 @@ Surrounding Semantic Occupancy Perception Course for Autonomous Driving
     <td>
     </td>
     <td>
-    <details><summary>七、大作业(实践内容)（2周）</summary>
+    <details><summary>七、课程展望与总结（1周）</summary>
 
-[课程目录](Chapter07-FinalProject)
-- 7.1 复现一个纯视觉方案，走通数据标定、3D目标检测、BEV视角坐标对齐、3D语义场景补全补全完整流程。
-- 7.2 参考答案
+[课程目录](Chapter07-课程展望与总结)
+- 7.1 Occ应用Nerf的一些思考
+- 7.2 基本现状和发展趋势
+</details>
+    </td>
+    <td>
+     [📹 Video] | [百度网盘]
+    </td>
+    <td>
+    </td>
+    <td>
+    </td>
+   </tr>
+   <tr>
+    <td>
+    </td>
+    <td>
+    <details><summary>八、大作业(实践内容)（2周）</summary>
+
+[课程目录](Chapter08-FinalProject)
+- 8.1 复现一个纯视觉方案，走通数据标定、3D目标检测、BEV视角坐标对齐、3D语义场景补全补全完整流程。
+- 8.2 参考答案
 </details>
     </td>
     <td>
@@ -312,12 +333,12 @@ Surrounding Semantic Occupancy Perception Course for Autonomous Driving
     <code>🔥 试看</code>
     </td>
     <td>
-    <details><summary>八、补充材料（1周）</summary>
+    <details><summary>九、补充材料（1周）</summary>
 
-[课程目录](Chapter08-Appendix)
-- 8.1 Transformer in Vision
-- 8.2 BEV+Transformer
-- 8.3 E2E、LLM、Data-driven
+[课程目录](Chapter09-Appendix)
+- 9.1 Transformer in Vision
+- 9.2 BEV+Transformer
+- 9.3 E2E、LLM、Data-driven
 </details>
     </td>
     <td>
@@ -411,6 +432,8 @@ cd Chapter07-FinalProject/OccNet
 [Index](#课程目录)
 
 <h2 align="center">课程咨询与购买</h2>
+
+课程采用预售方式，本仓库star数超过1k，或预定人数超过100人后，将会上线全部课程和源代码。
 
 <div align="center">
 <p>
