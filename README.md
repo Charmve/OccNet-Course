@@ -9,6 +9,7 @@ Surrounding Semantic Occupancy Perception Course for Autonomous Driving
 
 <p align="center">
     <img title="occupanc" src="src/imgs/occupanc_1.gif">
+    From https://github.com/CVPR2023-3D-Occupancy-Prediction/CVPR2023-3D-Occupancy-Prediction
 </p>
 
 <br><br>
@@ -456,5 +457,9 @@ cd Chapter07-FinalProject/OccNet
 [Index](#课程目录)
 
 <br><br>
+
+## Acknowledge
+
+Some benchmark result and soure code from: https://github.com/CVPR2023-3D-Occupancy-Prediction/CVPR2023-3D-Occupancy-Prediction
 
 <img width="360" src="src/assert/maiwei_ai.png" alt="@Maiwei.ai">

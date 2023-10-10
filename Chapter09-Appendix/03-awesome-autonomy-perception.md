@@ -24,6 +24,7 @@ https://github.com/Charmve/autopilot-perception
 - Cam2BEV https://github.com/ika-rwth-aachen/Cam2BEV
 - CoBEVT https://github.com/DerrickXuNu/CoBEVT
 - TBP-Former https://github.com/MediaBrain-SJTU/TBP-Former
+- [Fast-BEV：迈向实时车载鸟瞰图感知](https://mp.weixin.qq.com/s/nFFGlWGMiDoocVxcwQYlnA)
 
 ## end-to-end
 
@@ -114,6 +115,21 @@ https://arxiv.org/pdf/2104.02096
 
 ## Data-driven 
 
+- A Survey of Autonomous Driving.pdf
+- Comprehensive Reactive Safety.pdf
+- End-to-End Learning of Driving Models with Fast and Furious.pdf
+- Joint 3D Proposal Generation and Object Detection from View.pdf
+- Kawasaki_Multimodal_Trajectory_Predictions_for_Autonomous_Driving_Without_a_Detailed_Prior_WACV_2021_paper.pdf
+- Keep your Eyes on the Lane.pdf
+- M3DSSD - Monocular 3D Single Stage Object Detector.pdf
+- Multimodal Trajectory Predictions for Autonomous.pdf
+- Seeing Through Fog Without Seeing Fog.pdf
 
+
+## Reference
+
+https://github.com/chaytonmin/Awesome-BEV-Perception-Multi-Cameras
+
+[nuScenes detection task Leaderboard](https://github.com/chaytonmin/Awesome-BEV-Perception-Multi-Cameras/raw/main/photo/nuscenes.png)
 
 

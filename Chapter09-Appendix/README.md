@@ -19,3 +19,5 @@
 - [01-TransformerinVision.md](01-TransformerinVision.md)
 - [02-BEV2OCC.md](02-BEV2OCC.md)
 - [03-awesome-autonomy-perception.md](03-awesome-autonomy-perception.md)
+- [Awesome-BEV-Perception-Multi-Cameras](Awesome-BEV-Perception-Multi-Cameras.md)
+- [Awesome-Occupancy-Prediction-Multi-Cameras](Awesome-Occupancy-Prediction-Multi-Cameras.md)

@@ -16,6 +16,7 @@
 ## BEV
 
 [环视BEV感知：下一代自动驾驶感知算法新范式，BEVFormer、BEVFormer++、BEVFusion等系列算法](https://www.bilibili.com/video/BV1A34y1W7Lu/?p=17&spm_id_from=pageDriver&vd_source=57394ba751fad8e6886be567cccfa5bb)
+[迈向BEV的大一统 | 基于纯视觉策略的BEV感知](https://mp.weixin.qq.com/s/43sQJtblSOILLWBr46oMVw)
 
 ### LSS
 
