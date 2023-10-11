@@ -1,4 +1,7 @@
-
+<div align="right">
+  👆 右上角点击 <img class="ai-header-badge-img" src="https://img.shields.io/github/stars/Charmve/OccNet-Course.svg?style=social&label=Star"> 告诉我，你希望这个课程早点开课 ❤️ & ☕️
+</div>
+  
 ![image](https://github.com/Charmve/OccNet-Course/assets/29084184/d44f4683-17fd-4193-9f5e-34ceec52db80)
 
 <code>文档</code>&nbsp;<code>源代码</code>&nbsp;<code>视频</code>&nbsp;<code>课后答疑</code>
