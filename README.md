@@ -83,6 +83,9 @@ Surrounding Semantic Occupancy Perception Course for Autonomous Driving
 </p>
 
 <h2 align="center">课程特色</h2>
+
+✨ 系统性学习占据网络算法设计原理、多种方案对比分析，由浅入深。最重要的是，本课程是一个实践课程，亲自动手设计、训练和部署一个Occ网络，走完一个闭环。这对于进入求职者是十分有优势的一点，尤其对于现在想要进入自动驾驶算法岗位的同学，占据网络、BEV、Transformer和部署经验，都是十分有竞争力的一点。
+
 <p>
 
 - 由浅入深，通俗易懂
@@ -463,10 +466,20 @@ cd Chapter07-FinalProject/OccNet
 <p>
   扫码学习课程<br>
 
-  <img width="360" src="https://github.com/Charmve/computer-vision-in-action/assets/29084184/05068a02-dd55-471e-90ea-f9e5ba6974fe">
+  <img width="320" src="https://github.com/Charmve/computer-vision-in-action/assets/29084184/05068a02-dd55-471e-90ea-f9e5ba6974fe" alts="vx: YidaZhang2">
   <br>
-  微信咨询：Charmve
+  微信咨询：Yida_Zhang2
 </p>
+
+<p>
+  <details><summary>(Click to study) 前20名 <u><b>8折</b></u> ~~860~~ 688 元 </summary>
+  <img width="218" src="https://github.com/Charmve/OccNet-Course/blob/main/src/assert/alipay.jpg">
+    &nbsp;&nbsp;
+  <img width="240" src="https://github.com/Charmve/OccNet-Course/blob/main/src/assert/wechat-pay.jpg">
+  付完款，一定记得加我，加入课程答疑交流群 微信Yida_Zhang2
+  </details>
+</p>
+
 </div>
 
 [Index](#课程目录)
