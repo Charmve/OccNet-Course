@@ -12,7 +12,7 @@ Surrounding Semantic Occupancy Perception Course for Autonomous Driving
 
 <p align="center">
     <img title="occupanc" src="src/imgs/occupanc_1.gif">
-    From https://github.com/CVPR2023-3D-Occupancy-Prediction/CVPR2023-3D-Occupancy-Prediction
+    <br>From https://github.com/CVPR2023-3D-Occupancy-Prediction/CVPR2023-3D-Occupancy-Prediction
 </p>
 
 <br><br>
@@ -476,7 +476,7 @@ cd Chapter07-FinalProject/OccNet
   <img width="218" src="https://github.com/Charmve/OccNet-Course/blob/main/src/assert/alipay.jpg">
     &nbsp;&nbsp;
   <img width="240" src="https://github.com/Charmve/OccNet-Course/blob/main/src/assert/wechat-pay.jpg">
-  付完款，一定记得加我，加入课程答疑交流群 微信Yida_Zhang2
+  <br><h4><code>付完款，一定记得加我，加入课程答疑交流群 微信Yida_Zhang2</code></h4>
   </details>
 </p>
 
