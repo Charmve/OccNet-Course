@@ -472,8 +472,10 @@ cd Chapter07-FinalProject/OccNet
 </p>
 
 <p>
-  <details><summary>(Click to study) 前20名 <u><b>8折</b></u> ~~860~~ 688 元 </summary>
-  <img width="218" src="https://github.com/Charmve/OccNet-Course/blob/main/src/assert/alipay.jpg">
+  <details><summary>(Click to study) 前20名 或 转发朋友圈 <u><b>8折</b></u> </summary>
+  
+  <h>~~860~~ 688 元</h>
+  <br><img width="218" src="https://github.com/Charmve/OccNet-Course/blob/main/src/assert/alipay.jpg">
     &nbsp;&nbsp;
   <img width="240" src="https://github.com/Charmve/OccNet-Course/blob/main/src/assert/wechat-pay.jpg">
   <br><h4><code>付完款，一定记得加我，加入课程答疑交流群 微信Yida_Zhang2</code></h4>
@@ -484,7 +486,13 @@ cd Chapter07-FinalProject/OccNet
 
 [Index](#课程目录)
 
-<br><br>
+## 🔥 Stargazers Over Time
+
+[![Star History Chart](https://api.star-history.com/svg?repos=Charmve/OccNet-Course&type=Timeline)](https://star-history.com/#Charmve/OccNet-Course&Timeline)
+
+[Index](#课程目录)
+
+<br>
 
 ## Acknowledge
 
