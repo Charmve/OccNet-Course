@@ -15,7 +15,7 @@ Surrounding Semantic Occupancy Perception Course for Autonomous Driving
     <br>From https://github.com/CVPR2023-3D-Occupancy-Prediction/CVPR2023-3D-Occupancy-Prediction
 </p>
 
-<br><br>
+<br>
 
 <!-- <table>
 <tr>
@@ -31,7 +31,40 @@ Surrounding Semantic Occupancy Perception Course for Autonomous Driving
 </tr>
 </table> -->
 
+## 背景介绍
+
+在没有occupancy network之前，感知只有识别出障碍物是什么类型，规控才会响应，进行制动或避让的响应。如果感知识别不出来，不好意思，就是一堵墙挡在前面，车子也会“无脑”撞上去。
+
+![image](https://github.com/Charmve/OccNet-Course/assets/29084184/2491c935-fb08-4e0b-979c-cd1e2c9d2e22)
+
+> 没有occupancy network之前的特斯拉
+
+就算识别出了目标，给出的空间也不一定准确。按照3m的跟停距离来说，这种场景也有一定剐蹭的风险。
+
+![image](https://github.com/Charmve/OccNet-Course/assets/29084184/502904e2-55aa-42f8-8635-36fc12757dc4)
+> 敢问阁下将如何应对
+
+但有了occupancy network之后，感知就可以输出这部分的网格是被占用的，达到类似激光雷达点云的作用，从而给出位置和速度。规控就可以对这种被占用的位置做响应。
+
+![image](https://github.com/Charmve/OccNet-Course/assets/29084184/1240401c-f679-4251-9f3c-d119dbc195d4)
+
+> occupancy networks 效果图
+
+可以说occupancy network对感知来说是质的飞跃，干掉激光雷达成为了可能。有了occupancy network，撞墙、撞无法识别出类型的障碍物已经成为历史！无论是路边的电线杆、还是标志牌，无论挡在车前的是树枝、是牛都可以响应。
+
+![image](https://github.com/Charmve/OccNet-Course/assets/29084184/d03538f0-d5b2-446c-b007-f3b2800defec)
+
+Occupancy网络可以识别移动部分和非移动部分、未知障碍物等
+
+![image](https://github.com/Charmve/OccNet-Course/assets/29084184/5e82e17b-ce8f-42d1-845b-ccbcb0b6d157)
+
+
+<br><br>
+
+
 ------
+
+<h2 align="center">课程介绍</h2>
 
 大家好！
 
@@ -452,7 +485,7 @@ cd Chapter07-FinalProject/OccNet
 
 <h2 align="center">课程咨询与购买</h2>
 
-课程采用预售方式，本仓库star数超过1k，或预定人数超过100人后，将会上线全部课程和源代码。
+课程采用预售方式，本仓库star数超过1k，或预定人数超过100人后，将会上线全部课程和源代码，课程长期更新。
 
 <div align="center">
 <p>
