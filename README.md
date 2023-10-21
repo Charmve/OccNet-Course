@@ -180,10 +180,10 @@ Occupancy网络可以识别移动部分和非移动部分、未知障碍物等
     </details>
     </td>
     <td>
-	[<a href="Chapter01-BEV感知概述/占据网络专题-第一章-BEV感知概述.pptx"><code>📹</code> Video</a>] | [<code><img height="18" src="https://user-images.githubusercontent.com/29084184/127970991-fcb23d68-8369-47af-918a-fef8f0becccd.png" alt="Baidu Cloud" title="Baidu Cloud" style="vertical-align:bottom;"/></code><a href="https://pan.baidu.com/s/19fptO0aUjMXlJNM2jVn_qQ">百度网盘</a>] 提取码: qnq1
+	[<a href="Chapter01-BEV感知概述/占据网络专题-第一章-BEV感知概述.pptx"><code>📹</code> Video</a>] | [<code><img height="18" src="https://user-images.githubusercontent.com/29084184/127970991-fcb23d68-8369-47af-918a-fef8f0becccd.png" alt="Baidu Cloud" title="Baidu Cloud" style="vertical-align:bottom;"/></code><a href="https://pan.baidu.com/s/1xEIUdzMF81zfFGXnTYih0g">百度网盘</a>] 提取码: 4jja
     </td>
     <td>
-      [PPT]() | [百度网盘]
+      [PPT](Chapter01-BEV感知概述/占据网络专题-第一章-BEV感知概述.pptx) | [百度网盘]
     </td>
     <td>
     </td>
@@ -206,7 +206,7 @@ Occupancy网络可以识别移动部分和非移动部分、未知障碍物等
     </details>
     </td>
     <td>
-     [<a href="Chapter02-占据栅格网络概述/占据网络专题-第二章-占据网络概述.mp4"><code>📹</code> Video</a>] | [<code><img height="18" src="https://user-images.githubusercontent.com/29084184/127970991-fcb23d68-8369-47af-918a-fef8f0becccd.png" alt="Baidu Cloud" title="Baidu Cloud" style="vertical-align:bottom;"/></code><a href="https://pan.baidu.com/s/1flYKlkQ-zMMQUjY6aHIeyA">百度网盘</a>] 提取码: p8cn
+     [<a href="Chapter02-占据栅格网络概述/占据网络专题-第二章-占据网络概述.mp4"><code>📹</code> Video</a>] | [<code><img height="18" src="https://user-images.githubusercontent.com/29084184/127970991-fcb23d68-8369-47af-918a-fef8f0becccd.png" alt="Baidu Cloud" title="Baidu Cloud" style="vertical-align:bottom;"/></code><a href="https://pan.baidu.com/s/1plGllIymkCrJFfVLvuWXXw">百度网盘</a>] 提取码: wl1f
     </td>
     <td>
       [PPT]() | [百度网盘]()
@@ -495,7 +495,23 @@ cd Chapter07-FinalProject/OccNet
     <img width="200" height="16">
   </kbd>
 </p>
-
+	
+<!--- 
+<table align="center">
+	<tbody>
+		<tr align="center"><td>
+<img width="22%" src="https://github.com/Charmve/OccNet-Course/assets/29084184/65e98cde-5289-4d42-b956-68a7061e1dcd">	
+<img width="22%" src="https://github.com/Charmve/OccNet-Course/assets/29084184/91dba4b5-aca6-4688-b0ae-1ef11fe13072">	
+<img width="22%" src="https://github.com/Charmve/OccNet-Course/assets/29084184/706a0f3e-628d-4baf-8332-bb8a2bd8fb94">	
+<img width="22%" src="https://github.com/Charmve/OccNet-Course/assets/29084184/5f233f7b-393a-4505-a0f4-a625093760c7">	
+		</td></tr>
+		<tr align="center"><td>
+		扫码支付 <a href="https://charmve.github.io/sponsor_files/imgs/sponsor-wechat.jpg"><img src="https://img.shields.io/badge/微信-Charmve-green?logo=wechat" style="vertical-align:bottom;" alt="微信支付"></a> <a href="https://charmve.github.io/sponsor_files/imgs/sponsor-alipay.jpg"><img src="https://img.shields.io/badge/支付宝-Charmve-blue?logo=alipay" style="vertical-align:bottom;" alt="支付宝"></a> <a href="https://www.paypal.com/paypalme/Charmve" target="_blank"><img src="https://img.shields.io/badge/Paypal-Charmve-blue?logo=paypal" style="vertical-align:bottom;" alt="Paypal"></a>
+		</td></tr>
+	</tbody>
+</table>
+-->
+	
 <p>
   扫码学习课程<br>
 
