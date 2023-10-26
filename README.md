@@ -12,7 +12,8 @@ Surrounding Semantic Occupancy Perception Course for Autonomous Driving
 
 <p align="center">
     <img title="occupanc" src="src/imgs/occupanc_1.gif">
-    <br>From https://github.com/CVPR2023-3D-Occupancy-Prediction/CVPR2023-3D-Occupancy-Prediction
+    <br>From BEV to Occupancy Network
+    <br><sup>*From https://github.com/CVPR2023-3D-Occupancy-Prediction/CVPR2023-3D-Occupancy-Prediction</sup>
 </p>
 
 <br>
@@ -42,11 +43,12 @@ Surrounding Semantic Occupancy Perception Course for Autonomous Driving
 就算识别出了目标，给出的空间也不一定准确。按照3m的跟停距离来说，这种场景也有一定剐蹭的风险。
 
 ![image](https://github.com/Charmve/OccNet-Course/assets/29084184/502904e2-55aa-42f8-8635-36fc12757dc4)
+
 > 敢问阁下将如何应对
 
 但有了occupancy network之后，感知就可以输出这部分的网格是被占用的，达到类似激光雷达点云的作用，从而给出位置和速度。规控就可以对这种被占用的位置做响应。
 
-![image](https://github.com/Charmve/OccNet-Course/assets/29084184/1240401c-f679-4251-9f3c-d119dbc195d4)
+<img title="occupancy" src="src/imgs/20231026-135500.jpg">
 
 > occupancy networks 效果图
 
@@ -54,10 +56,11 @@ Surrounding Semantic Occupancy Perception Course for Autonomous Driving
 
 ![image](https://github.com/Charmve/OccNet-Course/assets/29084184/d03538f0-d5b2-446c-b007-f3b2800defec)
 
-Occupancy网络可以识别移动部分和非移动部分、未知障碍物等
+Occupancy网络可以识别移动部分和非移动部分、未知障碍物等。
 
-![image](https://github.com/Charmve/OccNet-Course/assets/29084184/5e82e17b-ce8f-42d1-845b-ccbcb0b6d157)
+<img title="occupancy" src="src/imgs/occ-1.jpg">
 
+很多人提到Occ网络，会理解为对通用障碍物，尤其是白名单之外的异形障碍物的感知能力，这没有错。但很多人不知道，Occ网络对于遮挡，也能起到很好的脑补能力。3D空间的占据栅格可以很方便计算遮挡关系，就能帮助感知系统预见遮挡区域。
 
 <br><br>
 
