@@ -1,8 +1,30 @@
 <div align="right">
   👆 右上角点击 <img class="ai-header-badge-img" src="https://img.shields.io/github/stars/Charmve/OccNet-Course.svg?style=social&label=Star"> 告诉我，你希望这个课程早点开课 ❤️ & ☕️
 </div>
-  
-![image](https://github.com/Charmve/OccNet-Course/assets/29084184/d44f4683-17fd-4193-9f5e-34ceec52db80)
+
+<br>
+
+<table><tr>
+	<td colspan="3" rowspan="1">
+		
+## ✨ News! ✨
+- <b>2023.11.20:</b> 💻  OccNet-Course 在线学习网站上线 ！ <a href="http://111.229.117.200:7003/" target="_blank"><img src="https://img.shields.io/badge/在线课程-BEV/Occ-000000.svg?style=flat-square&amp;logo=GitBook" alt="Occ-Course Website"></a> http://111.229.117.200:7003/
+- <b>2023.9.10:</b> 📝  课程提案
+
+更多更新日志会同步到 [CHANGELOG](CHANGELOG.md)，持续更新中，感谢大家的支持与喜欢！
+</td>
+<tr>
+	<td><img src="https://github.com/Charmve/OccNet-Course/assets/29084184/fbd507f1-d8f8-4185-8a41-6e1d898f300f"></td>
+	<td><img src="https://github.com/Charmve/OccNet-Course/assets/29084184/e934fa45-40ac-4885-99d2-cb34246b4fff"></td>	
+	<td><img src="https://github.com/Charmve/OccNet-Course/assets/29084184/68f7d5e9-1561-4fb1-b746-98573de0ebcf"></td>
+</tr>
+</table>
+
+<div align="center">
+  <b>不建议 fork 项目，本项目会持续更新，只 fork 看不到更新，建议 Star ⭐️ ~</b> 
+  <br><br>
+  <img src="https://github.com/Charmve/OccNet-Course/assets/29084184/d44f4683-17fd-4193-9f5e-34ceec52db80">
+</div>
 
 <code>文档</code>&nbsp;<code>源代码</code>&nbsp;<code>视频</code>&nbsp;<code>课后答疑</code>
 
@@ -18,19 +40,6 @@ Surrounding Semantic Occupancy Perception Course for Autonomous Driving
 
 <br>
 
-<!-- <table>
-<tr>
-	<td>
-	## ✨ News! ✨
-
-	- <b>2020.07.12:</b> 📝  进阶篇 更新Transformer、强化学习、迁移学习、视频理解 !
-	- <b>2021.06.20:</b> 📘  在线电子书发布  ! <a href="https://charmve.github.io/computer-vision-in-action/" target="_blank"><img src="https://img.shields.io/badge/在线阅读-简体中文-000000.svg?style=flat-square&amp;logo=GitBook" alt="中文电子书"></a>
-	- <b>2020.06.10:</b> 💻  OccNet-Course 项目主页发布 ！ <a href="https://charmve.github.io/L0CV-web/" target="_blank"><img src="https://img.shields.io/badge/项目主页-L0CV-000000.svg?style=flat-square&amp;logo=GitBook" alt="L0CV Website"></a>
-
-	更多更新日志会同步到 [CHANGELOG](CHANGELOG.md)，持续更新中，感谢大家的支持与喜欢！
-	</td>
-</tr>
-</table> -->
 
 ## 背景介绍
 
