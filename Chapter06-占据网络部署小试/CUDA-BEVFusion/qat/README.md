@@ -24,12 +24,12 @@ cd CUDA-BEVFusion/bevfusion/docker
 docker build . -t bevfusion
 
 # creating containers and mapping volumes
-nvidia-docker run -it -v `pwd`/../../../:/Lidar_AI_Solution \
+nvidia-docker run -it -v `pwd`/../../../:/cuda-quant \
      -v /path/to/nuScenes:/data \
      --shm-size 16g bevfusion   
 
 # install python dependency libraries
-cd /Lidar_AI_Solution/CUDA-BEVFusion
+cd /cuda-quant/CUDA-BEVFusion
 pip install -r tool/requirements.txt
 
 # install bevfusion

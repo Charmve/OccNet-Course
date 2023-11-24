@@ -433,13 +433,13 @@ Occupancy网络可以识别移动部分和非移动部分、未知障碍物等�
 ## Quick-start
 
 ```bash
-git clone https://github.com/Charmve/OccNet-Course ～/mway
-cd ～/mway/OccNet-Course
+git clone https://github.com/Charmve/OccNet-Course ～/workspace/OccNet-Course
+cd ～/workspace/OccNet-Course
 
 scripts/start_dev_docker.sh
 scripts/goto_dev_docker.sh
 
-cd Chapter07-FinalProject/OccNet
+cd code/
 ```
 
 <h2 align="center">课件代码一应俱全</h2>
@@ -508,22 +508,20 @@ cd Chapter07-FinalProject/OccNet
   </kbd>
 </p>
 	
-<!--- 
 <table align="center">
 	<tbody>
 		<tr align="center"><td>
-<img width="22%" src="https://github.com/Charmve/OccNet-Course/assets/29084184/65e98cde-5289-4d42-b956-68a7061e1dcd">	
-<img width="22%" src="https://github.com/Charmve/OccNet-Course/assets/29084184/91dba4b5-aca6-4688-b0ae-1ef11fe13072">	
-<img width="22%" src="https://github.com/Charmve/OccNet-Course/assets/29084184/706a0f3e-628d-4baf-8332-bb8a2bd8fb94">	
-<img width="22%" src="https://github.com/Charmve/OccNet-Course/assets/29084184/5f233f7b-393a-4505-a0f4-a625093760c7">	
+      <img width="22%" src="https://github.com/Charmve/OccNet-Course/assets/29084184/65e98cde-5289-4d42-b956-68a7061e1dcd">	
+      <img width="22%" src="https://github.com/Charmve/OccNet-Course/assets/29084184/91dba4b5-aca6-4688-b0ae-1ef11fe13072">	
+      <img width="22%" src="https://github.com/Charmve/OccNet-Course/assets/29084184/706a0f3e-628d-4baf-8332-bb8a2bd8fb94">	
+      <img width="22%" src="https://github.com/Charmve/OccNet-Course/assets/29084184/5f233f7b-393a-4505-a0f4-a625093760c7">	
 		</td></tr>
 		<tr align="center"><td>
 		扫码支付 <a href="https://charmve.github.io/sponsor_files/imgs/sponsor-wechat.jpg"><img src="https://img.shields.io/badge/微信-Charmve-green?logo=wechat" style="vertical-align:bottom;" alt="微信支付"></a> <a href="https://charmve.github.io/sponsor_files/imgs/sponsor-alipay.jpg"><img src="https://img.shields.io/badge/支付宝-Charmve-blue?logo=alipay" style="vertical-align:bottom;" alt="支付宝"></a> <a href="https://www.paypal.com/paypalme/Charmve" target="_blank"><img src="https://img.shields.io/badge/Paypal-Charmve-blue?logo=paypal" style="vertical-align:bottom;" alt="Paypal"></a>
 		</td></tr>
 	</tbody>
 </table>
--->
-	
+
 <p>
   扫码学习课程<br>
 

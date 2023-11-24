@@ -9,7 +9,7 @@ export WHITE='\033[34m'
 export YELLOW='\033[33m'
 export NO_COLOR='\033[0m'
 
-# Note: Readonly.
+# Note(jiaming): Readonly.
 # Not using the `readonly` keyword here as this file may be sourced multiple times
 AVAILABLE_OFFICES=(
   bayarea
@@ -195,8 +195,82 @@ function current_git_branch() {
   git rev-parse --abbrev-ref HEAD
 }
 
+###########################################################
+# Get canonical office name
+# Arguments:
+#   office name as cmdline argument or env variable
+# Outputs:
+#   Write canonical name to stdout
+###########################################################
+function canonical_office() {
+  local result=
+  local office="$1"
+  case "${office}" in
+    beijing-tf | beijing | bj)
+      result="beijing"
+      ;;
+    shenzhen-yx | shenzhen)
+      result="shenzhen"
+      ;;
+    suzhou-tc | suzhou)
+      result="suzhou"
+      ;;
+    bayarea-scott | bayarea | us)
+      result="bayarea"
+      ;;
+    guangzhou)
+      result="guangzhou"
+      ;;
+    *)
+      result="${office}"
+      ;;
+  esac
+  echo "${result}"
+}
+
+#############################################
+# Get the country of the "canonical" office
+# Arguments:
+#   Canonical office name
+# Outputs:
+#   Write country name to stdout
+#############################################
+function country_of_office() {
+  local country=
+  case "$1" in
+    beijing | shenzhen | suzhou | wuhan | guangzhou)
+      country="cn"
+      ;;
+    bayarea)
+      country="us"
+      ;;
+    *)
+      country="unknown"
+      ;;
+  esac
+  echo "${country}"
+}
+
+#############################################
+# Check if the "canonical" office is valid
+# Globals:
+#   AVAILABLE_OFFICES
+# Arguments:
+#   A canonical office name
+# Returns:
+#   0 if office name is valid, non-zero otherwise
+#############################################
+function validate_office() {
+  local office="$1"
+  for cand in "${AVAILABLE_OFFICES[@]}"; do
+    if [[ "${cand}" == "${office}" ]]; then
+      return 0
+    fi
+  done
+  return 1
+}
+
 function determine_arm64_model() {
-  # https://mway.atlassian.net/wiki/spaces/~603857569/pages/1689845769/NV+machines
   local arch
   arch="$(uname -m)"
   if [[ "${arch}" == "x86_64" ]]; then
