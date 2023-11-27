@@ -1,3 +1,17 @@
+<!--
+ * @Author: Charmve yidazhang1@gmail.com
+ * @Date: 2023-09-23 15:33:15
+ * @LastEditors: Charmve yidazhang1@gmail.com
+ * @LastEditTime: 2023-11-12 21:31:15
+ * @FilePath: /OccNet-Course/Chapter09-Appendix/01-TransformerinVision.md
+ * @Version: 1.0.1
+ * @Blogs: charmve.blog.csdn.net
+ * @GitHub: https://github.com/Charmve
+ * @Description: 
+ * 
+ * Copyright (c) 2023 by Charmve, All Rights Reserved. 
+ * Licensed under the MIT License.
+-->
 # Transformer in Vision
 
 ## Transformer (2017 Google)
@@ -9,6 +23,10 @@
 
 - [ViT论文逐段精读【论文精读】](https://b23.tv/sWm4ywm)
 - [Swin Transformer论文精读【论文精读】](https://www.bilibili.com/video/BV13L4y1475U/?vd_source=57394ba751fad8e6886be567cccfa5bb)
+- [DETR](https://www.bilibili.com/video/BV1GB4y1X72R/?vd_source=57394ba751fad8e6886be567cccfa5bb) 
+- [端到端目标检测DETR、最简多模态ViLT](https://blog.csdn.net/qq_56591814/article/details/127701119)
+- [Deformable DETR: 基于稀疏空间采样的注意力机制，让DCN与Transformer一起玩！](https://zhuanlan.zhihu.com/p/372116181?utm_psn=1706079459143200768)
+- [特征金字塔：FPN（Feature Pyramid Networks）](https://blog.csdn.net/qq_40243750/article/details/123958422)
 
 ## multi-model 
 
@@ -16,9 +34,8 @@
 
 ## BEV-Transformer
 
-- [LSS]()
 - [BEVFormer]()
-- [BEVDet]()
+- [DETR]()
 - [PETR]()
 
 ## BEV-Occ-Transformer
@@ -29,8 +46,8 @@
 
 ## large language model
 
-- []()
-- []()
+- [SAM]()
+- [GPT-4V]()
 
 # 阅读材料
 
