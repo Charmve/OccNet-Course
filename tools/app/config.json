@@ -1,0 +1,69 @@
+{
+    "name": "Qbot VIPs",
+    "url": "ufund-me.github.io/Qbot",
+    "author": "Charmve",
+    "isNonProfit": true,
+    "address": {
+        "street": "\u5357\u5929\u6210\u8def",
+        "city": "\u6c5f\u82cf\u82cf\u5dde",
+        "country": "\u4e2d\u56fd"
+    },
+    "users": [
+        {
+            "No.": "1",
+            "name": "Charmve",
+            "email": "yidazhang1@gmail.com",
+            "zsxq_id": null,
+            "wechat_id": null,
+            "isInWechatVipGroup": "",
+            "feishu_id": null,
+            "isNeedSourceCode": "",
+            "github_id": null,
+            "isStaredRepo": "",
+            "phone_num": null,
+            "addtion": ""
+        },
+        {
+            "No.": "2",
+            "name": "\u4e00\u751f\u6240\u7231",
+            "email": "925612330@qq.com",
+            "zsxq_id": "\u4e00\u751f\u6240\u7231",
+            "wechat_id": null,
+            "isInWechatVipGroup": "",
+            "feishu_id": null,
+            "isNeedSourceCode": "",
+            "github_id": null,
+            "isStaredRepo": "",
+            "phone_num": null,
+            "addtion": ""
+        },
+        {
+            "No.": "3",
+            "name": "test",
+            "email": "111122222@163.com",
+            "zsxq_id": "test111",
+            "wechat_id": null,
+            "isInWechatVipGroup": "",
+            "feishu_id": null,
+            "isNeedSourceCode": "",
+            "github_id": null,
+            "isStaredRepo": "",
+            "phone_num": null,
+            "addtion": "ok"
+        },
+        {
+            "No.": "5",
+            "name": "test",
+            "email": "zhangwe@163.com",
+            "zsxq_id": "test",
+            "wechat_id": null,
+            "isInWechatVipGroup": "",
+            "feishu_id": null,
+            "isNeedSourceCode": "",
+            "github_id": null,
+            "isStaredRepo": "",
+            "phone_num": null,
+            "addtion": "hello world"
+        }
+    ]
+}

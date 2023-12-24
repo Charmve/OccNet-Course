@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>表单提交</title>
+    <link rel="stylesheet" type="text/css" href="static/style.css">
+</head>
+<body>
+    <h1>表单提交</h1>
+    <form action="/submit" method="post">
+        <label for="username">用户名:</label>
+        <input type="text" id="username" name="username" required>
+      
+        <label for="email">邮箱:</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="zsxq_id">知识星球id:</label>
+        <input type="text" id="zsxq_id" name="zsxq_id" required>
+      
+        <label for="message">备注:</label>
+        <textarea id="message" name="message"></textarea>
+      
+        <input type="submit" value="提交">
+    </form>
+</body>
+</html>
+

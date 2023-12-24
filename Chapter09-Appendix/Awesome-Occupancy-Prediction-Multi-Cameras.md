@@ -29,7 +29,7 @@
 + SurroundOcc [[paper](https://arxiv.org/abs/2303.09551)] [[Github](https://github.com/weiyithu/SurroundOcc)]
 + Occupancy Dataset for nuScenes [[Github](https://github.com/FANG-MING/occupancy-for-nuscenes)]
 + SSCBench: A Large-Scale 3D Semantic Scene Completion Benchmark for Autonomous Driving [[paper](https://arxiv.org/abs/2306.09001)] [[Github](https://github.com/ai4ce/SSCBench)]
-+ Scene as Occupancy [[paper](https://arxiv.org/abs/2306.02851)] [[Github](https://github.com/OpenDriveLab/OccNet)]
++ Scene as Occupancy / OccNet [[paper](https://arxiv.org/abs/2306.02851)] [[Github](https://github.com/OpenDriveLab/OccNet)] [解读](https://zhuanlan.zhihu.com/p/635679288)
 
 #### Code for Occupancy Generation 
 + multi-frame fusion [[Github](https://github.com/FANG-MING/occupancy-for-nuscenes/blob/main/data_converter.py)]
