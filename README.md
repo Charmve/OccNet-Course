@@ -1,5 +1,5 @@
-<div align="right">
-  👆 右上角点击 <img class="ai-header-badge-img" src="https://img.shields.io/github/stars/Charmve/OccNet-Course.svg?style=social&label=Star"> 告诉我，你希望这个课程早点开课 ❤️ & ☕️
+<div align="center">
+  <h4>💖 预计2024年4月会开源本课程的标准版部分内容，包含源代码和课件</h4>
 </div>
 
 <br>
