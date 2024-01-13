@@ -14,5 +14,9 @@
 -->
 
 ```
-git clone https://github.com/Charmve/OccNet-Course ～/mway
+git clone https://github.com/Charmve/OccNet-Course --recursive
+
+./scripts/start_dev_docker.sh
+./scripts/goto_dev_docker.sh
+cd code/
 ```
