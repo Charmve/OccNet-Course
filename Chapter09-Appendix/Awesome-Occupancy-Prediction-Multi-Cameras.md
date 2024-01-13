@@ -18,10 +18,15 @@
 + OpenOccupancy: A Large Scale Benchmark for Surrounding Semantic Occupancy Perception [[paper](https://arxiv.org/abs/2303.03991)] [[Github](https://github.com/JeffWang987/OpenOccupancy)]
 + OccFormer: Dual-path Transformer for Vision-based 3D Semantic Occupancy Prediction [[paper](https://arxiv.org/abs/2304.05316)] [[Github](https://github.com/zhangyp15/OccFormer)]
 + BEVDet for occupancy: [[Github](https://github.com/HuangJunJie2017/BEVDet/tree/dev2.1/configs/bevdet_occ)]
-+ SimpleOccupancy: A Simple Attempt for 3D Occupancy Estimation in Autonomous Driving [[paper](https://arxiv.org/abs/2303.10076)] [[Github](https://github.com/GANWANSHUI/SimpleOccupancy)]
-+ OVO: Open-Vocabulary Occupancy [[paper](https://arxiv.org/abs/2305.16133)] [[Github](https://github.com/dzcgaara/OVO-Open-Vocabulary-Occupancy)]
++ SimpleOccupancy: A Simple Attempt for 3D Occupancy Estimation in Autonomous Driving [[paper](https://arxiv.org/abs/2303.10076)] [[Github](https://github.com/GANWANSHUI/SimpleOccupancy)] [[解读](https://zhuanlan.zhihu.com/p/625016558)]
++ OVO: Open-Vocabulary Occupancy [[paper](https://arxiv.org/abs/2305.16133)] [[Github](https://github.com/dzcgaara/OVO-Open-Vocabulary-Occupancy)] 
 + FB-OCC: 3D Occupancy Prediction based on Forward-Backward View Transformation[[paper](https://arxiv.org/abs/2307.01492)] [[Github](https://github.com/NVlabs/FB-BEV)]
 + UniOcc: Unifying Vision-Centric 3D Occupancy Prediction with Geometric and Semantic Rendering [[paper](https://arxiv.org/abs/2306.09117)] 
++ FlashOCC: https://github.com/Yzichen/FlashOCC
++ Occworld：自动驾驶的3D占用世界模型（清华大学） https://zhuanlan.zhihu.com/p/670101123
++ BEV-IO：Enhancing Bird's-Eye-View 3D Detection with Instance Occupancy [[解读](https://zhuanlan.zhihu.com/p/635722162)]
++ 轻量级占用网络要来了！FlashOcc：主打实时性，高精度快速高效内存 [[解读](https://zhuanlan.zhihu.com/p/669159835)]
++ CVPR2023 Occupancy Prediction比赛方案总结 https://mp.weixin.qq.com/s/dJXvkX-b6qiYe7dzB43FMQ
 
 #### Occupancy Datasets
 + Occ3D: A Large-Scale 3D Occupancy Prediction Benchmark for Autonomous Driving [[paper](https://arxiv.org/abs/2304.14365)] [[Github](https://github.com/Tsinghua-MARS-Lab/Occ3D)]

@@ -1,6 +1,16 @@
 
 ## Chapter06-占据网络部署小试
 
+0. 模型量化部署
+
+![QAT、PTQ简介](https://developer.horizon.ai/api/v1/fileData/horizon_j5_open_explorer_v1_1_33_cn_doc/_images/qat_ptq_contrast.png)
+
+- 训练后量化（PTQ） [地平线J5](https://developer.horizon.ai/api/v1/fileData/horizon_j5_open_explorer_v1_1_33_cn_doc/oe_mapper/source/ptq/ptq.html) ｜ [英伟达Orin]()
+- 量化感知训练（QAT） [地平线J5](https://developer.horizon.ai/api/v1/fileData/horizon_j5_open_explorer_v1_1_33_cn_doc/plugin/source/index.html) ｜ [英伟达Orin]()
+
+
+BEV部署：https://developer.horizon.cc/api/v1/fileData/horizon_j5_reference_package_release/index.html 2.BEV算法
+
 1. BEVFormer->VoxFormer 部署
 
 https://github.com/fundamentalvision/BEVFormer
