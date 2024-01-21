@@ -121,7 +121,7 @@ def normalize_header_includes(fentry: Path, dry=False, strip=False):
         fentry_new.rename(fentry)
 
 
-# TODO(Jiaming): maybe a multi-threaded version
+# TODO: maybe a multi-threaded version
 def main(files=None, dirs=None, dry=False, strip=False):
     if files:
         for ent in files:

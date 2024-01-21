@@ -9,16 +9,6 @@ export WHITE='\033[34m'
 export YELLOW='\033[33m'
 export NO_COLOR='\033[0m'
 
-# Note(jiaming): Readonly.
-# Not using the `readonly` keyword here as this file may be sourced multiple times
-AVAILABLE_OFFICES=(
-  bayarea
-  beijing
-  shenzhen
-  suzhou
-  guangzhou
-)
-
 function info() {
   (echo >&2 -e "[${WHITE}${BOLD}INFO${NO_COLOR}] $*")
 }
@@ -249,25 +239,6 @@ function country_of_office() {
       ;;
   esac
   echo "${country}"
-}
-
-#############################################
-# Check if the "canonical" office is valid
-# Globals:
-#   AVAILABLE_OFFICES
-# Arguments:
-#   A canonical office name
-# Returns:
-#   0 if office name is valid, non-zero otherwise
-#############################################
-function validate_office() {
-  local office="$1"
-  for cand in "${AVAILABLE_OFFICES[@]}"; do
-    if [[ "${cand}" == "${office}" ]]; then
-      return 0
-    fi
-  done
-  return 1
 }
 
 function determine_arm64_model() {

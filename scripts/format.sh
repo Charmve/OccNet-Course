@@ -258,7 +258,7 @@ function main() {
       return 1
     fi
 
-    # Note(jiaming):
+    # Note:
     # 1) Exclude deleted files, Ref:
     #    https://stackoverflow.com/questions/6894322/how-to-make-git-diff-and-git-log-ignore-new-and-deleted-files
     # 2) git-clang-format Ref:
@@ -266,8 +266,9 @@ function main() {
     local what_to_diff
     what_to_diff="${CI_MERGE_REQUEST_DIFF_BASE_SHA:-HEAD~1}"
 
+    declare -a diff_files
     readarray -t diff_files < <(git diff --ignore-submodules --diff-filter=d --name-only "${what_to_diff}")
-
+    
     for one_change in "${diff_files[@]}"; do
       run_format "${TOP_DIR}/${one_change}"
     done

@@ -59,7 +59,7 @@ function main() {
         ;;
     esac
   done
-  # Note(jiaming):
+  # Note:
   # 1) Exclude deleted files, Ref:
   #    https://stackoverflow.com/questions/6894322/how-to-make-git-diff-and-git-log-ignore-new-and-deleted-files
   # 2) git-clang-format Ref:
