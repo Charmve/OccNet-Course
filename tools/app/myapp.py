@@ -24,7 +24,7 @@ mail_sender = "1144262839@qq.com"
 # mail_license = os.getenv("MAIL_LICENSE")
 mail_license = "szfiwfywaakhieda"
 # 收件人邮箱，可以为多个收件人
-mail_receivers = ["yidazhang1@gmail.com", "zhangwei@qcraft.ai"]
+mail_receivers = ["yidazhang1@gmail.com", "zhangwei@maiwei.ai"]
 
 
 @app.route('/')

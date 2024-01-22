@@ -15,6 +15,7 @@ unzip can_bus.zip
 
 *We genetate custom annotation files which are different from mmdet3d's*
 ```
+export PYTHONPATH=$PYTHONPATH:./
 python tools/create_data.py nuscenes --root-path ./data/nuscenes --out-dir ./data/nuscenes --extra-tag nuscenes --version v1.0 --canbus ./data
 ```
 

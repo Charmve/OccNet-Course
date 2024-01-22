@@ -18,8 +18,8 @@ data = {
 def pull_issues(data = data):
     # 发送 POST 请求
     # https://github.com/Charmve/100days
-    repo_owner = "UFund-Me"
-    repo_name = "Qbot"
+    repo_owner = "Charmve"
+    repo_name = "OccNet-Course"
     url = f"https://api.github.com/repos/{repo_owner}/{repo_name}/issues"
     response = re.post(url, headers=headers, json=data)
 
@@ -52,7 +52,7 @@ def close_github_issues(issue_url):
 
 if __name__ == '__main__':
     issues_data = {
-        "title": "🌈 {today} 来自Qbot的今日AI选股推送",
+        "title": "💡 {today} 来自OccCource更新提醒",
         "body": "{content}"
     }
     pull_issues(issues_data)
