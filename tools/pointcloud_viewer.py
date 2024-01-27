@@ -36,10 +36,10 @@ from SeeingThroughFog.tools.DatasetViewer.dataset_viewer import load_calib_data,
 from SeeingThroughFog.tools.DatasetFoggification.beta_modification import BetaRadomization
 from SeeingThroughFog.tools.DatasetFoggification.lidar_foggification import haze_point_cloud
 
-         #   R,   G,   B, alpha
-COLORS = [(  0, 255,   0, 255),  # cars in green
-          (255,   0,   0, 255),  # pedestrian in red
-          (255, 255,   0, 255)]  # cyclists in yellow
+          #  R,     G,   B,  alpha
+COLORS = [(  0,   255,   0,   255),  # cars in green
+          (255,     0,   0,   255),  # pedestrian in red
+          (255,   255,   0,   255)]  # cyclists in yellow
 
 
 parser = argparse.ArgumentParser()
@@ -52,29 +52,24 @@ args = parser.parse_args()
 DATASETS_ROOT = Path(args.datasets)
 EXPERIMENTS_ROOT = Path(args.experiments)
 
-FOG =  DATASETS_ROOT / 'DENSE/SeeingThroughFog/lidar_hdl64_strongest_fog_extraction'
-AUDI = DATASETS_ROOT / 'A2D2/camera_lidar_semantic_bboxes'
-LYFT = DATASETS_ROOT / 'LyftLevel5/Perception/train_lidar'
-ARGO = DATASETS_ROOT / 'Argoverse'
-PANDA = DATASETS_ROOT / 'PandaSet'
-DENSE = DATASETS_ROOT / 'DENSE/SeeingThroughFog/lidar_hdl64_strongest'
-KITTI = DATASETS_ROOT / 'KITTI/3D/training/velodyne'
-WAYMO = DATASETS_ROOT / 'WaymoOpenDataset/WOD/train/velodyne'
-HONDA = DATASETS_ROOT / 'Honda_3D/scenarios'
-APOLLO = DATASETS_ROOT / 'Apollo3D'
-NUSCENES = DATASETS_ROOT / 'nuScenes/sweeps/LIDAR_TOP'
+  FOG    = DATASETS_ROOT/'DENSE/SeeingThroughFog/lidar_hdl64_strongest_fog_extraction'
+  AUDI   = DATASETS_ROOT/'A2D2/camera_lidar_semantic_bboxes'
+  LYFT   = DATASETS_ROOT/'LyftLevel5/Perception/train_lidar'
+  ARGO   = DATASETS_ROOT/'Argoverse'
+  PANDA  = DATASETS_ROOT/'PandaSet'
+  DENSE  = DATASETS_ROOT/'DENSE/SeeingThroughFog/lidar_hdl64_strongest'
+  KITTI  = DATASETS_ROOT/'KITTI/3D/training/velodyne'
+  WAYMO  = DATASETS_ROOT/'WaymoOpenDataset/WOD/train/velodyne'
+  HONDA  = DATASETS_ROOT/'Honda_3D/scenarios'
+  APOLLO = DATASETS_ROOT/'Apollo3D'
+NUSCENES = DATASETS_ROOT/'nuScenes/sweeps/LIDAR_TOP'
 
 if socket.gethostname() == 'beast':
     DENSE = Path.home() / 'datasets_local' / 'DENSE/SeeingThroughFog/lidar_hdl64_strongest'
 
-
-
 def get_extracted_fog_file_list(dirname: str) -> List[str]:
-
     file_list = [y for x in os.walk(dirname) for y in glob(os.path.join(x[0], f'*.bin'))]
-
     return sorted(file_list)
-
 
 class Namespace:
     def __init__(self, **kwargs):
@@ -82,11 +77,8 @@ class Namespace:
 
 
 class MyWindow(QMainWindow):
-
     def __init__(self) -> None:
-
         super(MyWindow, self).__init__()
-
         self.boxes = {}
         self.predictions = {}
         self.result_dict = {}
@@ -118,29 +110,21 @@ class MyWindow(QMainWindow):
         hostname = socket.gethostname()
 
         if hostname == 'beast':
-
             self.monitor = QDesktopWidget().screenGeometry(1)
             self.monitor.setHeight(int(0.45 * self.monitor.height()))
-
         elif hostname == 'hox':
-
             self.monitor = QDesktopWidget().screenGeometry(2)
             self.monitor.setHeight(int(0.45 * self.monitor.height()))
-
         else:
-
             self.monitor = QDesktopWidget().screenGeometry(0)
             self.monitor.setHeight(self.monitor.height())
 
         self.setGeometry(self.monitor)
-
         self.setAcceptDrops(True)
-
         self.simulated_fog = False
         self.simulated_fog_pc = None
 
         self.simulated_fog_dense = False
-
         self.extracted_fog = False
         self.extracted_fog_pc = None
         self.extracted_fog_index = -1
@@ -416,15 +400,12 @@ class MyWindow(QMainWindow):
             self.threshold_slider.setEnabled(False)
 
         if self.simulated_fog:
-
             self.toggle_simulated_fog_btn.setText('remove our fog simulation')
             self.alpha_slider.setEnabled(True)
             self.beta_slider.setEnabled(True)
             self.gamma_slider.setEnabled(True)
             # self.noise_slider.setEnabled(True)
-
         else:
-
             self.toggle_simulated_fog_btn.setText('add our fog simulation')
             self.alpha_slider.setEnabled(False)
             self.beta_slider.setEnabled(False)
@@ -505,97 +486,60 @@ class MyWindow(QMainWindow):
 
 
     def load_results(self) -> None:
-
         exp_dir = EXPERIMENTS_ROOT / self.experiment_path_box.text()
-
         test_folders = [x[0] for x in os.walk(exp_dir) if 'epoch' in x[0] and 'test' in x[0]]
-
         self.result_dict = {}
-
         for test_folder in test_folders:
             key = test_folder.split('/')[-1]
-
             pkl_path = Path(test_folder) / 'result.pkl'
-
             with open(pkl_path, 'rb') as f:
                 self.result_dict[key] = pkl.load(f)
-
         if self.result_dict is not None:
             self.visualize_predictions_path_btn.setEnabled(True)
             self.prediction_threshold_slider.setEnabled(True)
 
-
     def visualize_predictions(self) -> None:
-
         split = self.cb.currentText()
-
         if 'test' in split:
-
             pred_dict = self.result_dict[split][self.index]
-
             assert self.file_name.split('/')[-1].split('.')[0] == pred_dict['frame_id'], f'frame missmatch ' \
                 f"{self.file_name.split('/')[-1].split('.')[0]} != {pred_dict['frame_id']}"
-
             lookup = {'Car': 0,
                       'Pedestrian': 1,
                       'Cyclist': 2}
-
             predictions = np.zeros((pred_dict['boxes_lidar'].shape[0], 9))
             predictions[:, 0:-2] = pred_dict['boxes_lidar']
             predictions[:, 7] = np.array([lookup[name] for name in pred_dict['name']])
             predictions[:, 8] = pred_dict['score']
 
             for prediction in predictions:
-
                 x, y, z, w, l, h, rotation, category, score = prediction
-
                 if score*100 > self.prediction_threshold:
-
                     dist = np.sqrt(x**2 + y**2 + z**2)
-
                     rotation = np.rad2deg(rotation) + 90
-
                     color = (255, 255, 255, 255)        # white
-
                     box = gl.GLBoxItem(QtGui.QVector3D(1, 1, 1), color=color)
                     box.setSize(l, w, h)
-
                     box.translate(-l / 2, -w / 2, -h / 2)
                     box.rotate(angle=rotation, x=0, y=0, z=1)
                     box.translate(x, y, z)
-
                     self.viewer.addItem(box)
-
                     self.predictions[dist] = box
 
-
     def populate_dense_splits(self) -> List[str]:
-
         split_folder = Path(__file__).parent.absolute() / 'SeeingThroughFog' / 'splits'
-
         splits = []
-
         for file in os.listdir(split_folder):
-
             if file.endswith('.txt'):
-
                 splits.append(file.replace('.txt', ''))
-
                 self.dense_split_paths.append(split_folder / file)
-
         self.dense_split_paths = sorted(self.dense_split_paths)
-
         return sorted(splits)
 
-
     def selection_change(self) -> None:
-
         self.reset_fog_buttons()
-
         self.file_list = []
-
         split = self.cb.currentText()
-
         # open file and read the content in a list
         with open(f'SeeingThroughFog/splits/{split}.txt', 'r') as filehandle:
             for line in filehandle:
@@ -611,7 +555,6 @@ class MyWindow(QMainWindow):
 
 
     def update_labels(self) -> None:
-
         self.p.alpha = self.alpha_slider.value() / self.p.alpha_scale
         self.alpha_label.setText(f"\u03B1 = {self.p.alpha}")
 
@@ -634,9 +577,7 @@ class MyWindow(QMainWindow):
 
 
     def reset_fog_buttons(self) -> None:
-
         self.boxes = {}
-
         self.threshold_slider.setEnabled(False)
         self.alpha_slider.setEnabled(False)
         self.beta_slider.setEnabled(False)
@@ -653,7 +594,6 @@ class MyWindow(QMainWindow):
 
 
     def reset(self) -> None:
-
         self.reset_viewer()
         self.reset_fog_buttons()
         self.reset_custom_values()
@@ -676,9 +616,7 @@ class MyWindow(QMainWindow):
         self.extracted_fog_mesh = None
         self.extracted_fog_index = -1
 
-
     def reset_custom_values(self) -> None:
-
         self.min_value = 0
         self.max_value = 63
         self.num_features = 5
@@ -688,34 +626,25 @@ class MyWindow(QMainWindow):
         self.intensity_multiplier = 1
         self.color_name = self.color_dict[self.color_feature]
 
-
     def threshold_slider_change(self) -> None:
-
         self.threshold = self.threshold_slider.value()
         self.threshold_label.setText(str(self.threshold))
-
         if self.current_mesh and Path(self.file_name).suffix != '.pickle':
             self.show_pointcloud(self.file_name)
 
 
     def prediction_threshold_slider_change(self) -> None:
-
         self.prediction_threshold = self.prediction_threshold_slider.value()
         self.prediction_threshold_label.setText(str(self.prediction_threshold))
-
         if self.file_list:
             self.show_pointcloud(self.file_list[self.index])
 
-
     def color_slider_change(self) -> None:
-
         self.color_feature = self.color_slider.value()
-
         self.color_name = self.color_dict[self.color_feature]
         self.color_label.setText(self.color_name)
 
         if self.current_mesh:
-
             if Path(self.file_name).suffix == '.pickle':
                 self.show_pcdet_dict(self.file_name)
             else:
@@ -723,7 +652,6 @@ class MyWindow(QMainWindow):
 
 
     def check_index_overflow(self) -> None:
-
         if self.index == -1:
             self.index = len(self.file_list) - 1
 
@@ -732,12 +660,9 @@ class MyWindow(QMainWindow):
 
 
     def decrement_index(self) -> None:
-
         if self.index != -1:
-
             self.index -= 1
             self.check_index_overflow()
-
             if Path(self.file_list[self.index]).suffix == ".pickle":
                 self.show_pcdet_dict(self.file_list[self.index])
             else:
@@ -745,9 +670,7 @@ class MyWindow(QMainWindow):
 
 
     def increment_index(self) -> None:
-
         if self.index != -1:
-
             self.index += 1
             self.check_index_overflow()
 
@@ -766,22 +689,17 @@ class MyWindow(QMainWindow):
         self.intensity_multiplier = 1
 
         if before:
-
             self.dataset = 'before'
             self.num_features = 5
             self.color_dict[6] = 'channel'
-
         else:
-
             self.dataset = 'after'
             self.num_features = 4
             self.color_dict[6] = 'not available'
 
 
     def set_extracted_fog_samples(self):
-
         self.threshold_slider.setEnabled(True)
-
         self.dataset = 'FOG'
         self.min_value = 0
         self.max_value = 63
@@ -790,8 +708,6 @@ class MyWindow(QMainWindow):
         self.d_type = np.float32
         self.intensity_multiplier = 1
         self.color_dict[6] = 'channel'
-
-
 
     def set_kitti(self) -> None:
         self.dataset = 'KITTI'
@@ -803,29 +719,22 @@ class MyWindow(QMainWindow):
         self.intensity_multiplier = 255
         self.color_dict[6] = 'not available'
 
-
     def load_kitti(self) -> None:
-
         self.reset_fog_buttons()
-
         self.file_list = []
-
         # open file and read the content in a list
         with open('file_lists/KITTI.txt', 'r') as filehandle:
             for line in filehandle:
                 # remove linebreak which is the last character of the string
                 file_path = Path(KITTI) / line[:-1]
-
                 # add item to the list
                 self.file_list.append(str(file_path))
-
         self.index = 0
         self.set_kitti()
         self.show_pointcloud(self.file_list[self.index])
 
 
     def set_audi(self) -> None:
-
         self.dataset = 'A2D2'
         self.min_value = 0
         self.max_value = 4
@@ -835,13 +744,9 @@ class MyWindow(QMainWindow):
         self.intensity_multiplier = 1
         self.color_dict[6] = 'lidar_id'
 
-
     def load_audi(self) -> None:
-
         self.reset_fog_buttons()
-
         self.file_list = []
-
         # open file and read the content in a list
         with open('file_lists/A2D2.txt', 'r') as filehandle:
             for line in filehandle:
@@ -857,7 +762,6 @@ class MyWindow(QMainWindow):
 
 
     def set_honda(self) -> None:
-
         self.dataset = 'Honda3D'
         self.min_value = 0
         self.max_value = 63
@@ -867,13 +771,9 @@ class MyWindow(QMainWindow):
         self.intensity_multiplier = 1
         self.color_dict[6] = 'channel'
 
-
     def load_honda(self) -> None:
-
         self.reset_fog_buttons()
-
         self.file_list = []
-
         # open file and read the content in a list
         with open('file_lists/Honda3D.txt', 'r') as filehandle:
             for line in filehandle:
@@ -882,14 +782,12 @@ class MyWindow(QMainWindow):
 
                 # add item to the list
                 self.file_list.append(str(file_path))
-
         self.index = 0
         self.set_honda()
         self.show_pointcloud(self.file_list[self.index])
 
 
     def set_argo(self) -> None:
-
         self.dataset = 'Argoverse'
         self.min_value = 0
         self.max_value = 31
@@ -899,13 +797,9 @@ class MyWindow(QMainWindow):
         self.intensity_multiplier = 1
         self.color_dict[6] = 'channel'
 
-
     def load_argo(self) -> None:
-
         self.reset_fog_buttons()
-
         self.file_list = []
-
         # open file and read the content in a list
         with open('file_lists/Argoverse.txt', 'r') as filehandle:
             for line in filehandle:
@@ -921,7 +815,6 @@ class MyWindow(QMainWindow):
 
 
     def set_dense(self) -> None:
-
         self.dataset = 'DENSE'
         self.min_value = 0
         self.max_value = 63
@@ -935,11 +828,8 @@ class MyWindow(QMainWindow):
 
 
     def load_dense(self) -> None:
-
         self.reset_fog_buttons()
-
         self.file_list = []
-
         # open file and read the content in a list
         with open('file_lists/DENSE.txt', 'r') as filehandle:
             for line in filehandle:
@@ -956,7 +846,6 @@ class MyWindow(QMainWindow):
 
 
     def set_nuscenes(self) -> None:
-
         self.dataset = 'nuScenes'
         self.min_value = 0
         self.max_value = 31
@@ -967,9 +856,7 @@ class MyWindow(QMainWindow):
 
 
     def load_nuscenes(self) -> None:
-
         self.reset_fog_buttons()
-
         self.file_list = []
 
         with open('file_lists/nuScenes.pkl', 'rb') as f:
@@ -984,7 +871,6 @@ class MyWindow(QMainWindow):
 
 
     def set_lyft(self) -> None:
-
         self.dataset = 'LyftL5'
         self.min_value = 0
         self.max_value = 16
@@ -995,9 +881,7 @@ class MyWindow(QMainWindow):
 
 
     def load_lyft(self) -> None:
-
         self.reset_fog_buttons()
-
         self.file_list = []
 
         # open file and read the content in a list
@@ -1015,7 +899,6 @@ class MyWindow(QMainWindow):
 
 
     def set_waymo(self) -> None:
-
         self.dataset = 'WaymoOpenDataset'
         self.min_value = -1
         self.max_value = -1
@@ -1027,11 +910,8 @@ class MyWindow(QMainWindow):
 
 
     def load_waymo(self) -> None:
-
         self.reset_fog_buttons()
-
         self.file_list = []
-
         # open file and read the content in a list
         with open('file_lists/WAYMO.txt', 'r') as filehandle:
             for line in filehandle:
@@ -1047,7 +927,6 @@ class MyWindow(QMainWindow):
 
 
     def set_panda(self) -> None:
-
         self.dataset = 'PandaSet'
         self.min_value = 0
         self.max_value = 1
@@ -1059,11 +938,8 @@ class MyWindow(QMainWindow):
 
 
     def load_panda(self) -> None:
-
         self.reset_fog_buttons()
-
         self.file_list = []
-
         # open file and read the content in a list
         with open('file_lists/PandaSet.txt', 'r') as filehandle:
             for line in filehandle:
@@ -1079,7 +955,6 @@ class MyWindow(QMainWindow):
 
 
     def set_apollo(self) -> None:
-
         self.dataset = 'Apollo'
         self.min_value = -1
         self.max_value = -1
@@ -1091,11 +966,8 @@ class MyWindow(QMainWindow):
 
 
     def load_apollo(self) -> None:
-
         self.reset_fog_buttons()
-
         self.file_list = []
-
         # open file and read the content in a list
         with open('file_lists/Apollo.txt', 'r') as filehandle:
             for line in filehandle:
@@ -1111,14 +983,10 @@ class MyWindow(QMainWindow):
 
 
     def show_directory_dialog(self) -> None:
-
         self.reset_fog_buttons()
-
         directory = Path(os.getenv("HOME")) / 'Downloads'
-
         if self.lastDir:
             directory = self.lastDir
-
         dir_name = QFileDialog.getExistingDirectory(self, "Open Directory", str(directory),
                                                     QFileDialog.ShowDirsOnly | QFileDialog.DontResolveSymlinks)
 
@@ -1128,7 +996,6 @@ class MyWindow(QMainWindow):
 
 
     def get_index(self, filename: str) -> int:
-
         try:
             return self.file_list.index(str(filename))
 
@@ -1138,93 +1005,66 @@ class MyWindow(QMainWindow):
 
 
     def load_extracted_fog_samples(self):
-
         self.set_extracted_fog_samples()
-
         self.create_file_list(FOG)
 
 
     def toggle_simulated_fog(self) -> None:
-
         if self.file_list is not None and 'extraction' not in self.file_name:
-
             self.simulated_fog = not self.simulated_fog
-
             if self.simulated_fog:
-
                 self.toggle_simulated_fog_btn.setText('remove our fog simulation')
                 self.alpha_slider.setEnabled(True)
                 self.beta_slider.setEnabled(True)
                 self.gamma_slider.setEnabled(True)
                 self.noise_slider.setEnabled(True)
-
             else:
-
                 self.toggle_simulated_fog_btn.setText('add our fog simulation')
                 self.alpha_slider.setEnabled(False)
                 self.beta_slider.setEnabled(False)
                 self.gamma_slider.setEnabled(False)
                 self.noise_slider.setEnabled(False)
-
             self.show_pointcloud(self.file_list[self.index])
 
     def toggle_simulated_fog_dense(self) -> None:
-
         if self.file_list is not None and 'extraction' not in self.file_name:
-
             self.simulated_fog_dense = not self.simulated_fog_dense
-
             if self.simulated_fog_dense:
-
                 self.toggle_simulated_fog_dense_btn.setText('remove STF fog simulation')
                 self.alpha_slider.setEnabled(True)
                 self.beta_slider.setEnabled(True)
                 self.gamma_slider.setEnabled(True)
                 self.noise_slider.setEnabled(True)
-
             else:
-
                 self.toggle_simulated_fog_dense_btn.setText('add STF fog simulation')
                 self.alpha_slider.setEnabled(False)
                 self.beta_slider.setEnabled(False)
                 self.gamma_slider.setEnabled(False)
                 self.noise_slider.setEnabled(False)
-
             self.show_pointcloud(self.file_list[self.index])
 
     def toggle_predictions(self) -> None:
-
         self.show_predictions = not self.show_predictions
-
         if self.show_predictions:
             self.visualize_predictions_path_btn.setText('hide predictions')
         else:
             self.visualize_predictions_path_btn.setText('show predictions')
-
         if self.file_list:
             self.show_pointcloud(self.file_list[self.index])
 
 
     def toggle_extracted_fog(self) -> None:
-
         if self.file_list is not None and 'extraction' not in self.file_name:
-
             if self.extracted_fog_file_list is None:
                 self.extracted_fog_file_list = get_extracted_fog_file_list(FOG)
-
             self.extracted_fog = not self.extracted_fog
-
             if self.extracted_fog:
-
                 self.threshold_slider.setEnabled(True)
                 self.toggle_extracted_fog_btn.setText('remove extracted fog')
-
             else:
-
                 self.threshold_slider.setEnabled(False)
                 self.toggle_extracted_fog_btn.setText('add extracted fog')
                 self.extracted_fog_index = -1
-
             self.show_pointcloud(self.file_list[self.index])
 
             # TODO: workaround because the slider has no effect yet
@@ -1232,7 +1072,6 @@ class MyWindow(QMainWindow):
                 self.threshold_slider.setEnabled(False)
 
     def create_file_list(self, dirname: str, filename: str = None, extension: str =None) -> None:
-
         if extension:
             file_list = [y for x in os.walk(dirname) for y in glob(os.path.join(x[0], f'*.{extension}'))]
         else:
@@ -1248,12 +1087,9 @@ class MyWindow(QMainWindow):
         #                           f'{Path(file).name}\n' for file in self.file_list)
 
         if len(self.file_list) > 0:
-
             if filename is None:
                 filename = self.file_list[0]
-
             self.index = self.get_index(filename)
-
             if Path(self.file_list[self.index]).suffix == ".pickle":
                 self.show_pcdet_dict(self.file_list[self.index])
             else:
@@ -1261,9 +1097,7 @@ class MyWindow(QMainWindow):
 
 
     def reset_viewer(self) -> None:
-
         if self.file_name:
-
             if 'extraction' in self.file_name or self.extracted_fog:
                 self.threshold_slider.setEnabled(True)
             else:
@@ -1280,31 +1114,23 @@ class MyWindow(QMainWindow):
 
 
     def show_pcdet_dict(self, filename: str) -> None:
-
         self.reset_viewer()
         self.simulated_fog = False
         self.simulated_fog_dense = False
-
         if self.simulated_fog:
-
             self.toggle_simulated_fog_btn.setText('remove our fog simulation')
             self.alpha_slider.setEnabled(True)
             self.beta_slider.setEnabled(True)
             self.gamma_slider.setEnabled(True)
             self.noise_slider.setEnabled(True)
-
         else:
-
             self.toggle_simulated_fog_btn.setText('add our fog simulation')
             self.alpha_slider.setEnabled(False)
             self.beta_slider.setEnabled(False)
             self.gamma_slider.setEnabled(False)
             self.noise_slider.setEnabled(False)
-
         self.file_name = filename
-
         self.set_pc_det('before' in filename)
-
         self.cb.setEnabled(False)
         self.reset_btn.setEnabled(False)
         self.toggle_extracted_fog_btn.setEnabled(True)
@@ -1325,43 +1151,32 @@ class MyWindow(QMainWindow):
         ##########
 
         pc = pcdet_dict['points']
-
         self.log_string(pc)
-
         colors = self.get_colors(pc)
-
         mesh = gl.GLScatterPlotItem(pos=np.asarray(pc[:, 0:3]), size=self.point_size, color=colors)
         self.current_mesh = mesh
         self.current_pc = copy.deepcopy(pc)
         self.fogless_pc = copy.deepcopy(pc)
-
         self.viewer.addItem(mesh)
 
         #########
         # boxes #
         #########
-
         self.boxes = {}
-
         self.create_boxes(pcdet_dict['gt_boxes'])
 
 
     def create_boxes(self, annotations):
-
         # create annotation boxes
         for annotation in annotations:
-
             x, y, z, w, l, h, rotation, category = annotation
-
             rotation = np.rad2deg(rotation) + 90
-
             try:
                 color = COLORS[int(category) - 1]
             except IndexError:
                 color = (255, 255, 255, 255)
 
             box = gl.GLBoxItem(QtGui.QVector3D(1, 1, 1), color=color)
-
             box.setSize(l, w, h)
             box.translate(-l / 2, -w / 2, -h / 2)
             box.rotate(angle=rotation, x=0, y=0, z=1)
@@ -1372,12 +1187,10 @@ class MyWindow(QMainWindow):
             #################
             # heading lines #
             #################
-
             p1 = [-l / 2, -w / 2, -h / 2]
             p2 = [l / 2, -w / 2, h / 2]
 
             pts = np.array([p1, p2])
-
             l1 = gl.GLLinePlotItem(pos=pts, width=2 / 3, color=color, antialias=True, mode='lines')
             l1.rotate(angle=rotation, x=0, y=0, z=1)
             l1.translate(x, y, z)
@@ -1400,9 +1213,7 @@ class MyWindow(QMainWindow):
 
 
     def show_pointcloud(self, filename: str) -> None:
-
         self.reset_viewer()
-
         self.cb.setEnabled(False)
         self.reset_btn.setEnabled(False)
         self.next_btn.setEnabled(False)
@@ -1412,17 +1223,13 @@ class MyWindow(QMainWindow):
         self.toggle_simulated_fog_dense_btn.setEnabled(False)
 
         if self.file_name == filename and self.current_pc is not None:
-
             # reuse the current pointcloud if the filename stays the same
             pc = self.current_pc
-
         else:
-
             self.file_name = filename
             pc = self.load_pointcloud(filename)
 
         self.success = False
-
         min_dist_mask = np.linalg.norm(pc[:, 0:3], axis=1) > 1.75   # in m
         pc = pc[min_dist_mask, :]
 
@@ -1439,62 +1246,44 @@ class MyWindow(QMainWindow):
         self.current_mesh = mesh
 
         if self.success:
-
             self.viewer.addItem(mesh)
-
             self.reset_btn.setEnabled(True)
             self.next_btn.setEnabled(True)
             self.prev_btn.setEnabled(True)
-
             if 'extraction' not in filename:
-
                 self.toggle_extracted_fog_btn.setEnabled(True)
                 self.toggle_simulated_fog_btn.setEnabled(True)
                 self.toggle_simulated_fog_dense_btn.setEnabled(True)
 
         if self.extracted_fog and self.success and 'extraction' not in filename:
-
             self.toggle_simulated_fog_btn.setEnabled(False)
             self.toggle_simulated_fog_dense_btn.setEnabled(False)
-
             fog_points = self.load_fog_points()
             self.extracted_fog_pc = fog_points
-
             intensity_mask = fog_points[:, 3] <= self.threshold
-
             fog_points = fog_points[intensity_mask, :]
             fog_colors = self.get_colors(fog_points)
-
             fog = gl.GLScatterPlotItem(pos=np.asarray(fog_points[:, 0:3]), size=self.point_size, color=fog_colors)
             self.extracted_fog_mesh = fog
-
             self.viewer.addItem(fog)
 
         if self.simulated_fog and self.success and 'extraction' not in filename:
-
             self.toggle_extracted_fog_btn.setEnabled(False)
             self.toggle_simulated_fog_dense_btn.setEnabled(False)
-
             self.reset_viewer()
-
             pc, simulated_fog_pc, info_dict = simulate_fog(self.p, self.current_pc, self.noise, self.gain,
                                                            self.noise_variant)
-
             self.simulated_fog_pc = simulated_fog_pc
-
             self.min_fog_response = info_dict['min_fog_response']
             self.max_fog_response = info_dict['max_fog_response']
             self.num_fog_responses = info_dict['num_fog_responses']
-
             colors = self.get_colors(pc)
             mesh = gl.GLScatterPlotItem(pos=np.asarray(pc[:, 0:3]), size=self.point_size, color=colors)
             self.viewer.addItem(mesh)
 
         if self.simulated_fog_dense and self.success and 'extraction' not in filename:
-
             self.toggle_simulated_fog_btn.setEnabled(False)
             self.toggle_extracted_fog_btn.setEnabled(False)
-
             self.reset_viewer()
 
             B = BetaRadomization(beta=float(self.p.alpha), seed=0)
@@ -1784,27 +1573,20 @@ class MyWindow(QMainWindow):
 
 
     def load_from_pkl(self, filename: str) -> np.ndarray:
-
         if filename.endswith('gz'):
-
             with gzip.open(filename, 'rb') as f:
                 data = pkl.load(f)
-
         else:
-
             with open(filename, 'rb') as f:
                 data = pkl.load(f)
-
         if self.dataset == 'PandaSet':
             pc = data.drop(columns=['t']).values
         else:
             pc = data.values
-
         return pc
 
 
     def load_from_ply(self, filename: str) -> np.ndarray:
-
         with open(filename, 'rb') as f:
             plydata = PlyData.read(f)
 
@@ -1821,30 +1603,20 @@ class MyWindow(QMainWindow):
 
 
     def load_from_npz(self, filename: str) -> np.ndarray:
-
         npz = np.load(filename)
-
         pc_dict = {}
-
         for key in npz.keys():
-
             pc_dict[key] = npz[key]
-
         pc = None
-
         if self.dataset == 'A2D2':
-
             pc = np.column_stack((pc_dict['points'],
                                   pc_dict['reflectance'],
                                   pc_dict['lidar_id']))
-
         return pc
 
 
     def dragEnterEvent(self, e: QDragEnterEvent) -> None:
-
         logging.debug("enter")
-
         mimeData = e.mimeData()
         mimeList = mimeData.formats()
         filename = None
@@ -1865,15 +1637,12 @@ class MyWindow(QMainWindow):
             e.ignore()
             self.droppedFilename = None
 
-
     def dropEvent(self, e: QDropEvent) -> None:
-
         if self.droppedFilename:
             self.create_file_list(Path(self.droppedFilename).parent, self.droppedFilename)
 
 
 if __name__ == '__main__':
-
     logging.basicConfig(format='%(message)s', level=logging.INFO)
     logging.debug(pandas.__version__)
 

@@ -1,0 +1,73 @@
+[submodule "lift-splat-shoot"]
+    path = code/LSS
+    url = https://github.com/nv-tlabs/lift-splat-shoot
+[submodule "BEVDepth"]
+    path = code/BEVDepth
+    url = https://github.com/Megvii-BaseDetection/BEVDepth
+[submodule "BEVStereo"]
+    path = code/BEVStereo
+    url = https://github.com/Megvii-BaseDetection/BEVStereo
+[submodule "BEVerse"]
+    path = code/BEVerse
+    url = https://github.com/zhangyp15/BEVerse
+
+[submodule "BEVFormer"]
+    path = code/BEVFormer
+    url = https://github.com/fundamentalvision/BEVFormer
+[submodule "CUDA-BEVFusion/bevfusion"]
+    path = code/CUDA-BEVFusion
+    url = https://github.com/mit-han-lab/bevfusion
+[submodule "PETR"]
+    path = code/PETR
+    url = https://github.com/megvii-research/PETR
+
+[submodule "TPVFormer"]
+    path = code/tpvformer
+    url = https://github.com/wzzheng/tpvformer
+
+[submodule "OccFormer"]
+    path = code/OccFormer
+    url = https://github.com/zhangyp15/OccFormer
+[submodule "OccNeRF"]
+    path = code/OccNeRF
+    url = https://github.com/LinShan-Bin/OccNeRF
+[submodule "BEVDet"]
+    path = code/BEVDet
+    url = https://github.com/HuangJunJie2017/BEVDet
+[submodule "MonoScene"]
+    path = code/MonoScene
+    url = https://github.com/astra-vision/MonoScene
+[submodule "FB-BEV"]
+    path = code/FB-BEV
+    url = https://github.com/NVlabs/FB-BEV
+
+[submodule "SurroundOcc"]
+    path = code/SurroundOcc
+    url = https://github.com/weiyithu/SurroundOcc
+[submodule "Occ3D"]
+    path = code/Occ3D
+    url = https://github.com/Tsinghua-MARS-Lab/Occ3D
+[submodule "OpenScene"]
+    path = code/OpenScene
+    url = https://github.com/OpenDriveLab/OpenScene
+
+
+[submodule "Deformable-DETR"]
+    path = code/Deformable-DETR
+    url = https://github.com/fundamentalvision/Deformable-DETR
+[submodule "detr3d"]
+    path = code/detr3d
+    url = https://github.com/WangYueFt/detr3d
+[submodule "Swin-Transformer"]
+    path = code/Swin-Transformer
+    url = https://github.com/microsoft/Swin-Transformer
+[submodule "ViT"]
+    path = code/vit-pytorch
+    url = https://github.com/lucidrains/vit-pytorch
+[submodule "MAE"]
+    path = code/mae
+    url = https://github.com/facebookresearch/mae
+
+[submodule "OccFormer"]
+    path = code/OccFormer
+    url = https://github.com/zhangyp15/OccFormer

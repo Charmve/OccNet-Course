@@ -9,6 +9,8 @@
     drop = stash drop
     # find cp from release branch
     fcp = "!scripts/fcp.sh"
+    # format code
+    fmt = "!scripts/format.sh --git"
     # push code to ci, it will rebase lastest master and then push
     pci = !git fetch origin master && git rebase origin/master && git push
     la = log --oneline --decorate --graph --all

@@ -34,6 +34,6 @@
 
 - <h4>其他</h4>
   - 舱驾一体
-  - AI 编译器: MLIR、、XLA、Triton
+  - AI 编译器: MLIR、TVM、XLA、Triton
   - 模型剪枝、模型蒸馏、模型压缩、模型量化（PTQ、QAT）
 
