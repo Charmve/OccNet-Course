@@ -1,20 +1,24 @@
 # Copyright (c) OpenMMLab. All rights reserved.
 import copy
+import tempfile
+import warnings
+from os import path as osp
+
 import mmcv
 import numpy as np
 import pyquaternion
-import tempfile
 import torch
-import warnings
-from nuscenes.utils.data_classes import Box as NuScenesBox
-from os import path as osp
-
-from mmdet3d.core import bbox3d2result, box3d_multiclass_nms, xywhr2xyxyr
-from mmdet.datasets import DATASETS, CocoDataset
-from mmdet3d.core import show_multi_modality_result
+from mmdet3d.core import (
+    bbox3d2result,
+    box3d_multiclass_nms,
+    show_multi_modality_result,
+    xywhr2xyxyr,
+)
 from mmdet3d.core.bbox import CameraInstance3DBoxes, get_box_type
 from mmdet3d.datasets.pipelines import Compose
 from mmdet3d.datasets.utils import extract_result_dict, get_loading_pipeline
+from mmdet.datasets import DATASETS, CocoDataset
+from nuscenes.utils.data_classes import Box as NuScenesBox
 
 
 @DATASETS.register_module()
@@ -45,41 +49,52 @@ class CustomNuScenesMonoDataset(CocoDataset):
             file as mask to filter gt_boxes and gt_names. Defaults to False.
         version (str, optional): Dataset version. Defaults to 'v1.0-trainval'.
     """
-    CLASSES = ('car', 'truck', 'trailer', 'bus', 'construction_vehicle',
-               'bicycle', 'motorcycle', 'pedestrian', 'traffic_cone',
-               'barrier')
+    CLASSES = (
+        "car",
+        "truck",
+        "trailer",
+        "bus",
+        "construction_vehicle",
+        "bicycle",
+        "motorcycle",
+        "pedestrian",
+        "traffic_cone",
+        "barrier",
+    )
     DefaultAttribute = {
-        'car': 'vehicle.parked',
-        'pedestrian': 'pedestrian.moving',
-        'trailer': 'vehicle.parked',
-        'truck': 'vehicle.parked',
-        'bus': 'vehicle.moving',
-        'motorcycle': 'cycle.without_rider',
-        'construction_vehicle': 'vehicle.parked',
-        'bicycle': 'cycle.without_rider',
-        'barrier': '',
-        'traffic_cone': '',
+        "car": "vehicle.parked",
+        "pedestrian": "pedestrian.moving",
+        "trailer": "vehicle.parked",
+        "truck": "vehicle.parked",
+        "bus": "vehicle.moving",
+        "motorcycle": "cycle.without_rider",
+        "construction_vehicle": "vehicle.parked",
+        "bicycle": "cycle.without_rider",
+        "barrier": "",
+        "traffic_cone": "",
     }
     # https://github.com/nutonomy/nuscenes-devkit/blob/57889ff20678577025326cfc24e57424a829be0a/python-sdk/nuscenes/eval/detection/evaluate.py#L222 # noqa
     ErrNameMapping = {
-        'trans_err': 'mATE',
-        'scale_err': 'mASE',
-        'orient_err': 'mAOE',
-        'vel_err': 'mAVE',
-        'attr_err': 'mAAE'
+        "trans_err": "mATE",
+        "scale_err": "mASE",
+        "orient_err": "mAOE",
+        "vel_err": "mAVE",
+        "attr_err": "mAAE",
     }
 
-    def __init__(self,
-                 data_root,
-                 load_interval=1,
-                 with_velocity=True,
-                 modality=None,
-                 box_type_3d='Camera',
-                 eval_version='detection_cvpr_2019',
-                 use_valid_flag=False,
-                 overlap_test=False,
-                 version='v1.0-trainval',
-                 **kwargs):
+    def __init__(
+        self,
+        data_root,
+        load_interval=1,
+        with_velocity=True,
+        modality=None,
+        box_type_3d="Camera",
+        eval_version="detection_cvpr_2019",
+        use_valid_flag=False,
+        overlap_test=False,
+        version="v1.0-trainval",
+        **kwargs,
+    ):
         super().__init__(**kwargs)
         # overlap_test = True
         self.data_root = data_root
@@ -94,6 +109,7 @@ class CustomNuScenesMonoDataset(CocoDataset):
         self.version = version
         if self.eval_version is not None:
             from nuscenes.eval.detection.config import config_factory
+
             self.eval_detection_configs = config_factory(self.eval_version)
         if self.modality is None:
             self.modality = dict(
@@ -101,7 +117,8 @@ class CustomNuScenesMonoDataset(CocoDataset):
                 use_lidar=False,
                 use_radar=False,
                 use_map=False,
-                use_external=False)
+                use_external=False,
+            )
 
     def pre_pipeline(self, results):
         """Initialization before data preparation.
@@ -117,19 +134,19 @@ class CustomNuScenesMonoDataset(CocoDataset):
                 - box_type_3d (str): 3D box type.
                 - box_mode_3d (str): 3D box mode.
         """
-        results['img_prefix'] = ''  # self.img_prefix
+        results["img_prefix"] = ""  # self.img_prefix
         # print('img_prefix', self.img_prefix)
-        results['seg_prefix'] = self.seg_prefix
-        results['proposal_file'] = self.proposal_file
-        results['img_fields'] = []
-        results['bbox3d_fields'] = []
-        results['pts_mask_fields'] = []
-        results['pts_seg_fields'] = []
-        results['bbox_fields'] = []
-        results['mask_fields'] = []
-        results['seg_fields'] = []
-        results['box_type_3d'] = self.box_type_3d
-        results['box_mode_3d'] = self.box_mode_3d
+        results["seg_prefix"] = self.seg_prefix
+        results["proposal_file"] = self.proposal_file
+        results["img_fields"] = []
+        results["bbox3d_fields"] = []
+        results["pts_mask_fields"] = []
+        results["pts_seg_fields"] = []
+        results["bbox_fields"] = []
+        results["mask_fields"] = []
+        results["seg_fields"] = []
+        results["box_type_3d"] = self.box_type_3d
+        results["box_mode_3d"] = self.box_mode_3d
 
     def _parse_ann_info(self, img_info, ann_info):
         """Parse bbox annotation.
@@ -150,35 +167,35 @@ class CustomNuScenesMonoDataset(CocoDataset):
         centers2d = []
         depths = []
         for i, ann in enumerate(ann_info):
-            if ann.get('ignore', False):
+            if ann.get("ignore", False):
                 continue
-            x1, y1, w, h = ann['bbox']
-            inter_w = max(0, min(x1 + w, img_info['width']) - max(x1, 0))
-            inter_h = max(0, min(y1 + h, img_info['height']) - max(y1, 0))
+            x1, y1, w, h = ann["bbox"]
+            inter_w = max(0, min(x1 + w, img_info["width"]) - max(x1, 0))
+            inter_h = max(0, min(y1 + h, img_info["height"]) - max(y1, 0))
             if inter_w * inter_h == 0:
                 continue
-            if ann['area'] <= 0 or w < 1 or h < 1:
+            if ann["area"] <= 0 or w < 1 or h < 1:
                 continue
-            if ann['category_id'] not in self.cat_ids:
+            if ann["category_id"] not in self.cat_ids:
                 continue
             bbox = [x1, y1, x1 + w, y1 + h]
-            if ann.get('iscrowd', False):
+            if ann.get("iscrowd", False):
                 gt_bboxes_ignore.append(bbox)
             else:
                 gt_bboxes.append(bbox)
-                gt_labels.append(self.cat2label[ann['category_id']])
-                attr_labels.append(ann['attribute_id'])
-                gt_masks_ann.append(ann.get('segmentation', None))
+                gt_labels.append(self.cat2label[ann["category_id"]])
+                attr_labels.append(ann["attribute_id"])
+                gt_masks_ann.append(ann.get("segmentation", None))
                 # 3D annotations in camera coordinates
-                bbox_cam3d = np.array(ann['bbox_cam3d']).reshape(1, -1)
-                velo_cam3d = np.array(ann['velo_cam3d']).reshape(1, 2)
+                bbox_cam3d = np.array(ann["bbox_cam3d"]).reshape(1, -1)
+                velo_cam3d = np.array(ann["velo_cam3d"]).reshape(1, 2)
                 nan_mask = np.isnan(velo_cam3d[:, 0])
                 velo_cam3d[nan_mask] = [0.0, 0.0]
                 bbox_cam3d = np.concatenate([bbox_cam3d, velo_cam3d], axis=-1)
                 gt_bboxes_cam3d.append(bbox_cam3d.squeeze())
                 # 2.5D annotations in camera coordinates
-                center2d = ann['center2d'][:2]
-                depth = ann['center2d'][2]
+                center2d = ann["center2d"][:2]
+                depth = ann["center2d"][2]
                 centers2d.append(center2d)
                 depths.append(depth)
 
@@ -196,15 +213,17 @@ class CustomNuScenesMonoDataset(CocoDataset):
             centers2d = np.array(centers2d, dtype=np.float32)
             depths = np.array(depths, dtype=np.float32)
         else:
-            gt_bboxes_cam3d = np.zeros((0, self.bbox_code_size),
-                                       dtype=np.float32)
+            gt_bboxes_cam3d = np.zeros(
+                (0, self.bbox_code_size), dtype=np.float32
+            )  # noqa:E501
             centers2d = np.zeros((0, 2), dtype=np.float32)
             depths = np.zeros((0), dtype=np.float32)
 
         gt_bboxes_cam3d = CameraInstance3DBoxes(
             gt_bboxes_cam3d,
             box_dim=gt_bboxes_cam3d.shape[-1],
-            origin=(0.5, 0.5, 0.5))
+            origin=(0.5, 0.5, 0.5),  # noqa:E501
+        )
         gt_labels_3d = copy.deepcopy(gt_labels)
 
         if gt_bboxes_ignore:
@@ -212,7 +231,7 @@ class CustomNuScenesMonoDataset(CocoDataset):
         else:
             gt_bboxes_ignore = np.zeros((0, 4), dtype=np.float32)
 
-        seg_map = img_info['filename'].replace('jpg', 'png')
+        seg_map = img_info["filename"].replace("jpg", "png")
 
         ann = dict(
             bboxes=gt_bboxes,
@@ -224,7 +243,8 @@ class CustomNuScenesMonoDataset(CocoDataset):
             depths=depths,
             bboxes_ignore=gt_bboxes_ignore,
             masks=gt_masks_ann,
-            seg_map=seg_map)
+            seg_map=seg_map,
+        )
 
         return ann
 
@@ -242,30 +262,46 @@ class CustomNuScenesMonoDataset(CocoDataset):
         """
         # TODO: Simplify the variable name
         AttrMapping_rev2 = [
-            'cycle.with_rider', 'cycle.without_rider', 'pedestrian.moving',
-            'pedestrian.standing', 'pedestrian.sitting_lying_down',
-            'vehicle.moving', 'vehicle.parked', 'vehicle.stopped', 'None'
+            "cycle.with_rider",
+            "cycle.without_rider",
+            "pedestrian.moving",
+            "pedestrian.standing",
+            "pedestrian.sitting_lying_down",
+            "vehicle.moving",
+            "vehicle.parked",
+            "vehicle.stopped",
+            "None",
         ]
-        if label_name == 'car' or label_name == 'bus' \
-            or label_name == 'truck' or label_name == 'trailer' \
-                or label_name == 'construction_vehicle':
-            if AttrMapping_rev2[attr_idx] == 'vehicle.moving' or \
-                AttrMapping_rev2[attr_idx] == 'vehicle.parked' or \
-                    AttrMapping_rev2[attr_idx] == 'vehicle.stopped':
+        if (
+            label_name == "car"
+            or label_name == "bus"
+            or label_name == "truck"
+            or label_name == "trailer"
+            or label_name == "construction_vehicle"
+        ):
+            if (
+                AttrMapping_rev2[attr_idx] == "vehicle.moving"
+                or AttrMapping_rev2[attr_idx] == "vehicle.parked"
+                or AttrMapping_rev2[attr_idx] == "vehicle.stopped"
+            ):
                 return AttrMapping_rev2[attr_idx]
             else:
                 return CustomNuScenesMonoDataset.DefaultAttribute[label_name]
-        elif label_name == 'pedestrian':
-            if AttrMapping_rev2[attr_idx] == 'pedestrian.moving' or \
-                AttrMapping_rev2[attr_idx] == 'pedestrian.standing' or \
-                    AttrMapping_rev2[attr_idx] == \
-                    'pedestrian.sitting_lying_down':
+        elif label_name == "pedestrian":
+            if (
+                AttrMapping_rev2[attr_idx] == "pedestrian.moving"
+                or AttrMapping_rev2[attr_idx] == "pedestrian.standing"
+                or AttrMapping_rev2[attr_idx]
+                == "pedestrian.sitting_lying_down"  # noqa:E501
+            ):
                 return AttrMapping_rev2[attr_idx]
             else:
                 return CustomNuScenesMonoDataset.DefaultAttribute[label_name]
-        elif label_name == 'bicycle' or label_name == 'motorcycle':
-            if AttrMapping_rev2[attr_idx] == 'cycle.with_rider' or \
-                    AttrMapping_rev2[attr_idx] == 'cycle.without_rider':
+        elif label_name == "bicycle" or label_name == "motorcycle":
+            if (
+                AttrMapping_rev2[attr_idx] == "cycle.with_rider"
+                or AttrMapping_rev2[attr_idx] == "cycle.without_rider"
+            ):
                 return AttrMapping_rev2[attr_idx]
             else:
                 return CustomNuScenesMonoDataset.DefaultAttribute[label_name]
@@ -285,7 +321,7 @@ class CustomNuScenesMonoDataset(CocoDataset):
         nusc_annos = {}
         mapped_class_names = self.CLASSES
 
-        print('Start to convert detection format...')
+        print("Start to convert detection format...")
 
         CAM_NUM = 6
 
@@ -298,12 +334,15 @@ class CustomNuScenesMonoDataset(CocoDataset):
             # need to merge results from images of the same sample
             annos = []
             boxes, attrs = output_to_nusc_box(det)
-            sample_token = self.data_infos[sample_id]['token']
-            boxes, attrs = cam_nusc_box_to_global(self.data_infos[sample_id],
-                                                  boxes, attrs,
-                                                  mapped_class_names,
-                                                  self.eval_detection_configs,
-                                                  self.eval_version)
+            sample_token = self.data_infos[sample_id]["token"]
+            boxes, attrs = cam_nusc_box_to_global(
+                self.data_infos[sample_id],
+                boxes,
+                attrs,
+                mapped_class_names,
+                self.eval_detection_configs,
+                self.eval_version,
+            )
 
             boxes_per_frame.extend(boxes)
             attrs_per_frame.extend(attrs)
@@ -311,9 +350,12 @@ class CustomNuScenesMonoDataset(CocoDataset):
             if (sample_id + 1) % CAM_NUM != 0:
                 continue
             boxes = global_nusc_box_to_cam(
-                self.data_infos[sample_id + 1 - CAM_NUM], boxes_per_frame,
-                mapped_class_names, self.eval_detection_configs,
-                self.eval_version)
+                self.data_infos[sample_id + 1 - CAM_NUM],
+                boxes_per_frame,
+                mapped_class_names,
+                self.eval_detection_configs,
+                self.eval_version,
+            )
             cam_boxes3d, scores, labels = nusc_box_to_cam_box3d(boxes)
             # box nms 3d over 6 images in a frame
             # TODO: move this global setting into config
@@ -324,8 +366,10 @@ class CustomNuScenesMonoDataset(CocoDataset):
                 nms_thr=0.05,
                 score_thr=0.01,
                 min_bbox_size=0,
-                max_per_frame=500)
+                max_per_frame=500,
+            )
             from mmcv import Config
+
             nms_cfg = Config(nms_cfg)
             cam_boxes3d_for_nms = xywhr2xyxyr(cam_boxes3d.bev)
             boxes3d = cam_boxes3d.tensor
@@ -338,14 +382,19 @@ class CustomNuScenesMonoDataset(CocoDataset):
                 nms_cfg.score_thr,
                 nms_cfg.max_per_frame,
                 nms_cfg,
-                mlvl_attr_scores=attrs)
+                mlvl_attr_scores=attrs,
+            )
             cam_boxes3d = CameraInstance3DBoxes(boxes3d, box_dim=9)
             det = bbox3d2result(cam_boxes3d, scores, labels, attrs)
             boxes, attrs = output_to_nusc_box(det)
             boxes, attrs = cam_nusc_box_to_global(
-                self.data_infos[sample_id + 1 - CAM_NUM], boxes, attrs,
-                mapped_class_names, self.eval_detection_configs,
-                self.eval_version)
+                self.data_infos[sample_id + 1 - CAM_NUM],
+                boxes,
+                attrs,
+                mapped_class_names,
+                self.eval_detection_configs,
+                self.eval_version,
+            )
 
             for i, box in enumerate(boxes):
                 name = mapped_class_names[box.label]
@@ -358,7 +407,8 @@ class CustomNuScenesMonoDataset(CocoDataset):
                     velocity=box.velocity[:2].tolist(),
                     detection_name=name,
                     detection_score=box.score,
-                    attribute_name=attr)
+                    attribute_name=attr,
+                )
                 annos.append(nusc_anno)
             # other views results of the same frame should be concatenated
             if sample_token in nusc_annos:
@@ -367,21 +417,19 @@ class CustomNuScenesMonoDataset(CocoDataset):
                 nusc_annos[sample_token] = annos
 
         nusc_submissions = {
-            'meta': self.modality,
-            'results': nusc_annos,
+            "meta": self.modality,
+            "results": nusc_annos,
         }
 
         mmcv.mkdir_or_exist(jsonfile_prefix)
-        res_path = osp.join(jsonfile_prefix, 'results_nusc.json')
-        print('Results writes to', res_path)
+        res_path = osp.join(jsonfile_prefix, "results_nusc.json")
+        print("Results writes to", res_path)
         mmcv.dump(nusc_submissions, res_path)
         return res_path
 
-    def _evaluate_single(self,
-                         result_path,
-                         logger=None,
-                         metric='bbox',
-                         result_name='img_bbox'):
+    def _evaluate_single(
+        self, result_path, logger=None, metric="bbox", result_name="img_bbox"
+    ):
         """Evaluation for a single model in nuScenes protocol.
         Args:
             result_path (str): Path of the result file.
@@ -394,14 +442,17 @@ class CustomNuScenesMonoDataset(CocoDataset):
             dict: Dictionary of evaluation details.
         """
         from nuscenes import NuScenes
-        #from nuscenes.eval.detection.evaluate import NuScenesEval
+
+        # from nuscenes.eval.detection.evaluate import NuScenesEval
         from .nuscnes_eval import NuScenesEval_custom
+
         output_dir = osp.join(*osp.split(result_path)[:-1])
         self.nusc = NuScenes(
-            version=self.version, dataroot=self.data_root, verbose=False)
+            version=self.version, dataroot=self.data_root, verbose=False
+        )
         eval_set_map = {
-            'v1.0-mini': 'mini_val',
-            'v1.0-trainval': 'val',
+            "v1.0-mini": "mini_val",
+            "v1.0-trainval": "val",
         }
         # nusc_eval = NuScenesEval(
         #     nusc,
@@ -418,29 +469,30 @@ class CustomNuScenesMonoDataset(CocoDataset):
             output_dir=output_dir,
             verbose=True,
             overlap_test=self.overlap_test,
-            data_infos=self.data_infos
-            )
+            data_infos=self.data_infos,
+        )
 
         self.nusc_eval.main(render_curves=True)
 
         # record metrics
-        metrics = mmcv.load(osp.join(output_dir, 'metrics_summary.json'))
+        metrics = mmcv.load(osp.join(output_dir, "metrics_summary.json"))
         detail = dict()
-        metric_prefix = f'{result_name}_NuScenes'
+        metric_prefix = f"{result_name}_NuScenes"
         for name in self.CLASSES:
-            for k, v in metrics['label_aps'][name].items():
-                val = float('{:.4f}'.format(v))
-                detail['{}/{}_AP_dist_{}'.format(metric_prefix, name, k)] = val
-            for k, v in metrics['label_tp_errors'][name].items():
-                val = float('{:.4f}'.format(v))
-                detail['{}/{}_{}'.format(metric_prefix, name, k)] = val
-            for k, v in metrics['tp_errors'].items():
-                val = float('{:.4f}'.format(v))
-                detail['{}/{}'.format(metric_prefix,
-                                      self.ErrNameMapping[k])] = val
+            for k, v in metrics["label_aps"][name].items():
+                val = float("{:.4f}".format(v))
+                detail["{}/{}_AP_dist_{}".format(metric_prefix, name, k)] = val
+            for k, v in metrics["label_tp_errors"][name].items():
+                val = float("{:.4f}".format(v))
+                detail["{}/{}_{}".format(metric_prefix, name, k)] = val
+            for k, v in metrics["tp_errors"].items():
+                val = float("{:.4f}".format(v))
+                detail[
+                    "{}/{}".format(metric_prefix, self.ErrNameMapping[k])
+                ] = val  # noqa:E501
 
-        detail['{}/NDS'.format(metric_prefix)] = metrics['nd_score']
-        detail['{}/mAP'.format(metric_prefix)] = metrics['mean_ap']
+        detail["{}/NDS".format(metric_prefix)] = metrics["nd_score"]
+        detail["{}/mAP".format(metric_prefix)] = metrics["mean_ap"]
         return detail
 
     def format_results(self, results, jsonfile_prefix=None, **kwargs):
@@ -456,14 +508,16 @@ class CustomNuScenesMonoDataset(CocoDataset):
                 the json filepaths, tmp_dir is the temporal directory created \
                 for saving json files when jsonfile_prefix is not specified.
         """
-        assert isinstance(results, list), 'results must be a list'
-        assert len(results) == len(self), (
-            'The length of results is not equal to the dataset len: {} != {}'.
-            format(len(results), len(self)))
+        assert isinstance(results, list), "results must be a list"
+        assert len(results) == len(
+            self
+        ), "The length of results is not equal to the dataset len: {} != {}".format(  # noqa:E501
+            len(results), len(self)
+        )
 
         if jsonfile_prefix is None:
             tmp_dir = tempfile.TemporaryDirectory()
-            jsonfile_prefix = osp.join(tmp_dir.name, 'results')
+            jsonfile_prefix = osp.join(tmp_dir.name, "results")
         else:
             tmp_dir = None
 
@@ -473,32 +527,35 @@ class CustomNuScenesMonoDataset(CocoDataset):
         #     dict('boxes_3d': ..., 'scores_3d': ..., 'labels_3d': ...))
         # this is a workaround to enable evaluation of both formats on nuScenes
         # refer to https://github.com/open-mmlab/mmdetection3d/issues/449
-        if not ('pts_bbox' in results[0] or 'img_bbox' in results[0]):
+        if not ("pts_bbox" in results[0] or "img_bbox" in results[0]):
             result_files = self._format_bbox(results, jsonfile_prefix)
         else:
             # should take the inner dict out of 'pts_bbox' or 'img_bbox' dict
             result_files = dict()
             for name in results[0]:
                 # not evaluate 2D predictions on nuScenes
-                if '2d' in name:
+                if "2d" in name:
                     continue
-                print(f'\nFormating bboxes of {name}')
+                print(f"\nFormating bboxes of {name}")
                 results_ = [out[name] for out in results]
                 tmp_file_ = osp.join(jsonfile_prefix, name)
                 result_files.update(
-                    {name: self._format_bbox(results_, tmp_file_)})
+                    {name: self._format_bbox(results_, tmp_file_)}
+                )  # noqa:E501
 
         return result_files, tmp_dir
 
-    def evaluate(self,
-                 results,
-                 metric='bbox',
-                 logger=None,
-                 jsonfile_prefix=None,
-                 result_names=['img_bbox'],
-                 show=False,
-                 out_dir=None,
-                 pipeline=None):
+    def evaluate(
+        self,
+        results,
+        metric="bbox",
+        logger=None,
+        jsonfile_prefix=None,
+        result_names=["img_bbox"],
+        show=False,
+        out_dir=None,
+        pipeline=None,
+    ):
         """Evaluation in nuScenes protocol.
         Args:
             results (list[dict]): Testing results of the dataset.
@@ -523,7 +580,7 @@ class CustomNuScenesMonoDataset(CocoDataset):
         if isinstance(result_files, dict):
             results_dict = dict()
             for name in result_names:
-                print('Evaluating bboxes of {}'.format(name))
+                print("Evaluating bboxes of {}".format(name))
                 ret_dict = self._evaluate_single(result_files[name])
             results_dict.update(ret_dict)
         elif isinstance(result_files, str):
@@ -548,7 +605,7 @@ class CustomNuScenesMonoDataset(CocoDataset):
             np.ndarray | torch.Tensor | list[np.ndarray | torch.Tensor]:
                 A single or a list of loaded data.
         """
-        assert pipeline is not None, 'data loading pipeline is not provided'
+        assert pipeline is not None, "data loading pipeline is not provided"
         img_info = self.data_infos[index]
         input_dict = dict(img_info=img_info)
 
@@ -574,10 +631,11 @@ class CustomNuScenesMonoDataset(CocoDataset):
                 get from self.pipeline.
         """
         if pipeline is None:
-            if not hasattr(self, 'pipeline') or self.pipeline is None:
+            if not hasattr(self, "pipeline") or self.pipeline is None:
                 warnings.warn(
-                    'Use default pipeline for data loading, this may cause '
-                    'errors when data is on ceph')
+                    "Use default pipeline for data loading, this may cause "
+                    "errors when data is on ceph"
+                )
                 return self._build_default_pipeline()
             loading_pipeline = get_loading_pipeline(self.pipeline.transforms)
             return Compose(loading_pipeline)
@@ -586,12 +644,13 @@ class CustomNuScenesMonoDataset(CocoDataset):
     def _build_default_pipeline(self):
         """Build the default pipeline for this dataset."""
         pipeline = [
-            dict(type='LoadImageFromFileMono3D'),
+            dict(type="LoadImageFromFileMono3D"),
             dict(
-                type='DefaultFormatBundle3D',
+                type="DefaultFormatBundle3D",
                 class_names=self.CLASSES,
-                with_label=False),
-            dict(type='Collect3D', keys=['img'])
+                with_label=False,  # noqa:E501
+            ),
+            dict(type="Collect3D", keys=["img"]),
         ]
         return Compose(pipeline)
 
@@ -604,29 +663,31 @@ class CustomNuScenesMonoDataset(CocoDataset):
             pipeline (list[dict], optional): raw data loading for showing.
                 Default: None.
         """
-        assert out_dir is not None, 'Expect out_dir, got none.'
+        assert out_dir is not None, "Expect out_dir, got none."
         pipeline = self._get_pipeline(pipeline)
         for i, result in enumerate(results):
-            if 'img_bbox' in result.keys():
-                result = result['img_bbox']
+            if "img_bbox" in result.keys():
+                result = result["img_bbox"]
             data_info = self.data_infos[i]
-            img_path = data_info['file_name']
-            file_name = osp.split(img_path)[-1].split('.')[0]
-            img, img_metas = self._extract_data(i, pipeline,
-                                                ['img', 'img_metas'])
+            img_path = data_info["file_name"]
+            file_name = osp.split(img_path)[-1].split(".")[0]
+            img, img_metas = self._extract_data(
+                i, pipeline, ["img", "img_metas"]
+            )  # noqa:E501
             # need to transpose channel to first dim
             img = img.numpy().transpose(1, 2, 0)
-            gt_bboxes = self.get_ann_info(i)['gt_bboxes_3d']
-            pred_bboxes = result['boxes_3d']
+            gt_bboxes = self.get_ann_info(i)["gt_bboxes_3d"]
+            pred_bboxes = result["boxes_3d"]
             show_multi_modality_result(
                 img,
                 gt_bboxes,
                 pred_bboxes,
-                img_metas['cam2img'],
+                img_metas["cam2img"],
                 out_dir,
                 file_name,
-                box_mode='camera',
-                show=show)
+                box_mode="camera",
+                show=show,
+            )
 
 
 def output_to_nusc_box(detection):
@@ -640,12 +701,12 @@ def output_to_nusc_box(detection):
     Returns:
         list[:obj:`NuScenesBox`]: List of standard NuScenesBoxes.
     """
-    box3d = detection['boxes_3d']
-    scores = detection['scores_3d'].numpy()
-    labels = detection['labels_3d'].numpy()
+    box3d = detection["boxes_3d"]
+    scores = detection["scores_3d"].numpy()
+    labels = detection["labels_3d"].numpy()
     attrs = None
-    if 'attrs_3d' in detection:
-        attrs = detection['attrs_3d'].numpy()
+    if "attrs_3d" in detection:
+        attrs = detection["attrs_3d"].numpy()
 
     box_gravity_center = box3d.gravity_center.numpy()
     box_dims = box3d.dims.numpy()
@@ -667,17 +728,20 @@ def output_to_nusc_box(detection):
             quat,
             label=labels[i],
             score=scores[i],
-            velocity=velocity)
+            velocity=velocity,
+        )
         box_list.append(box)
     return box_list, attrs
 
 
-def cam_nusc_box_to_global(info,
-                           boxes,
-                           attrs,
-                           classes,
-                           eval_configs,
-                           eval_version='detection_cvpr_2019'):
+def cam_nusc_box_to_global(
+    info,
+    boxes,
+    attrs,
+    classes,
+    eval_configs,
+    eval_version="detection_cvpr_2019",  # noqa:E501
+):
     """Convert the box from camera to global coordinate.
     Args:
         info (dict): Info for a specific sample data, including the
@@ -695,8 +759,8 @@ def cam_nusc_box_to_global(info,
     attr_list = []
     for (box, attr) in zip(boxes, attrs):
         # Move box to ego vehicle coord system
-        box.rotate(pyquaternion.Quaternion(info['cam2ego_rotation']))
-        box.translate(np.array(info['cam2ego_translation']))
+        box.rotate(pyquaternion.Quaternion(info["cam2ego_rotation"]))
+        box.translate(np.array(info["cam2ego_translation"]))
         # filter det in ego.
         cls_range_map = eval_configs.class_range
         radius = np.linalg.norm(box.center[:2], 2)
@@ -704,18 +768,16 @@ def cam_nusc_box_to_global(info,
         if radius > det_range:
             continue
         # Move box to global coord system
-        box.rotate(pyquaternion.Quaternion(info['ego2global_rotation']))
-        box.translate(np.array(info['ego2global_translation']))
+        box.rotate(pyquaternion.Quaternion(info["ego2global_rotation"]))
+        box.translate(np.array(info["ego2global_translation"]))
         box_list.append(box)
         attr_list.append(attr)
     return box_list, attr_list
 
 
-def global_nusc_box_to_cam(info,
-                           boxes,
-                           classes,
-                           eval_configs,
-                           eval_version='detection_cvpr_2019'):
+def global_nusc_box_to_cam(
+    info, boxes, classes, eval_configs, eval_version="detection_cvpr_2019"
+):
     """Convert the box from global to camera coordinate.
     Args:
         info (dict): Info for a specific sample data, including the
@@ -732,9 +794,10 @@ def global_nusc_box_to_cam(info,
     box_list = []
     for box in boxes:
         # Move box to ego vehicle coord system
-        box.translate(-np.array(info['ego2global_translation']))
+        box.translate(-np.array(info["ego2global_translation"]))
         box.rotate(
-            pyquaternion.Quaternion(info['ego2global_rotation']).inverse)
+            pyquaternion.Quaternion(info["ego2global_rotation"]).inverse
+        )  # noqa:E501
         # filter det in ego.
         cls_range_map = eval_configs.class_range
         radius = np.linalg.norm(box.center[:2], 2)
@@ -742,8 +805,8 @@ def global_nusc_box_to_cam(info,
         if radius > det_range:
             continue
         # Move box to camera coord system
-        box.translate(-np.array(info['cam2ego_translation']))
-        box.rotate(pyquaternion.Quaternion(info['cam2ego_rotation']).inverse)
+        box.translate(-np.array(info["cam2ego_translation"]))
+        box.rotate(pyquaternion.Quaternion(info["cam2ego_rotation"]).inverse)
         box_list.append(box)
     return box_list
 
@@ -758,8 +821,9 @@ def nusc_box_to_cam_box3d(boxes):
     """
     locs = torch.Tensor([b.center for b in boxes]).view(-1, 3)
     dims = torch.Tensor([b.wlh for b in boxes]).view(-1, 3)
-    rots = torch.Tensor([b.orientation.yaw_pitch_roll[0]
-                         for b in boxes]).view(-1, 1)
+    rots = torch.Tensor([b.orientation.yaw_pitch_roll[0] for b in boxes]).view(
+        -1, 1
+    )  # noqa:E501
     velocity = torch.Tensor([b.velocity[:2] for b in boxes]).view(-1, 2)
 
     # convert nusbox to cambox convention
@@ -768,7 +832,8 @@ def nusc_box_to_cam_box3d(boxes):
 
     boxes_3d = torch.cat([locs, dims, rots, velocity], dim=1).cuda()
     cam_boxes3d = CameraInstance3DBoxes(
-        boxes_3d, box_dim=9, origin=(0.5, 0.5, 0.5))
+        boxes_3d, box_dim=9, origin=(0.5, 0.5, 0.5)
+    )  # noqa:E501
     scores = torch.Tensor([b.score for b in boxes]).cuda()
     labels = torch.LongTensor([b.label for b in boxes]).cuda()
     nms_scores = scores.new_zeros(scores.shape[0], 10 + 1)

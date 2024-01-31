@@ -2,43 +2,34 @@
 # Copyright (c) OpenMMLab. All rights reserved.
 # ---------------------------------------------
 
-from tkinter.messagebox import NO
-import torch
-from mmcv.runner import force_fp32, auto_fp16
+from mmcv.runner import auto_fp16
 from mmdet.models import DETECTORS
-from mmdet3d.core import bbox3d2result
-from mmdet3d.models.detectors.mvx_two_stage import MVXTwoStageDetector
-from projects.mmdet3d_plugin.models.utils.grid_mask import GridMask
 from projects.mmdet3d_plugin.bevformer.detectors.bevformer import BEVFormer
-import time
-import copy
-import numpy as np
-import mmdet3d
-from projects.mmdet3d_plugin.models.utils.bricks import run_time
 
 
 @DETECTORS.register_module()
 class BEVFormer_fp16(BEVFormer):
     """
-    The default version BEVFormer currently can not support FP16. 
+    The default version BEVFormer currently can not support FP16.
     We provide this version to resolve this issue.
     """
-    
-    @auto_fp16(apply_to=('img', 'prev_bev', 'points'))
-    def forward_train(self,
-                      points=None,
-                      img_metas=None,
-                      gt_bboxes_3d=None,
-                      gt_labels_3d=None,
-                      gt_labels=None,
-                      gt_bboxes=None,
-                      img=None,
-                      proposals=None,
-                      gt_bboxes_ignore=None,
-                      img_depth=None,
-                      img_mask=None,
-                      prev_bev=None,
-                      ):
+
+    @auto_fp16(apply_to=("img", "prev_bev", "points"))
+    def forward_train(
+        self,
+        points=None,
+        img_metas=None,
+        gt_bboxes_3d=None,
+        gt_labels_3d=None,
+        gt_labels=None,
+        gt_bboxes=None,
+        img=None,
+        proposals=None,
+        gt_bboxes_ignore=None,
+        img_depth=None,
+        img_mask=None,
+        prev_bev=None,
+    ):
         """Forward training function.
         Args:
             points (list[torch.Tensor], optional): Points of each sample.
@@ -62,7 +53,7 @@ class BEVFormer_fp16(BEVFormer):
         Returns:
             dict: Losses of different branches.
         """
-        
+
         feats = self.extract_feat(img=img, img_metas=img_metas, points=points)
         if points is not None:
             img_feats, pts_feats = feats
@@ -71,13 +62,17 @@ class BEVFormer_fp16(BEVFormer):
             pts_feats = None
 
         losses = dict()
-        losses_pts = self.forward_pts_train(img_feats, pts_feats,
-                                            gt_bboxes_3d,
-                                            gt_labels_3d, img_metas,
-                                            gt_bboxes_ignore, prev_bev=prev_bev)
+        losses_pts = self.forward_pts_train(
+            img_feats,
+            pts_feats,
+            gt_bboxes_3d,
+            gt_labels_3d,
+            img_metas,
+            gt_bboxes_ignore,
+            prev_bev=prev_bev,
+        )
         losses.update(losses_pts)
         return losses
-
 
     def val_step(self, data, optimizer):
         """
@@ -85,9 +80,11 @@ class BEVFormer_fp16(BEVFormer):
         This is not the standard function of `val_step`.
         """
 
-        img = data['img']
-        img_metas = data['img_metas']
-        img_feats = self.extract_feat(img=img,  img_metas=img_metas)
-        prev_bev = data.get('prev_bev', None)
-        prev_bev = self.pts_bbox_head(img_feats, img_metas, prev_bev=prev_bev, only_bev=True)
+        img = data["img"]
+        img_metas = data["img_metas"]
+        img_feats = self.extract_feat(img=img, img_metas=img_metas)
+        prev_bev = data.get("prev_bev", None)
+        prev_bev = self.pts_bbox_head(
+            img_feats, img_metas, prev_bev=prev_bev, only_bev=True
+        )
         return prev_bev

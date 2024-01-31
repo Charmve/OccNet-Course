@@ -2,11 +2,9 @@
 # Copyright (c) OpenMMLab. All rights reserved.
 # ---------------------------------------------
 
-import torch
 import torch.nn as nn
 from mmdet.models import HEADS
-from mmcv.cnn import xavier_init
-import math
+
 
 @HEADS.register_module()
 class SegmentationHead(nn.Module):
@@ -16,10 +14,16 @@ class SegmentationHead(nn.Module):
     Taken from https://github.com/cv-rits/LMSCNet/blob/main/LMSCNet/models/LMSCNet.py#L7
     """
 
-    def __init__(self, inplanes=64, planes=64, nbr_classes=16, dilations_conv_list=[1, 2, 3],
-                 num_occ_fcs=2,
-                 flow_head=False,
-                 flow_gt_dimension=2):
+    def __init__(
+        self,
+        inplanes=64,
+        planes=64,
+        nbr_classes=16,
+        dilations_conv_list=[1, 2, 3],
+        num_occ_fcs=2,
+        flow_head=False,
+        flow_gt_dimension=2,
+    ):
         super().__init__()
 
         # First convolution
@@ -54,13 +58,13 @@ class SegmentationHead(nn.Module):
         # cov3dL input: N, C_{in}, D_{in}, H_{in}, W_{in}
         self.conv_classes = nn.Conv3d(
             planes, nbr_classes, kernel_size=3, padding=1, stride=1
-        )  
-        
+        )
+
         self.flow_head = flow_head
         if self.flow_head:  # TODO
             self.conv_flow = nn.Conv3d(
-            planes, planes, kernel_size=3, padding=1, stride=1
-        )  
+                planes, planes, kernel_size=3, padding=1, stride=1
+            )
             flow_branch = []
             for _ in range(num_occ_fcs):
                 flow_branch.append(nn.Linear(planes, planes))
@@ -78,7 +82,7 @@ class SegmentationHead(nn.Module):
         x_in = self.relu(y + x_in)  # modified
 
         occ = self.conv_classes(x_in)
-        
+
         if self.flow_head is not None:
             flow = self.conv_flow(x_in)  # (bs, c, d, h, w)
             flow = flow.permute(0, 2, 3, 4, 1)

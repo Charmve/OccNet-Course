@@ -1,8 +1,8 @@
 """
-Part of the code is taken from https://github.com/waterljwant/SSC/blob/master/sscMetrics.py
+Part of the code is taken from
+https://github.com/waterljwant/SSC/blob/master/sscMetrics.py
 """
 import numpy as np
-from sklearn.metrics import accuracy_score, precision_recall_fscore_support
 
 
 def get_iou(iou_sum, cnt_class):
@@ -61,8 +61,8 @@ class KittiSSCMetrics:
         iu = np.diag(hist) / (hist.sum(1) + hist.sum(0) - np.diag(hist))
         mean_IU = np.nanmean(iu)
         mean_IU_no_back = np.nanmean(iu[1:])
-        freq = hist.sum(1) / hist.sum()
-        freq_IU = (iu[freq > 0] * freq[freq > 0]).sum()
+        # freq = hist.sum(1) / hist.sum()
+        # freq_IU = (iu[freq > 0] * freq[freq > 0]).sum()
         mean_pixel_acc = correct / labeled if labeled != 0 else 0
 
         return iu, mean_IU, mean_IU_no_back, mean_pixel_acc
@@ -92,14 +92,20 @@ class KittiSSCMetrics:
 
     def get_stats(self):
         if self.completion_tp != 0:
-            precision = self.completion_tp / (self.completion_tp + self.completion_fp)*100
-            recall = self.completion_tp / (self.completion_tp + self.completion_fn)*100
-            iou = self.completion_tp / (
-                self.completion_tp + self.completion_fp + self.completion_fn
-            )*100
+            precision = (
+                self.completion_tp / (self.completion_tp + self.completion_fp) * 100
+            )
+            recall = (
+                self.completion_tp / (self.completion_tp + self.completion_fn) * 100
+            )
+            iou = (
+                self.completion_tp
+                / (self.completion_tp + self.completion_fp + self.completion_fn)
+                * 100
+            )
         else:
             precision, recall, iou = 0, 0, 0
-        iou_ssc = self.tps / (self.tps + self.fps + self.fns + 1e-5)*100
+        iou_ssc = self.tps / (self.tps + self.fps + self.fns + 1e-5) * 100
         return {
             "precision": precision,
             "recall": recall,
@@ -132,7 +138,7 @@ class KittiSSCMetrics:
         predict = np.copy(predict)
         target = np.copy(target)
 
-        """for scene completion, treat the task as two-classes problem, just empty or occupancy"""
+        """for scene completion, treat the task as two-classes problem, just empty or occupancy"""  # noqa: E501
         _bs = predict.shape[0]  # batch size
         # ---- ignore
         predict[target == 255] = 0
@@ -145,7 +151,7 @@ class KittiSSCMetrics:
         b_true = np.zeros(target.shape)
         b_pred[predict > 0] = 1
         b_true[target > 0] = 1
-        p, r, iou = 0.0, 0.0, 0.0
+        # p, r, iou = 0.0, 0.0, 0.0
         tp_sum, fp_sum, fn_sum = 0, 0, 0
         for idx in range(_bs):
             y_true = b_true[idx, :]  # GT
@@ -175,8 +181,8 @@ class KittiSSCMetrics:
         target = target.reshape(_bs, -1)  # (_bs, 129600)
         predict = predict.reshape(_bs, -1)  # (_bs, 129600), 60*36*60=129600
 
-        cnt_class = np.zeros(_C, dtype=np.int32)  # count for each class
-        iou_sum = np.zeros(_C, dtype=np.float32)  # sum of iou for each class
+        # cnt_class = np.zeros(_C, dtype=np.int32)  # count for each class
+        # iou_sum = np.zeros(_C, dtype=np.float32)  # sum of iou for each class
         tp_sum = np.zeros(_C, dtype=np.int32)  # tp
         fp_sum = np.zeros(_C, dtype=np.int32)  # fp
         fn_sum = np.zeros(_C, dtype=np.int32)  # fn

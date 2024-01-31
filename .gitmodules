@@ -1,6 +1,12 @@
 [submodule "lift-splat-shoot"]
     path = code/LSS
     url = https://github.com/nv-tlabs/lift-splat-shoot
+[submodule "BEVDet"]
+    path = code/BEVDet
+    url = https://github.com/HuangJunJie2017/BEVDet
+[submodule "MonoScene"]
+    path = code/MonoScene
+    url = https://github.com/astra-vision/MonoScene
 [submodule "BEVDepth"]
     path = code/BEVDepth
     url = https://github.com/Megvii-BaseDetection/BEVDepth
@@ -31,15 +37,16 @@
 [submodule "OccNeRF"]
     path = code/OccNeRF
     url = https://github.com/LinShan-Bin/OccNeRF
-[submodule "BEVDet"]
-    path = code/BEVDet
-    url = https://github.com/HuangJunJie2017/BEVDet
-[submodule "MonoScene"]
-    path = code/MonoScene
-    url = https://github.com/astra-vision/MonoScene
+[submodule "Sparse4D"]
+    path = code/Sparse4D
+    url = https://github.com/HorizonRobotics/Sparse4D
 [submodule "FB-BEV"]
     path = code/FB-BEV
     url = https://github.com/NVlabs/FB-BEV
+
+[submodule "UniAD"]
+    path = code/UniAD
+    url = https://github.com/OpenDriveLab/UniAD
 
 [submodule "SurroundOcc"]
     path = code/SurroundOcc
@@ -68,6 +75,12 @@
     path = code/mae
     url = https://github.com/facebookresearch/mae
 
-[submodule "OccFormer"]
-    path = code/OccFormer
-    url = https://github.com/zhangyp15/OccFormer
+[submodule "QNN"]
+    path = code/QNN
+    url = https://github.com/Charmve/QNN
+[submodule "Lite"]
+    path = code/Lite
+    url = https://github.com/Charmve/Lite
+[submodule "vision_module"]
+    path = code/vision_takes_all
+    url = https://github.com/Charmve/vision_takes_all

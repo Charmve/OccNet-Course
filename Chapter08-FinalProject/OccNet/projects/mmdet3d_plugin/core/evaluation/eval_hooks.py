@@ -1,4 +1,3 @@
-
 # Note: Considering that MMCV's EvalHook updated its interface in V1.3.16,
 # in order to avoid strong version dependency, we did not directly
 # inherit EvalHook but BaseDistEvalHook.
@@ -9,9 +8,10 @@ import os.path as osp
 import mmcv
 import torch.distributed as dist
 from mmcv.runner import DistEvalHook as BaseDistEvalHook
-from mmcv.runner import EvalHook as BaseEvalHook
+
+# from mmcv.runner import EvalHook as BaseEvalHook
+# from mmdet.core.evaluation.eval_hooks import DistEvalHook
 from torch.nn.modules.batchnorm import _BatchNorm
-from mmdet.core.evaluation.eval_hooks import DistEvalHook
 
 
 def _calc_dynamic_intervals(start_interval, dynamic_interval_list):
@@ -19,21 +19,26 @@ def _calc_dynamic_intervals(start_interval, dynamic_interval_list):
 
     dynamic_milestones = [0]
     dynamic_milestones.extend(
-        [dynamic_interval[0] for dynamic_interval in dynamic_interval_list])
+        [dynamic_interval[0] for dynamic_interval in dynamic_interval_list]
+    )
     dynamic_intervals = [start_interval]
     dynamic_intervals.extend(
-        [dynamic_interval[1] for dynamic_interval in dynamic_interval_list])
+        [dynamic_interval[1] for dynamic_interval in dynamic_interval_list]
+    )
     return dynamic_milestones, dynamic_intervals
 
 
 class CustomDistEvalHook(BaseDistEvalHook):
-
-    def __init__(self, *args, dynamic_intervals=None,  **kwargs):
+    def __init__(self, *args, dynamic_intervals=None, **kwargs):
         super(CustomDistEvalHook, self).__init__(*args, **kwargs)
         self.use_dynamic_intervals = dynamic_intervals is not None
         if self.use_dynamic_intervals:
-            self.dynamic_milestones, self.dynamic_intervals = \
-                _calc_dynamic_intervals(self.interval, dynamic_intervals)
+            (
+                self.dynamic_milestones,
+                self.dynamic_intervals,
+            ) = _calc_dynamic_intervals(  # noqa:E501
+                self.interval, dynamic_intervals
+            )
 
     def _decide_interval(self, runner):
         if self.use_dynamic_intervals:
@@ -61,8 +66,10 @@ class CustomDistEvalHook(BaseDistEvalHook):
         if self.broadcast_bn_buffer:
             model = runner.model
             for name, module in model.named_modules():
-                if isinstance(module,
-                              _BatchNorm) and module.track_running_stats:
+                if (
+                    isinstance(module, _BatchNorm)
+                    and module.track_running_stats  # noqa:E501
+                ):  # noqa:E501
                     dist.broadcast(module.running_var, 0)
                     dist.broadcast(module.running_mean, 0)
 
@@ -71,31 +78,35 @@ class CustomDistEvalHook(BaseDistEvalHook):
 
         tmpdir = self.tmpdir
         if tmpdir is None:
-            tmpdir = osp.join(runner.work_dir, '.eval_hook')
+            tmpdir = osp.join(runner.work_dir, ".eval_hook")
 
-        from projects.mmdet3d_plugin.bevformer.apis.test import custom_multi_gpu_test # to solve circlur  import
+        from projects.mmdet3d_plugin.bevformer.apis.test import (
+            custom_multi_gpu_test,
+        )  # to solve circlur  import
 
         results = custom_multi_gpu_test(
             runner.model,
             self.dataloader,
             tmpdir=tmpdir,
-            gpu_collect=self.gpu_collect)
+            gpu_collect=self.gpu_collect,  # noqa:E501
+        )
         if runner.rank == 0:
-            print('\n')
-            runner.log_buffer.output['eval_iter_num'] = len(self.dataloader)
+            print("\n")
+            runner.log_buffer.output["eval_iter_num"] = len(self.dataloader)
 
             # key_score = self.evaluate(runner, results)
-            bbox_predictions = results['bbox_results']
-            occupancy_results = results['occupancy_results']
-            flow_results = results['flow_results']
-            
+            bbox_predictions = results["bbox_results"]
+            occupancy_results = results["occupancy_results"]
+            flow_results = results["flow_results"]
+
             if occupancy_results is not None:
-                self.dataloader.dataset.evaluate_occ_iou(occupancy_results, 
-                                                         flow_results, 
-                                                         occ_threshold=0.25,
-                                                         runner=runner)
+                self.dataloader.dataset.evaluate_occ_iou(
+                    occupancy_results,
+                    flow_results,
+                    occ_threshold=0.25,
+                    runner=runner,  # noqa:E501
+                )
             if bbox_predictions is not None:
                 key_score = self.evaluate(runner, bbox_predictions)
                 if self.save_best:
                     self._save_ckpt(runner, key_score)
-    

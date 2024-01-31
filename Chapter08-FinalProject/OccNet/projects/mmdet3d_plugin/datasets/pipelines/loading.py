@@ -1,7 +1,6 @@
 import mmcv
-import torch
 import numpy as np
-
+import torch
 from mmdet3d.core.points import BasePoints
 from mmdet.datasets.builder import PIPELINES
 
@@ -26,14 +25,16 @@ class LoadPointsFromMultiSweepsWithPadding(object):
             Defaults to False.
     """
 
-    def __init__(self,
-                 sweeps_num=10,
-                 load_dim=5,
-                 use_dim=[0, 1, 2, 4],
-                 file_client_args=dict(backend='disk'),
-                 pad_empty_sweeps=False,
-                 remove_close=False,
-                 test_mode=False):
+    def __init__(
+        self,
+        sweeps_num=10,
+        load_dim=5,
+        use_dim=[0, 1, 2, 4],
+        file_client_args=dict(backend="disk"),
+        pad_empty_sweeps=False,
+        remove_close=False,
+        test_mode=False,
+    ):
         self.load_dim = load_dim
         self.sweeps_num = sweeps_num
         self.use_dim = use_dim
@@ -57,7 +58,7 @@ class LoadPointsFromMultiSweepsWithPadding(object):
             points = np.frombuffer(pts_bytes, dtype=np.float32)
         except ConnectionError:
             mmcv.check_file_exist(pts_filename)
-            if pts_filename.endswith('.npy'):
+            if pts_filename.endswith(".npy"):
                 points = np.load(pts_filename)
             else:
                 points = np.fromfile(pts_filename, dtype=np.float32)
@@ -94,91 +95,105 @@ class LoadPointsFromMultiSweepsWithPadding(object):
                 - points (np.ndarray | :obj:`BasePoints`): Multi-sweep point \
                     cloud arrays.
         """
-        points = results['points']
+        points = results["points"]
         if points.tensor.size(-1) < self.load_dim:
-            padding = points.tensor.new_zeros((points.tensor.size(0), self.load_dim-points.tensor.size(1)))
+            padding = points.tensor.new_zeros(
+                (points.tensor.size(0), self.load_dim - points.tensor.size(1))
+            )
             points.tensor = torch.cat((points.tensor, padding), dim=-1)
             points.points_dim = self.load_dim
         points.tensor[:, 4] = 0
         sweep_points_list = [points]
-        ts = results['timestamp']
-        if self.pad_empty_sweeps and len(results['sweeps']) == 0:
+        ts = results["timestamp"]
+        if self.pad_empty_sweeps and len(results["sweeps"]) == 0:
             for i in range(self.sweeps_num):
                 if self.remove_close:
                     sweep_points_list.append(self._remove_close(points))
                 else:
                     sweep_points_list.append(points)
         else:
-            if len(results['sweeps']) <= self.sweeps_num:
-                choices = np.arange(len(results['sweeps']))
+            if len(results["sweeps"]) <= self.sweeps_num:
+                choices = np.arange(len(results["sweeps"]))
             elif self.test_mode:
                 choices = np.arange(self.sweeps_num)
             else:
                 choices = np.random.choice(
-                    len(results['sweeps']), self.sweeps_num, replace=False)
+                    len(results["sweeps"]), self.sweeps_num, replace=False
+                )
             for idx in choices:
-                sweep = results['sweeps'][idx]
-                points_sweep = self._load_points(sweep['data_path'])
+                sweep = results["sweeps"][idx]
+                points_sweep = self._load_points(sweep["data_path"])
                 points_sweep = np.copy(points_sweep).reshape(-1, self.load_dim)
                 if self.remove_close:
                     points_sweep = self._remove_close(points_sweep)
-                sweep_ts = sweep['timestamp'] / 1e6
-                points_sweep[:, :3] = points_sweep[:, :3] @ sweep[
-                    'sensor2lidar_rotation'].T
-                points_sweep[:, :3] += sweep['sensor2lidar_translation']
+                sweep_ts = sweep["timestamp"] / 1e6
+                points_sweep[:, :3] = (
+                    points_sweep[:, :3] @ sweep["sensor2lidar_rotation"].T
+                )
+                points_sweep[:, :3] += sweep["sensor2lidar_translation"]
                 points_sweep[:, 4] = ts - sweep_ts
                 points_sweep = points.new_point(points_sweep)
                 sweep_points_list.append(points_sweep)
 
         points = points.cat(sweep_points_list)
         points = points[:, self.use_dim]
-        results['points'] = points
+        results["points"] = points
         return results
 
     def __repr__(self):
         """str: Return a string that describes the module."""
-        return f'{self.__class__.__name__}(sweeps_num={self.sweeps_num})'
+        return f"{self.__class__.__name__}(sweeps_num={self.sweeps_num})"
 
 
 @PIPELINES.register_module()
 class LoadOccupancyGT(object):
     """load occupancy GT data
-       gt_type: index_class, store the occ index and occ class in one file with shape (n, 2)
+       gt_type: index_class, store the occ index and occ class in one file with shape (n, 2) # noqa E501
     """
-    def __init__(self, gt_type='index_class', data_type='nuscenes', 
-                 relabel=False, occupancy_classes=16):
+
+    def __init__(
+        self,
+        gt_type="index_class",
+        data_type="nuscenes",
+        relabel=False,
+        occupancy_classes=16,
+    ):
         self.gt_type = gt_type
         self.data_type = data_type
         self.relabel = relabel
         self.occupancy_classes = occupancy_classes
 
     def __call__(self, results):
-        occ_gt_path = results['occ_gt_path']
+        occ_gt_path = results["occ_gt_path"]
         occ_gts = np.load(occ_gt_path)  # (n, 2)
-        if self.data_type == 'semantic_kitti' and self.relabel:
+        if self.data_type == "semantic_kitti" and self.relabel:
             """
-            for semantic kitti: the label is in the order (x, y, z) 0:empty, 255: invalid
+            for semantic kitti: the label is in the order (x, y, z) 0:empty, 255: invalid # noqa E501
             while in our model, the voxe ls in the oder (z, y, x)
-            works for the focal loss 
+            works for the focal loss
             """
             occ_gts = occ_gts.transpose(2, 1, 0).astype(np.int32)
-            occ_gts = occ_gts -1 
-            occ_gts[occ_gts==-1] = self.occupancy_classes  # 19: means background
-            occ_gts[occ_gts==254] = 255
+            occ_gts = occ_gts - 1
+            occ_gts[
+                occ_gts == -1
+            ] = self.occupancy_classes  # 19: means background # noqa E501
+            occ_gts[occ_gts == 254] = 255
 
-        results['occ_gts'] = occ_gts
+        results["occ_gts"] = occ_gts
         return results
+
 
 @PIPELINES.register_module()
 class LoadFlowGT(object):
     """load occupancy flow GT data
        flow_type: 2D, only x and y direction flows are given
     """
-    def __init__(self, flow_type='2D'):
+
+    def __init__(self, flow_type="2D"):
         self.flow_type = flow_type
 
     def __call__(self, results):
-        flow_gt_path = results['flow_gt_path']
+        flow_gt_path = results["flow_gt_path"]
         flow_gts = np.load(flow_gt_path)  # (n, 2)
-        results['flow_gts'] = flow_gts
+        results["flow_gts"] = flow_gts
         return results
