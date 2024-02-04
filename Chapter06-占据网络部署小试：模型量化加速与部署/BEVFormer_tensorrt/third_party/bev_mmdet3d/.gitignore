@@ -1,0 +1,3 @@
+*.so
+build/
+*.egg-info/

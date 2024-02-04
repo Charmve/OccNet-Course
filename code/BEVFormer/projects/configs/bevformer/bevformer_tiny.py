@@ -1,10 +1,10 @@
 # BEvFormer-tiny consumes at lease 6700M GPU memory
 # compared to bevformer_base, bevformer_tiny has
-# smaller backbone: R101-DCN -> R50
-# smaller BEV: 200*200 -> 50*50
-# less encoder layers: 6 -> 3
-# smaller input size: 1600*900 -> 800*450
-# multi-scale feautres -> single scale features (C5)
+#  - smaller backbone: R101-DCN -> R50
+#  - smaller BEV: 200*200 -> 50*50
+#  - less encoder layers: 6 -> 3
+#  - smaller input size: 1600*900 -> 800*450
+#  - multi-scale feautres -> single scale features (C5)
 
 
 _base_ = ["../datasets/custom_nus-3d.py", "../_base_/default_runtime.py"]

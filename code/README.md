@@ -20,3 +20,10 @@ git clone https://github.com/Charmve/OccNet-Course --recursive
 ./scripts/goto_dev_docker.sh
 cd code/
 ```
+
+
+Archievement:
+- BEVFustion-TensorRT部署: https://blog.csdn.net/h904798869/article/details/132280120
+- BEVFusion代码复现实践 https://blog.csdn.net/h904798869/article/details/132210022
+- StreamPETR代码工程复现 https://blog.csdn.net/h904798869/article/details/135531719
+- MapTR代码复现实践 https://blog.csdn.net/h904798869/article/details/132856083

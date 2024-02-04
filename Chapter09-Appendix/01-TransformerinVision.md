@@ -43,6 +43,7 @@
 - [VoxFromer: 单目3D语义场景补全](https://zhuanlan.zhihu.com/p/619156102)
 - [OccDepth：对标 Tesla Occupancy 的开源 3D 语义场景补全⽅法](https://aijishu.com/a/1060000000387547)
 - [FB-OCC]()
+- [UniVision：BEV检测和Occupancy联合统一框架](https://mp.weixin.qq.com/s/8jpS_I-wn1-svR3UlCF7KQs)
 
 ## large language model
 
@@ -55,3 +56,4 @@
 - [北京2023 自动驾驶论坛 ｜ 3D Occupancy Prediction Challenge](https://www.bilibili.com/video/BV1pN411D7au/?spm_id_from=333.788&vd_source=57394ba751fad8e6886be567cccfa5bb)
 - [A Look at Tesla's Occupancy Networks](https://www.thinkautonomous.ai/blog/occupancy-networks/)
 - [九头蛇的进化：Tesla AutoPilot 纯视觉方案解析](https://zhuanlan.zhihu.com/p/401810792)
+- [一文细数Vision transformer家族成员](https://blog.csdn.net/weixin_43135178/article/details/123566256)

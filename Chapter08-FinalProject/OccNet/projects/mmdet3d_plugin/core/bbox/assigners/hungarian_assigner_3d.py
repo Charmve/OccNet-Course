@@ -1,10 +1,9 @@
 import torch
-
+from mmdet.core.bbox.assigners import AssignResult, BaseAssigner
 from mmdet.core.bbox.builder import BBOX_ASSIGNERS
-from mmdet.core.bbox.assigners import AssignResult
-from mmdet.core.bbox.assigners import BaseAssigner
 from mmdet.core.bbox.match_costs import build_match_cost
-from mmdet.models.utils.transformer import inverse_sigmoid
+
+# from mmdet.models.utils.transformer import inverse_sigmoid
 from projects.mmdet3d_plugin.core.bbox.util import normalize_bbox
 
 try:
@@ -39,23 +38,27 @@ class HungarianAssigner3D(BaseAssigner):
                 intersection over union). Default "giou".
     """
 
-    def __init__(self,
-                 cls_cost=dict(type='ClassificationCost', weight=1.),
-                 reg_cost=dict(type='BBoxL1Cost', weight=1.0),
-                 iou_cost=dict(type='IoUCost', weight=0.0),
-                 pc_range=None):
+    def __init__(
+        self,
+        cls_cost=dict(type="ClassificationCost", weight=1.0),
+        reg_cost=dict(type="BBoxL1Cost", weight=1.0),
+        iou_cost=dict(type="IoUCost", weight=0.0),
+        pc_range=None,
+    ):
         self.cls_cost = build_match_cost(cls_cost)
         self.reg_cost = build_match_cost(reg_cost)
         self.iou_cost = build_match_cost(iou_cost)
         self.pc_range = pc_range
 
-    def assign(self,
-               bbox_pred,
-               cls_pred,
-               gt_bboxes, 
-               gt_labels,
-               gt_bboxes_ignore=None,
-               eps=1e-7):
+    def assign(
+        self,
+        bbox_pred,
+        cls_pred,
+        gt_bboxes,
+        gt_labels,
+        gt_bboxes_ignore=None,
+        eps=1e-7,  # noqa E501
+    ):
         """Computes one-to-one matching based on the weighted costs.
         This method assign each query prediction to a ground truth or
         background. The `assigned_gt_inds` with -1 means don't care,
@@ -84,47 +87,52 @@ class HungarianAssigner3D(BaseAssigner):
         Returns:
             :obj:`AssignResult`: The assigned result.
         """
-        assert gt_bboxes_ignore is None, \
-            'Only case when gt_bboxes_ignore is None is supported.'
+        assert (
+            gt_bboxes_ignore is None
+        ), "Only case when gt_bboxes_ignore is None is supported."
         num_gts, num_bboxes = gt_bboxes.size(0), bbox_pred.size(0)
 
         # 1. assign -1 by default
-        assigned_gt_inds = bbox_pred.new_full((num_bboxes, ),
-                                              -1,
-                                              dtype=torch.long)
-        assigned_labels = bbox_pred.new_full((num_bboxes, ),
-                                             -1,
-                                             dtype=torch.long)
+        assigned_gt_inds = bbox_pred.new_full(
+            (num_bboxes,), -1, dtype=torch.long
+        )  # noqa E501
+        assigned_labels = bbox_pred.new_full(
+            (num_bboxes,), -1, dtype=torch.long
+        )  # noqa E501
         if num_gts == 0 or num_bboxes == 0:
             # No ground truth or boxes, return empty assignment
             if num_gts == 0:
                 # No ground truth, assign all to background
                 assigned_gt_inds[:] = 0
             return AssignResult(
-                num_gts, assigned_gt_inds, None, labels=assigned_labels)
+                num_gts, assigned_gt_inds, None, labels=assigned_labels
+            )  # noqa E501
 
         # 2. compute the weighted costs
         # classification and bboxcost.
         cls_cost = self.cls_cost(cls_pred, gt_labels)
         # regression L1 cost
-       
+
         normalized_gt_bboxes = normalize_bbox(gt_bboxes, self.pc_range)
-    
+
         reg_cost = self.reg_cost(bbox_pred[:, :8], normalized_gt_bboxes[:, :8])
-      
+
         # weighted sum of above two costs
         cost = cls_cost + reg_cost
-        
+
         # 3. do Hungarian matching on CPU using linear_sum_assignment
         cost = cost.detach().cpu()
         if linear_sum_assignment is None:
-            raise ImportError('Please run "pip install scipy" '
-                              'to install scipy first.')
+            raise ImportError(
+                'Please run "pip install scipy" ' "to install scipy first."
+            )
         matched_row_inds, matched_col_inds = linear_sum_assignment(cost)
         matched_row_inds = torch.from_numpy(matched_row_inds).to(
-            bbox_pred.device)
+            bbox_pred.device
+        )  # noqa E501
         matched_col_inds = torch.from_numpy(matched_col_inds).to(
-            bbox_pred.device)
+            bbox_pred.device
+        )  # noqa E501
 
         # 4. assign backgrounds and foregrounds
         # assign all indices to backgrounds first
@@ -133,4 +141,5 @@ class HungarianAssigner3D(BaseAssigner):
         assigned_gt_inds[matched_row_inds] = matched_col_inds + 1
         assigned_labels[matched_row_inds] = gt_labels[matched_col_inds]
         return AssignResult(
-            num_gts, assigned_gt_inds, None, labels=assigned_labels)
+            num_gts, assigned_gt_inds, None, labels=assigned_labels
+        )  # noqa E501

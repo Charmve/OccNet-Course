@@ -105,8 +105,12 @@ def normalize_header_includes(fentry: Path, dry=False, strip=False):
             if strip:
                 unquoted_inc = quoted_inc[1:-1]
                 if unquoted_inc in already_included:  # type: ignore
-                    logging.info(f"{fentry}: {quoted_inc} already included previously.")
-                    logging.info("  Please keep the include-one-header-only-once rule.")
+                    logging.info(
+                        f"{fentry}: {quoted_inc} already included previously."
+                    )  # noqa:E501
+                    logging.info(
+                        "  Please keep the include-one-header-only-once rule."
+                    )  # noqa:E501
                     continue
 
                 already_included.add(unquoted_inc)  # type: ignore
@@ -121,7 +125,7 @@ def normalize_header_includes(fentry: Path, dry=False, strip=False):
         fentry_new.rename(fentry)
 
 
-# TODO(Jiaming): maybe a multi-threaded version
+# TODO: maybe a multi-threaded version
 def main(files=None, dirs=None, dry=False, strip=False):
     if files:
         for ent in files:
@@ -138,13 +142,15 @@ def main(files=None, dirs=None, dry=False, strip=False):
 
 
 if __name__ == "__main__":
-    logging.basicConfig(format="[%(levelname)s]: %(message)s", level=logging.INFO)
+    logging.basicConfig(
+        format="[%(levelname)s]: %(message)s", level=logging.INFO
+    )  # noqa:E501
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "-d",
         "--dry",
         action="store_true",
-        help="Run this script in dry-run mode.",
+        help="Run this script in dry-run mode.",  # noqa:E501
     )
     parser.add_argument(
         "-s",

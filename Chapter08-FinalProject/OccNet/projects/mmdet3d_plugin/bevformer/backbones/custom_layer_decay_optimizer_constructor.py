@@ -10,8 +10,7 @@ https://github.com/microsoft/unilm/blob/master/beit/semantic_segmentation/mmcv_c
 
 import json
 
-from mmcv.runner import OPTIMIZER_BUILDERS, DefaultOptimizerConstructor
-from mmcv.runner import get_dist_info
+from mmcv.runner import OPTIMIZER_BUILDERS, DefaultOptimizerConstructor, get_dist_info
 from mmdet.utils import get_root_logger
 
 
@@ -21,10 +20,11 @@ def get_num_layer_for_swin(var_name, num_max_layer, depths):
     elif "level_embeds" in var_name:
         return 0
     elif var_name.startswith("img_backbone.layers") or var_name.startswith(
-            "img_backbone.levels"):
-        if var_name.split('.')[3] not in ['downsample', 'norm']:
-            stage_id = int(var_name.split('.')[2])
-            layer_id = int(var_name.split('.')[4])
+        "img_backbone.levels"
+    ):
+        if var_name.split(".")[3] not in ["downsample", "norm"]:
+            stage_id = int(var_name.split(".")[2])
+            layer_id = int(var_name.split(".")[4])
             # layers for Swin-Large: [2, 2, 18, 2]
             if stage_id == 0:
                 return layer_id + 1
@@ -35,7 +35,7 @@ def get_num_layer_for_swin(var_name, num_max_layer, depths):
             else:
                 return layer_id + 1 + depths[0] + depths[1] + depths[2]
         else:
-            stage_id = int(var_name.split('.')[2])
+            stage_id = int(var_name.split(".")[2])
             if stage_id == 0:
                 return 1 + depths[0]
             elif stage_id == 1:
@@ -50,8 +50,7 @@ def get_num_layer_for_swin(var_name, num_max_layer, depths):
 
 @OPTIMIZER_BUILDERS.register_module()
 class CustomLayerDecayOptimizerConstructor(DefaultOptimizerConstructor):
-
-    def add_params(self, params, module, prefix='', is_dcn_module=None):
+    def add_params(self, params, module, prefix="", is_dcn_module=None):
         """Add all parameters of module to the params list.
         The parameters of the given module will be added to the list of param
         groups, with specific rules defined by paramwise_cfg.
@@ -67,43 +66,50 @@ class CustomLayerDecayOptimizerConstructor(DefaultOptimizerConstructor):
         parameter_groups = {}
         logger = get_root_logger()
         logger.info(self.paramwise_cfg)
-        backbone_small_lr = self.paramwise_cfg.get('backbone_small_lr', False)
-        dino_head = self.paramwise_cfg.get('dino_head', False)
-        num_layers = self.paramwise_cfg.get('num_layers') + 2
-        layer_decay_rate = self.paramwise_cfg.get('layer_decay_rate')
-        depths = self.paramwise_cfg.get('depths')
-        offset_lr_scale = self.paramwise_cfg.get('offset_lr_scale', 1.0)
+        backbone_small_lr = self.paramwise_cfg.get("backbone_small_lr", False)
+        dino_head = self.paramwise_cfg.get("dino_head", False)
+        num_layers = self.paramwise_cfg.get("num_layers") + 2
+        layer_decay_rate = self.paramwise_cfg.get("layer_decay_rate")
+        depths = self.paramwise_cfg.get("depths")
+        offset_lr_scale = self.paramwise_cfg.get("offset_lr_scale", 1.0)
 
-        logger.info("Build CustomLayerDecayOptimizerConstructor %f - %d" %
-                    (layer_decay_rate, num_layers))
+        logger.info(
+            "Build CustomLayerDecayOptimizerConstructor %f - %d"
+            % (layer_decay_rate, num_layers)
+        )
         weight_decay = self.base_wd
 
         for name, param in module.named_parameters():
             if not param.requires_grad:
                 continue  # frozen weights
-            if len(param.shape) == 1 or name.endswith(".bias") or \
-                    "relative_position" in name or \
-                    "norm" in name or\
-                    "sampling_offsets" in name:
+            if (
+                len(param.shape) == 1
+                or name.endswith(".bias")
+                or "relative_position" in name
+                or "norm" in name
+                or "sampling_offsets" in name
+            ):
                 group_name = "no_decay"
-                this_weight_decay = 0.
+                this_weight_decay = 0.0
             else:
                 group_name = "decay"
                 this_weight_decay = weight_decay
 
             layer_id = get_num_layer_for_swin(name, num_layers, depths)
-            if layer_id == num_layers - 1 and dino_head and \
-                    ("sampling_offsets" in name or "reference_points" in name):
+            if (
+                layer_id == num_layers - 1
+                and dino_head
+                and ("sampling_offsets" in name or "reference_points" in name)
+            ):
                 group_name = "layer_%d_%s_0.1x" % (layer_id, group_name)
             elif "sampling_offsets" in name or "reference_points" in name:
-                group_name = "layer_%d_%s_offset_lr_scale" % (layer_id,
-                                                              group_name)
+                group_name = "layer_%d_%s_offset_lr_scale" % (layer_id, group_name)
             else:
                 group_name = "layer_%d_%s" % (layer_id, group_name)
 
             if group_name not in parameter_groups:
                 scale = layer_decay_rate ** (num_layers - layer_id - 1)
-                if scale < 1 and backbone_small_lr == True:
+                if scale < 1 and backbone_small_lr is True:
                     scale = scale * 0.1
                 if "0.1x" in group_name:
                     scale = scale * 0.1

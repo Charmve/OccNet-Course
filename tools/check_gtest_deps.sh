@@ -15,7 +15,7 @@ function _is_target_testonly() {
 function _is_gtest_dependent_target() {
   local deps
   deps="$(buildozer 'print deps' "$1" 2> /dev/null)"
-  # NOTE(Jiaming):
+  # NOTE:
   # Here we can check ONLY direct dependency on googletest.
   # Since if target_b depends on target_a which in turn depends on gtest
   # Bazel will emit the following error:

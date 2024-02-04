@@ -9,7 +9,7 @@ class BBox3DL1Cost(object):
          weight (int | float, optional): loss_weight
     """
 
-    def __init__(self, weight=1.):
+    def __init__(self, weight=1.0):
         self.weight = weight
 
     def __call__(self, bbox_pred, gt_bboxes):

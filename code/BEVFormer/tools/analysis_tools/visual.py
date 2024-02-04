@@ -4,21 +4,18 @@
 # ---------------------------------------------
 
 import mmcv
-from nuscenes.nuscenes import NuScenes
+
 from PIL import Image
-from nuscenes.utils.geometry_utils import view_points, box_in_image, BoxVisibility, transform_matrix
 from typing import Tuple, List, Iterable
-import matplotlib.pyplot as plt
+
 import numpy as np
-from PIL import Image
 from matplotlib import rcParams
-from matplotlib.axes import Axes
-from pyquaternion import Quaternion
-from PIL import Image
-from matplotlib import rcParams
+import matplotlib.pyplot as plt
 from matplotlib.axes import Axes
 from pyquaternion import Quaternion
 from tqdm import tqdm
+
+from nuscenes.nuscenes import NuScenes
 from nuscenes.utils.data_classes import LidarPointCloud, RadarPointCloud, Box
 from nuscenes.utils.geometry_utils import view_points, box_in_image, BoxVisibility, transform_matrix
 from nuscenes.eval.common.data_classes import EvalBoxes, EvalBox
@@ -26,22 +23,12 @@ from nuscenes.eval.detection.data_classes import DetectionBox
 from nuscenes.eval.detection.utils import category_to_detection_name
 from nuscenes.eval.detection.render import visualize_sample
 
-
-
-
 cams = ['CAM_FRONT',
  'CAM_FRONT_RIGHT',
  'CAM_BACK_RIGHT',
  'CAM_BACK',
  'CAM_BACK_LEFT',
  'CAM_FRONT_LEFT']
-
-import numpy as np
-import matplotlib.pyplot as plt
-from nuscenes.utils.data_classes import LidarPointCloud, RadarPointCloud, Box
-from PIL import Image
-from matplotlib import rcParams
-
 
 def render_annotation(
         anntoken: str,
@@ -84,6 +71,7 @@ def render_annotation(
     fig, axes = plt.subplots(1, num_cam + 1, figsize=(18, 9))
     select_cams = [sample_record['data'][cam] for cam in select_cams]
     print('bbox in cams:', select_cams)
+
     # Plot LIDAR view.
     lidar = sample_record['data']['LIDAR_TOP']
     data_path, boxes, camera_intrinsic = nusc.get_sample_data(lidar, selected_anntokens=[anntoken])
@@ -141,8 +129,6 @@ def render_annotation(
 
     if out_path is not None:
         plt.savefig(out_path)
-
-
 
 def get_sample_data(sample_data_token: str,
                     box_vis_level: BoxVisibility = BoxVisibility.ANY,
@@ -204,8 +190,6 @@ def get_sample_data(sample_data_token: str,
         box_list.append(box)
 
     return data_path, box_list, cam_intrinsic
-
-
 
 def get_predicted_data(sample_data_token: str,
                        box_vis_level: BoxVisibility = BoxVisibility.ANY,
@@ -269,9 +253,6 @@ def get_predicted_data(sample_data_token: str,
 
     return data_path, box_list, cam_intrinsic
 
-
-
-
 def lidiar_render(sample_token, data,out_path=None):
     bbox_gt_list = []
     bbox_pred_list = []
@@ -316,7 +297,6 @@ def lidiar_render(sample_token, data,out_path=None):
     print('blue is the predited result')
     visualize_sample(nusc, sample_token, gt_annotations, pred_annotations, savepath=out_path+'_bev')
 
-
 def get_color(category_name: str):
     """
     Provides the default colors based on the category names.
@@ -346,7 +326,6 @@ def get_color(category_name: str):
         if category_name in key:
             return nusc.colormap[key]
     return [0, 0, 0]
-
 
 def render_sample_data(
         sample_toekn: str,

@@ -34,7 +34,7 @@ else
   cp -f ${PKG_NAME} /usr/bin/bazel
   chmod a+x /usr/bin/bazel
 
-  # NOTE(jiaming):
+  # NOTE:
   #   `bazel_completion.bash` was copied from `/etc/bash_completion.d/bazel`
   # on x86_64 with bazel deb-installed.
   # cp -f "${RCFILES_DIR}/bazel_completion.bash" /etc/bash_completion.d/bazel

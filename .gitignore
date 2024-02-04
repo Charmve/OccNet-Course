@@ -4,6 +4,11 @@ src/.DS_Store
 **/*.pptx
 **/*.pth
 **/data
+<<<<<<< HEAD
 **/__pycache__
 code/BEVFormer/work_dirs/bevformer_tiny/*.log
 code/BEVFormer/work_dirs/bevformer_base/*.log
+=======
+papers/
+
+>>>>>>> b295d4c77a3989d459103b084abae63dd45b657c

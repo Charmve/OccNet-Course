@@ -6,30 +6,32 @@ import copy
 import warnings
 
 import torch
-import torch.nn as nn
-
-from mmcv import ConfigDict, deprecated_api_warning
-from mmcv.cnn import Linear, build_activation_layer, build_norm_layer
-from mmcv.runner.base_module import BaseModule, ModuleList, Sequential
-
-from mmcv.cnn.bricks.registry import (ATTENTION, FEEDFORWARD_NETWORK, POSITIONAL_ENCODING,
-                                      TRANSFORMER_LAYER, TRANSFORMER_LAYER_SEQUENCE)
+from mmcv import ConfigDict
+from mmcv.cnn import build_norm_layer
+from mmcv.cnn.bricks.registry import TRANSFORMER_LAYER
+from mmcv.runner.base_module import BaseModule, ModuleList
 
 # Avoid BC-breaking of importing MultiScaleDeformableAttention from this file
 try:
-    from mmcv.ops.multi_scale_deform_attn import MultiScaleDeformableAttention  # noqa F401
+    # from mmcv.ops.multi_scale_deform_attn import (
+    #     MultiScaleDeformableAttention,
+    # )  # noqa F401;
+
     warnings.warn(
         ImportWarning(
-            '``MultiScaleDeformableAttention`` has been moved to '
-            '``mmcv.ops.multi_scale_deform_attn``, please change original path '  # noqa E501
-            '``from mmcv.cnn.bricks.transformer import MultiScaleDeformableAttention`` '  # noqa E501
-            'to ``from mmcv.ops.multi_scale_deform_attn import MultiScaleDeformableAttention`` '  # noqa E501
-        ))
+            "``MultiScaleDeformableAttention`` has been moved to "
+            "``mmcv.ops.multi_scale_deform_attn``, please change original path "  # noqa E501
+            "``from mmcv.cnn.bricks.transformer import MultiScaleDeformableAttention`` "  # noqa E501
+            "to ``from mmcv.ops.multi_scale_deform_attn import MultiScaleDeformableAttention`` "  # noqa E501
+        )
+    )
 except ImportError:
-    warnings.warn('Fail to import ``MultiScaleDeformableAttention`` from '
-                  '``mmcv.ops.multi_scale_deform_attn``, '
-                  'You should install ``mmcv-full`` if you need this module. ')
-from mmcv.cnn.bricks.transformer import build_feedforward_network, build_attention
+    warnings.warn(
+        "Fail to import ``MultiScaleDeformableAttention`` from "
+        "``mmcv.ops.multi_scale_deform_attn``, "
+        "You should install ``mmcv-full`` if you need this module. "
+    )
+from mmcv.cnn.bricks.transformer import build_attention, build_feedforward_network
 
 
 @TRANSFORMER_LAYER.register_module()
@@ -67,33 +69,37 @@ class MyCustomBaseTransformerLayer(BaseModule):
             or (n, batch, embed_dim). Default to False.
     """
 
-    def __init__(self,
-                 attn_cfgs=None,
-                 ffn_cfgs=dict(
-                     type='FFN',
-                     embed_dims=256,
-                     feedforward_channels=1024,
-                     num_fcs=2,
-                     ffn_drop=0.,
-                     act_cfg=dict(type='ReLU', inplace=True),
-                 ),
-                 operation_order=None,
-                 norm_cfg=dict(type='LN'),
-                 init_cfg=None,
-                 batch_first=True,
-                 **kwargs):
+    def __init__(
+        self,
+        attn_cfgs=None,
+        ffn_cfgs=dict(
+            type="FFN",
+            embed_dims=256,
+            feedforward_channels=1024,
+            num_fcs=2,
+            ffn_drop=0.0,
+            act_cfg=dict(type="ReLU", inplace=True),
+        ),
+        operation_order=None,
+        norm_cfg=dict(type="LN"),
+        init_cfg=None,
+        batch_first=True,
+        **kwargs,
+    ):
 
         deprecated_args = dict(
-            feedforward_channels='feedforward_channels',
-            ffn_dropout='ffn_drop',
-            ffn_num_fcs='num_fcs')
+            feedforward_channels="feedforward_channels",
+            ffn_dropout="ffn_drop",
+            ffn_num_fcs="num_fcs",
+        )
         for ori_name, new_name in deprecated_args.items():
             if ori_name in kwargs:
                 warnings.warn(
-                    f'The arguments `{ori_name}` in BaseTransformerLayer '
-                    f'has been deprecated, now you should set `{new_name}` '
-                    f'and other FFN related arguments '
-                    f'to a dict named `ffn_cfgs`. ')
+                    f"The arguments `{ori_name}` in BaseTransformerLayer "
+                    f"has been deprecated, now you should set `{new_name}` "
+                    f"and other FFN related arguments "
+                    f"to a dict named `ffn_cfgs`. "
+                )
                 ffn_cfgs[new_name] = kwargs[ori_name]
 
         super(MyCustomBaseTransformerLayer, self).__init__(init_cfg)
@@ -101,35 +107,40 @@ class MyCustomBaseTransformerLayer(BaseModule):
         self.batch_first = batch_first
 
         assert set(operation_order) & set(
-            ['self_attn', 'norm', 'ffn', 'cross_attn']) == \
-            set(operation_order), f'The operation_order of' \
-            f' {self.__class__.__name__} should ' \
-            f'contains all four operation type ' \
+            ["self_attn", "norm", "ffn", "cross_attn"]
+        ) == set(operation_order), (
+            f"The operation_order of"
+            f" {self.__class__.__name__} should "
+            f"contains all four operation type "
             f"{['self_attn', 'norm', 'ffn', 'cross_attn']}"
+        )
 
-        num_attn = operation_order.count('self_attn') + operation_order.count(
-            'cross_attn')
+        num_attn = operation_order.count("self_attn") + operation_order.count(
+            "cross_attn"
+        )
         if isinstance(attn_cfgs, dict):
             attn_cfgs = [copy.deepcopy(attn_cfgs) for _ in range(num_attn)]
         else:
-            assert num_attn == len(attn_cfgs), f'The length ' \
-                f'of attn_cfg {num_attn} is ' \
-                f'not consistent with the number of attention' \
-                f'in operation_order {operation_order}.'
+            assert num_attn == len(attn_cfgs), (
+                f"The length "
+                f"of attn_cfg {num_attn} is "
+                f"not consistent with the number of attention"
+                f"in operation_order {operation_order}."
+            )
 
         self.num_attn = num_attn
         self.operation_order = operation_order
         self.norm_cfg = norm_cfg
-        self.pre_norm = operation_order[0] == 'norm'
+        self.pre_norm = operation_order[0] == "norm"
         self.attentions = ModuleList()
 
         index = 0
         for operation_name in operation_order:
-            if operation_name in ['self_attn', 'cross_attn']:
-                if 'batch_first' in attn_cfgs[index]:
-                    assert self.batch_first == attn_cfgs[index]['batch_first']
+            if operation_name in ["self_attn", "cross_attn"]:
+                if "batch_first" in attn_cfgs[index]:
+                    assert self.batch_first == attn_cfgs[index]["batch_first"]
                 else:
-                    attn_cfgs[index]['batch_first'] = self.batch_first
+                    attn_cfgs[index]["batch_first"] = self.batch_first
                 attention = build_attention(attn_cfgs[index])
                 # Some custom attentions used as `self_attn`
                 # or `cross_attn` can have different behavior.
@@ -140,36 +151,37 @@ class MyCustomBaseTransformerLayer(BaseModule):
         self.embed_dims = self.attentions[0].embed_dims
 
         self.ffns = ModuleList()
-        num_ffns = operation_order.count('ffn')
+        num_ffns = operation_order.count("ffn")
         if isinstance(ffn_cfgs, dict):
             ffn_cfgs = ConfigDict(ffn_cfgs)
         if isinstance(ffn_cfgs, dict):
             ffn_cfgs = [copy.deepcopy(ffn_cfgs) for _ in range(num_ffns)]
         assert len(ffn_cfgs) == num_ffns
         for ffn_index in range(num_ffns):
-            if 'embed_dims' not in ffn_cfgs[ffn_index]:
-                ffn_cfgs['embed_dims'] = self.embed_dims
+            if "embed_dims" not in ffn_cfgs[ffn_index]:
+                ffn_cfgs["embed_dims"] = self.embed_dims
             else:
-                assert ffn_cfgs[ffn_index]['embed_dims'] == self.embed_dims
+                assert ffn_cfgs[ffn_index]["embed_dims"] == self.embed_dims
 
-            self.ffns.append(
-                build_feedforward_network(ffn_cfgs[ffn_index]))
+            self.ffns.append(build_feedforward_network(ffn_cfgs[ffn_index]))
 
         self.norms = ModuleList()
-        num_norms = operation_order.count('norm')
+        num_norms = operation_order.count("norm")
         for _ in range(num_norms):
             self.norms.append(build_norm_layer(norm_cfg, self.embed_dims)[1])
 
-    def forward(self,
-                query,
-                key=None,
-                value=None,
-                query_pos=None,
-                key_pos=None,
-                attn_masks=None,
-                query_key_padding_mask=None,
-                key_padding_mask=None,
-                **kwargs):
+    def forward(
+        self,
+        query,
+        key=None,
+        value=None,
+        query_pos=None,
+        key_pos=None,
+        attn_masks=None,
+        query_key_padding_mask=None,
+        key_padding_mask=None,
+        **kwargs,
+    ):
         """Forward function for `TransformerDecoderLayer`.
         **kwargs contains some specific arguments of attentions.
         Args:
@@ -205,19 +217,21 @@ class MyCustomBaseTransformerLayer(BaseModule):
         if attn_masks is None:
             attn_masks = [None for _ in range(self.num_attn)]
         elif isinstance(attn_masks, torch.Tensor):
-            attn_masks = [
-                copy.deepcopy(attn_masks) for _ in range(self.num_attn)
-            ]
-            warnings.warn(f'Use same attn_mask in all attentions in '
-                          f'{self.__class__.__name__} ')
+            attn_masks = [copy.deepcopy(attn_masks) for _ in range(self.num_attn)]
+            warnings.warn(
+                f"Use same attn_mask in all attentions in "
+                f"{self.__class__.__name__} "
+            )
         else:
-            assert len(attn_masks) == self.num_attn, f'The length of ' \
-                f'attn_masks {len(attn_masks)} must be equal ' \
-                f'to the number of attention in ' \
-                f'operation_order {self.num_attn}'
+            assert len(attn_masks) == self.num_attn, (
+                f"The length of "
+                f"attn_masks {len(attn_masks)} must be equal "
+                f"to the number of attention in "
+                f"operation_order {self.num_attn}"
+            )
 
         for layer in self.operation_order:
-            if layer == 'self_attn':
+            if layer == "self_attn":
                 temp_key = temp_value = query
                 query = self.attentions[attn_index](
                     query,
@@ -228,15 +242,16 @@ class MyCustomBaseTransformerLayer(BaseModule):
                     key_pos=query_pos,
                     attn_mask=attn_masks[attn_index],
                     key_padding_mask=query_key_padding_mask,
-                    **kwargs)
+                    **kwargs,
+                )
                 attn_index += 1
                 identity = query
 
-            elif layer == 'norm':
+            elif layer == "norm":
                 query = self.norms[norm_index](query)
                 norm_index += 1
 
-            elif layer == 'cross_attn':
+            elif layer == "cross_attn":
                 query = self.attentions[attn_index](
                     query,
                     key,
@@ -246,13 +261,13 @@ class MyCustomBaseTransformerLayer(BaseModule):
                     key_pos=key_pos,
                     attn_mask=attn_masks[attn_index],
                     key_padding_mask=key_padding_mask,
-                    **kwargs)
+                    **kwargs,
+                )
                 attn_index += 1
                 identity = query
 
-            elif layer == 'ffn':
-                query = self.ffns[ffn_index](
-                    query, identity if self.pre_norm else None)
+            elif layer == "ffn":
+                query = self.ffns[ffn_index](query, identity if self.pre_norm else None)
                 ffn_index += 1
 
         return query

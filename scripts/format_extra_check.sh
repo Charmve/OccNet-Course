@@ -1,4 +1,18 @@
 #! /bin/bash
+###
+ # @Author: Charmve yidazhang1@gmail.com
+ # @Date: 2023-11-27 10:09:28
+ # @LastEditors: Charmve yidazhang1@gmail.com
+ # @LastEditTime: 2024-01-21 22:34:08
+ # @FilePath: /OccNet-Course/scripts/format_extra_check.sh
+ # @Version: 1.0.1
+ # @Blogs: charmve.blog.csdn.net
+ # @GitHub: https://github.com/Charmve
+ # @Description: 
+ # 
+ # Copyright (c) 2023 by Charmve, All Rights Reserved. 
+ # Licensed under the MIT License.
+### 
 set -euo pipefail
 
 TOP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd -P)"
@@ -35,7 +49,7 @@ function run_gtest_dependency_check() {
 }
 
 function proto_specific_dirs_check() {
-  declare -A proto_dirs
+  declare -a proto_dirs
   for fn in "$@"; do
     if [[ "${fn}" == *".proto" ]]; then
       local dir
@@ -51,7 +65,7 @@ function proto_specific_dirs_check() {
 
 function run_proto_lint() {
   local msg
-  # NOTE(Jiaming):
+  # NOTE:
   # 1. run "buf lint" from top_dir
   # 2. buf lint would probably fail, here we check unused imports only
   pushd "${TOP_DIR}" > /dev/null
@@ -77,7 +91,9 @@ function main() {
   local what_to_diff
   what_to_diff="${CI_MERGE_REQUEST_DIFF_BASE_SHA:-HEAD~1}"
 
+  declare -a changes
   readarray -t changes < <(git diff --ignore-submodules --diff-filter=d --name-only "${what_to_diff}")
+  
   for one_change in "${changes[@]}"; do
     if [[ "${one_change}" == *".proto" ]]; then
       run_proto_lint "${one_change}"

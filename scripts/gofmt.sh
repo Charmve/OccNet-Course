@@ -26,7 +26,7 @@ function check_gofmt_cmd() {
         GOFMT_PATH="$(command -v gofmt)"
       fi
     else
-      # NOTE(Jiaming): This depends on two facts:
+      # NOTE: This depends on two facts:
       # 1) Our workspace is named com_maiwei and its workspace dir /maiwei is writable
       # 2) The symlink created (pointing to the execution_root dir) is bazel-maiwei
       #    bazel info execution_root
