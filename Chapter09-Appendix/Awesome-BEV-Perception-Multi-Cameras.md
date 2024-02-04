@@ -32,6 +32,7 @@
 + BEVDet: High-Performance Multi-Camera 3D Object Detection in Bird-Eye-View  [[paper](https://arxiv.org/pdf/2112.11790.pdf)] [[Github](https://github.com/HuangJunJie2017/BEVDet)] 
 + BEVDet4D: Exploit Temporal Cues in Multi-camera 3D Object Detection [[paper](https://arxiv.org/abs/2203.17054)]
 + PETRv2: A Unified Framework for 3D Perception from Multi-Camera Images [[paper](https://arxiv.org/abs/2206.01256)][[Github](https://github.com/megvii-research/PETR)]
++ Sparse4D [[paper]()][[Github](https://github.com/HorizonRobotics/Sparse4D)][[video](https://www.bilibili.com/video/BV1nw411b7bB)]
 + M2BEV: Multi-Camera Joint 3D Detection and Segmentation with Unified Birds-Eye View Representation [[paper](https://arxiv.org/abs/2204.05088)] 
 + BEVerse: Unified Perception and Prediction in Birds-Eye-View for Vision-Centric Autonomous Driving [[paper](https://arxiv.org/abs/2205.09743v1)] [[Github](https://github.com/zhangyp15/BEVerse)]
 + PolarDETR: Polar Parametrization for Vision-based Surround-View 3D Detection[[paper](https://arxiv.org/abs/2206.10965)] [[Github](https://github.com/hustvl/PolarDETR)]
@@ -70,6 +71,8 @@
 #### Fast BEV
 + Fast-BEV: A Fast and Strong Bird’s-Eye View Perception Baseline [[paper](https://arxiv.org/abs/2301.12511)] [[Github](https://github.com/Sense-GVT/Fast-BEV)]
 + MatrixVT: Efficient Multi-Camera to BEV Transformation for 3D Perception  [[paper](https://arxiv.org/abs/2211.10593)][[Github](https://github.com/Megvii-BaseDetection/BEVDepth)]
++ WidthFormer\StreamPETR https://github.com/ChenhongyiYang/WidthFormer
++ StreamPETR [[paper](https://arxiv.org/abs/2303.11926)][[Github](https://github.com/exiawsh/StreamPETR)]
 
 #### HD Map Construction
 + (ICRA 2022) HDMapNet: An Online HD Map Construction and Evaluation Framework [[paper](https://tsinghua-mars-lab.github.io/HDMapNet/)]  [[Github](https://github.com/Tsinghua-MARS-Lab/HDMapNet)]

@@ -1,3 +1,26 @@
+## nuScenes: A Multimodal Dataset for Autonomous Driving
+
+https://www.youtube.com/watch?v=C6KbbndonGg
+
+https://www.nuscenes.org/nuscenes#download
+
+### Viz
+
+- streetscape.gl
+    - https://www.youtube.com/watch?v=irS9H0fU-ig
+    - https://github.com/prodramp/DeepWorks/tree/main/selfdrivingtech/streetscape.gl_demo
+- apollo-DreamView
+    - https://github.com/ApolloAuto/apollo/tree/master/modules/dreamview
+- Carla 
+    - https://www.bilibili.com/video/BV1eN4y1Z7Zy
+- lgsvl https://github.com/lgsvl/simulator
+- Foxglove Studio https://github.com/foxglove/studio
+    - https://github.com/foxglove/nuscenes2mcap
+## Occ3D datasets
+
+- Occ3D
+- OpenOccupancy
+- SurroundOcc
 
 ### 3D Occupancy Prediction Challenge at CVPR 2023 (Server remains `active`)
 

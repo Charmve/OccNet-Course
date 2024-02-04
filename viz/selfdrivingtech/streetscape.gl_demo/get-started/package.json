@@ -1,0 +1,40 @@
+{
+  "name": "streetscape.gl-quick-start",
+  "description": "A template app of streetscape.gl",
+  "version": "0.1.0",
+  "scripts": {
+    "start-local": "webpack-dev-server --env.local --progress --hot --open",
+    "start-streaming-local": "webpack-dev-server --env.local --env.stream --progress --hot --open",
+    "start-live-local": "webpack-dev-server --env.local --env.live --progress --hot --open",
+    "start": "webpack-dev-server --progress --hot --open",
+    "start-streaming": "webpack-dev-server --env.stream --progress --hot --open",
+    "start-live": "webpack-dev-server --env.live --progress --hot --open"
+  },
+  "dependencies": {
+    "@chakra-ui/react": "1.7.4",
+    "@emotion/react": "^11.7.1",
+    "@emotion/styled": "^11.6.0",
+    "@testing-library/jest-dom": "^5.16.1",
+    "@testing-library/react": "^10.4.9",
+    "@testing-library/user-event": "^12.8.3",
+    "framer-motion": "^4.1.17",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-router": "^5.2.1",
+    "react-router-dom": "^5.2.1",
+    "react-scripts": "5.0.0",
+    "streetscape.gl": "1.0.11"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.0.0",
+    "@babel/plugin-proposal-class-properties": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.0",
+    "source-map-loader": "^0.2.3",
+    "webpack": "^4.20.0",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.1"
+  }
+}

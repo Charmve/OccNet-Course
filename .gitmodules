@@ -49,14 +49,17 @@
     url = https://github.com/OpenDriveLab/UniAD
 
 [submodule "SurroundOcc"]
-    path = code/SurroundOcc
+    path = dataset/SurroundOcc
     url = https://github.com/weiyithu/SurroundOcc
 [submodule "Occ3D"]
-    path = code/Occ3D
+    path = dataset/Occ3D
     url = https://github.com/Tsinghua-MARS-Lab/Occ3D
 [submodule "OpenScene"]
-    path = code/OpenScene
+    path = dataset/OpenScene
     url = https://github.com/OpenDriveLab/OpenScene
+[submodule "OpenOccupancy"]
+    path = dataset/OpenOccupancy
+    url = https://github.com/JeffWang987/OpenOccupancy
 
 
 [submodule "Deformable-DETR"]

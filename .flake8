@@ -1,4 +1,4 @@
 [flake8]
 max-line-length = 90
-exclude = file1.py, **/__init__.py
+exclude = ./Chapter08-FinalProject/OccNet/projects/mmdet3d_plugin/bevformer/modules/voxel_encoder.py, **/__init__.py
 
