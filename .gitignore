@@ -4,4 +4,6 @@ src/.DS_Store
 **/*.pptx
 **/*.pth
 **/data
-
+**/__pycache__
+code/BEVFormer/work_dirs/bevformer_tiny/*.log
+code/BEVFormer/work_dirs/bevformer_base/*.log
