@@ -4,6 +4,7 @@
 **/*.pdf filter=lfs diff=lfs merge=lfs -text
 **/*.jpg filter=lfs diff=lfs merge=lfs -text
 **/*.gif filter=lfs diff=lfs merge=lfs -text
+**/results_nusc.json filter=lfs diff=lfs merge=lfs -text
 *.pt filter=lfs diff=lfs merge=lfs -text
 */results_nusc.json filter=lfs diff=lfs merge=lfs -text
 code/BEVFormer/test/bevformer_base/Wed_Feb_28_20_35_41_2024/pts_bbox/results_nusc.json filter=lfs diff=lfs merge=lfs -text
