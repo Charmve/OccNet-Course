@@ -71,7 +71,7 @@
 #### Fast BEV
 + Fast-BEV: A Fast and Strong Bird’s-Eye View Perception Baseline [[paper](https://arxiv.org/abs/2301.12511)] [[Github](https://github.com/Sense-GVT/Fast-BEV)]
 + MatrixVT: Efficient Multi-Camera to BEV Transformation for 3D Perception  [[paper](https://arxiv.org/abs/2211.10593)][[Github](https://github.com/Megvii-BaseDetection/BEVDepth)]
-+ WidthFormer\StreamPETR https://github.com/ChenhongyiYang/WidthFormer
++ WidthFormer\StreamPETR https://github.com/ChenhongyiYang/WidthFormer https://zhuanlan.zhihu.com/p/676889437
 + StreamPETR [[paper](https://arxiv.org/abs/2303.11926)][[Github](https://github.com/exiawsh/StreamPETR)]
 
 #### HD Map Construction

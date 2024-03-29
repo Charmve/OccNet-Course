@@ -4,14 +4,22 @@
 # ---------------------------------------------
 
 import mmcv
+import sys
+import argparse
 
 from PIL import Image
-from typing import Tuple, List, Iterable
+from typing import Iterable
+
+import os
+import cv2
+import numpy as np
 
 import numpy as np
 from matplotlib import rcParams
 import matplotlib.pyplot as plt
 from matplotlib.axes import Axes
+from matplotlib.animation import FuncAnimation
+
 from pyquaternion import Quaternion
 from tqdm import tqdm
 
@@ -29,6 +37,9 @@ cams = ['CAM_FRONT',
  'CAM_BACK',
  'CAM_BACK_LEFT',
  'CAM_FRONT_LEFT']
+
+cams_count = 0
+verbose = False
 
 def render_annotation(
         anntoken: str,
@@ -253,7 +264,7 @@ def get_predicted_data(sample_data_token: str,
 
     return data_path, box_list, cam_intrinsic
 
-def lidiar_render(sample_token, data,out_path=None):
+def lidiar_render(sample_token, data, out_path=None):
     bbox_gt_list = []
     bbox_pred_list = []
     anns = nusc.get('sample', sample_token)['anns']
@@ -293,8 +304,12 @@ def lidiar_render(sample_token, data,out_path=None):
     pred_annotations = EvalBoxes()
     gt_annotations.add_boxes(sample_token, bbox_gt_list)
     pred_annotations.add_boxes(sample_token, bbox_pred_list)
-    print('green is ground truth')
-    print('blue is the predited result')
+    
+    global verbose
+    if not verbose:
+        verbose = True
+        print("- \033[32mgreen\033[0m is ground truth")
+        print('- \033[34mblue\033[0m is the predited result')
     visualize_sample(nusc, sample_token, gt_annotations, pred_annotations, savepath=out_path+'_bev')
 
 def get_color(category_name: str):
@@ -314,7 +329,7 @@ def get_color(category_name: str):
         'car', 'truck', 'construction_vehicle', 'bus', 'trailer', 'barrier',
         'motorcycle', 'bicycle', 'pedestrian', 'traffic_cone'
     ]
-    #print(category_name)
+
     if category_name == 'bicycle':
         return nusc.colormap['vehicle.bicycle']
     elif category_name == 'construction_vehicle':
@@ -441,17 +456,126 @@ def render_sample_data(
             sd_record['channel'], labels_type='(predictions)' if lidarseg_preds_bin_path else ''))
         ax[j + 2, ind].set_aspect('equal')
 
+    global cams_count
     if out_path is not None:
-        plt.savefig(out_path+'_camera', bbox_inches='tight', pad_inches=0, dpi=200)
+        print("out_path: ", out_path)
+        cams_count += 1
+        plt.savefig(out_path + '_camera_' + str(cams_count), bbox_inches='tight', pad_inches=0, dpi=200)
     if verbose:
         plt.show()
     plt.close()
 
+def has_image(path):
+    for file in os.listdir(path):
+        if file.endswith('.jpg') or file.endswith('.png') or file.endswith('.jpeg'):
+            return True
+    return False
+
+def img_concat(img1, img2, enable_show: bool = False):
+    # 将img2的高度缩小为img1的一半
+    new_height = img1.shape[0] // 2
+    new_width = int(img2.shape[1] * (new_height / img2.shape[0]))
+    img2_resized = cv2.resize(img2, (new_width, new_height))
+
+    # 创建一个新的图像，宽度为img1的宽度加上img2的宽度，高度为img1的高度
+    new_img = np.zeros((img1.shape[0], img1.shape[1] + img2_resized.shape[1], 3), dtype=np.uint8)
+
+    # 将img1和img2拼接到新的图像上
+    new_img[:, :img1.shape[1]] = img1
+    new_img[:img2_resized.shape[0], img1.shape[1]:] = img2_resized
+
+    # 显示新的图像
+    if enable_show:
+        cv2.imshow('New Image', new_img)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
+
+    return new_img
+
+def parse_args():
+    parser = argparse.ArgumentParser(description='Data converter arg parser')
+    parser.add_argument(
+        '--results_nusc',
+        type=str,
+        default='./test/bevformer_base/Wed_Feb_28_20_35_41_2024/pts_bbox/results_nusc.json',
+        required=True,
+        help='specify the root path of nuScenes bevformer train result')
+    parser.add_argument(
+        '--version',
+        type=str,
+        default='v1.0-trainval',
+        required=False,
+        help='specify the nuscenes dataset version')
+    parser.add_argument(
+        '--save_video',
+        type=bool,
+        default=False,
+        help='whether save result to video')
+    parser.add_argument(
+        '--render_num',
+        type=int,
+        default=10,
+        help='how many result images you wannar render')
+    args = parser.parse_args()
+    return args
+
+
 if __name__ == '__main__':
-    nusc = NuScenes(version='v1.0-mini', dataroot='./data/nuscenes/v1.0-mini/', verbose=True)
-    # render_annotation('7603b030b42a4b1caa8c443ccc1a7d52')
+    args = parse_args()
+    
+    results_nusc = args.results_nusc
+    nuscenes_version = args.version
+    render_num = args.render_num
+
+    if nuscenes_version == "v1.0-trainval" or nuscenes_version == "":
+        nusc = NuScenes(version=f'v1.0-trainval', dataroot=f'./data/nuscenes/', verbose=True)
+    elif nuscenes_version == "v1.0-mini":
+        nusc = NuScenes(version=f'v1.0-mini', dataroot=f'./data/nuscenes/v1.0-mini', verbose=True)
+    else:
+        print(f"The nuscenes version {nuscenes_version} is invalid.")
+    
     # bevformer_results = mmcv.load('test/bevformer_base/Thu_Jun__9_16_22_37_2022/pts_bbox/results_nusc.json')
-    bevformer_results = mmcv.load('val/work_dirs/bevformer_tiny/Mon_Jan_22_22_25_10_2024/pts_bbox/results_nusc.json')
+    # bevformer_results = mmcv.load('val/work_dirs/bevformer_base/Wed_Feb_21_21_21_12_2024/pts_bbox/results_nusc.json')
+    bevformer_results = mmcv.load(results_nusc)
     sample_token_list = list(bevformer_results['results'].keys())
-    for id in range(0, 10):
-        render_sample_data(sample_token_list[id], pred_data=bevformer_results, out_path=sample_token_list[id])
+    for id in range(0, render_num):
+        render_sample_data(sample_token_list[id], pred_data=bevformer_results, out_path="./outputs/" + sample_token_list[id], verbose=False)
+    
+    if args.save_video:
+        image_folder = './outputs'
+        video_name = 'bevformer_results.avi'
+
+        if not has_image(image_folder):
+            print(f'There is no image in {image_folder}.')
+            exit(1)
+
+        cam_images = [img for img in os.listdir(image_folder) if img.endswith("_camera.png")]
+        cam_frame = cv2.imread(os.path.join(image_folder, cam_images[0]))
+        cam_height, cam_width, layers = cam_frame.shape
+
+        bev_imgs = [img for img in os.listdir(image_folder) if img.endswith("_bev.png")]
+        bev_frame = cv2.imread(os.path.join(image_folder, bev_imgs[0]))
+        bev_height, bev_width, _ = bev_frame.shape
+
+        new_img = img_concat(cam_frame, bev_frame)
+        # cv2.imwrite(f'output_{inx}.jpg', new_img)
+
+        # 创建一个VideoWriter对象
+        fourcc = cv2.VideoWriter_fourcc(*'XVID')
+        video = cv2.VideoWriter(video_name, fourcc, 25.0, (new_img.shape[1], new_img.shape[0]))
+
+        for inx in range(0, len(cam_images)):
+            cam_img_frame = cv2.imread(os.path.join(image_folder, cam_images[inx]))
+            bev_img_frame = cv2.imread(os.path.join(image_folder, bev_imgs[inx]))
+
+            new_img = img_concat(cam_img_frame, bev_img_frame)
+            new_img_height, new_img_width, _ = new_img.shape
+
+            # cv2.imwrite(f'output_{inx}.jpg', new_img)
+
+            video.write(new_img)
+
+            # cv2.destroyAllWindows()
+            
+        video.release()
+

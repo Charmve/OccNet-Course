@@ -18,6 +18,7 @@
 ### autonomous driving datasets
 
 - nuScenes
+    - https://d36yt3mvayqw5m.cloudfront.net/public/v1.0/v1.0-trainval_meta.tgz
 - KITTI
 - Lyft
 - Waymo datasets

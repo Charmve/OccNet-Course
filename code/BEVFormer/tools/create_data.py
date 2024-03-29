@@ -29,11 +29,11 @@ def kitti_data_prep(root_path, info_prefix, version, out_dir):
     kitti.create_kitti_info_file(root_path, info_prefix)
     kitti.create_reduced_point_cloud(root_path, info_prefix)
 
-    info_train_path = osp.join(root_path, f'{info_prefix}_infos_train.pkl')
-    info_val_path = osp.join(root_path, f'{info_prefix}_infos_val.pkl')
+    info_train_path = osp.join(root_path, f'{info_prefix}_befformer_infos_train.pkl')
+    info_val_path = osp.join(root_path, f'{info_prefix}_befformer_infos_val.pkl')
     info_trainval_path = osp.join(root_path,
-                                  f'{info_prefix}_infos_trainval.pkl')
-    info_test_path = osp.join(root_path, f'{info_prefix}_infos_test.pkl')
+                                  f'{info_prefix}_befformer_infos_trainval.pkl')
+    info_test_path = osp.join(root_path, f'{info_prefix}_befformer_infos_test.pkl')
     kitti.export_2d_annotation(root_path, info_train_path)
     kitti.export_2d_annotation(root_path, info_val_path)
     kitti.export_2d_annotation(root_path, info_trainval_path)
@@ -193,42 +193,46 @@ def waymo_data_prep(root_path,
         with_mask=False)
 
 
-parser = argparse.ArgumentParser(description='Data converter arg parser')
-parser.add_argument('dataset', metavar='kitti', help='name of the dataset')
-parser.add_argument(
-    '--root-path',
-    type=str,
-    default='./data/kitti',
-    help='specify the root path of dataset')
-parser.add_argument(
-    '--canbus',
-    type=str,
-    default='./data',
-    help='specify the root path of nuScenes canbus')
-parser.add_argument(
-    '--version',
-    type=str,
-    default='v1.0',
-    required=False,
-    help='specify the dataset version, no need for kitti')
-parser.add_argument(
-    '--max-sweeps',
-    type=int,
-    default=10,
-    required=False,
-    help='specify sweeps of lidar per example')
-parser.add_argument(
-    '--out-dir',
-    type=str,
-    default='./data/kitti',
-    required='False',
-    help='name of info pkl')
-parser.add_argument('--extra-tag', type=str, default='kitti')
-parser.add_argument(
-    '--workers', type=int, default=4, help='number of threads to be used')
-args = parser.parse_args()
+def parse_args():
+    parser = argparse.ArgumentParser(description='Data converter arg parser')
+    parser.add_argument('dataset', metavar='kitti', help='name of the dataset')
+    parser.add_argument(
+        '--root-path',
+        type=str,
+        default='./data/kitti',
+        help='specify the root path of dataset')
+    parser.add_argument(
+        '--canbus',
+        type=str,
+        default='./data',
+        help='specify the root path of nuScenes canbus')
+    parser.add_argument(
+        '--version',
+        type=str,
+        default='v1.0',
+        required=False,
+        help='specify the dataset version, no need for kitti')
+    parser.add_argument(
+        '--max-sweeps',
+        type=int,
+        default=10,
+        required=False,
+        help='specify sweeps of lidar per example')
+    parser.add_argument(
+        '--out-dir',
+        type=str,
+        default='./data/kitti',
+        required='False',
+        help='name of info pkl')
+    parser.add_argument('--extra-tag', type=str, default='kitti')
+    parser.add_argument(
+        '--workers', type=int, default=4, help='number of threads to be used')
+    args = parser.parse_args()
+    return args
 
 if __name__ == '__main__':
+    args = parse_args()
+    
     if args.dataset == 'kitti':
         kitti_data_prep(
             root_path=args.root_path,

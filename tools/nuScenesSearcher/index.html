@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-191564533-1"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag() { window.dataLayer.push(arguments); }
+		gtag('js', new Date());
+
+		gtag('config', 'UA-191564533-1', { 'linker': { 'domains': ['www.nyckel.com', 'login.nyckel.com'] } });
+	</script>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<base href="" />
+
+	<meta property="og:type" content="website">
+    <meta property="og:title" content="nuScenes Searcher">
+    <meta property="og:description" content="Semantic Search of the nuScenes Dataset">
+    <meta property="og:url" content="https://www.nyckel.com/nuscenes-searcher/">
+    <meta property="og:image" content="https://www.nyckel.com/nuscenes-searcher/images/nuscenes-searcher-social.jpg">
+
+	<meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@@nyckelai" />
+
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600" rel="stylesheet">
+	<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+	<link rel="manifest" href="site.webmanifest">
+	<script type="text/javascript" src="js/nuscenes-search.js"></script>
+	<link href="css/saphire-utilities-2.0.min.css" rel="stylesheet" type="text/css" />
+	<link href="css/nuscenes-search.css" rel="stylesheet" type="text/css" />
+	<title>nuScenesSearcher</title>
+	<meta name="description" content="Semantic search of the nuScenes dataset. Powered by nyckel.com.">
+</head>
+
+<body class="">
+
+	<main>
+
+		<div class="columns-fluid collapse-900" style="height: 100%;">
+			<div class="col-5 main-panel" style="position: relative;">
+				<div class="main-panel-inner">
+					<div class="text-centered p-t-50 p-remove-900">
+						<div class="p-25">
+							<a href="" id="page-logo"><img src="images/logo-nuscenes.png" alt="" class="page-logo" /></a>
+						</div>
+
+						<div class="tag-text p-b-50 p-remove-900">
+							<p>
+								Search the iconic <a href="https://www.nuscenes.org/">nuScenes</a> self-driving car dataset.
+							</p> 
+						</div>
+
+						<div class="form-box">
+							<form id="search-form" style="position: relative;">
+								<div class="p-b-10 text-center-900"><label>Enter text to search or drop an
+										image:</label></div>
+								<div class="columns-flex collapse-700">
+									<div class="col-fluid  p-r-15 p-remove-700" style="position: relative;">
+										<div id="current-search-preview" class="current-search-preview"
+											style="padding: 10px;">
+											<div class="current-search-preview-divet"></div>
+											<img id="ItemPreview" src=""
+												style="width: 100px; position: relative; z-index: 5; float: left;" />
+										</div>
+										<div style="position: absolute; right: 27px; top: 18px;">
+											<label for="image-input"><img id="image-search-label"
+													class="image-droppable" src="images/icon-upload-image.svg"
+													alt="Powered by Nyckel"
+													style="width: 27px; cursor: pointer;" /></label>
+											<input id="image-input" name="image-input" type="file"
+												onchange="image_upload_click()" style="display: none;"><br>
+										</div>
+										<input id="search-text" type="text" placeholder="e.g. crowded crosswalk" />
+									</div>
+									<div class="col-100"><input id="search-submit" type="submit"
+											class="btn btn-primary search-button" value="Search" /></div>
+								</div>
+							</form>
+						</div>
+					
+						<div id="error-message" class="error-message">Error: Please upload a jpg or png image</div>
+					</div>
+
+					<div class="tab-bottom"><a href="https://www.nyckel.com/semantic-image-search">Powered by
+							Nyckel&nbsp;&nbsp;&nbsp;|</a><a
+							href="https://github.com/NyckelAI/codesamples/tree/main/demos/nuScenesSearcher"
+							target="_blank">&nbsp;&nbsp;&nbsp;Github</a>
+					</div>
+				</div>
+			</div>
+
+			<div id="results-pane" class="col-7" style="position: relative;">
+				<div class="loading-panel">
+					<div class="loading-panel-spinner-wrapper">
+						<div class="lds-roller">
+							<div></div>
+							<div></div>
+							<div></div>
+							<div></div>
+							<div></div>
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+					</div>
+				</div>
+				<div class='container' style="position: relative; z-index: 2;">
+
+					<div id="tile-0" class='tile image-tile-wrapper'>
+						<div id="tile-image-0" class="image-tile tooltip"
+							style="width: 100%; height: 100%; background-size: cover;"
+							data-tooltiptarget="tooltip-similar" data-id=""></div>
+							<div class="filename-box"><p class="filename-text" id="tile-text-0">Placeholder</p></div>
+					</div>
+
+					<div id="tile-1" class='tile image-tile-wrapper'>
+						<div id="tile-image-1" class="image-tile tooltip"
+							style="width: 100%; height: 100%; background-size: cover;"
+							data-tooltiptarget="tooltip-similar" data-id=""></div>
+							<div class="filename-box"><p class="filename-text" id="tile-text-1">Placeholder</p></div>
+					</div>
+
+					<div id="tile-2" class='tile image-tile-wrapper'>
+						<div id="tile-image-2" class="image-tile tooltip"
+							style="width: 100%; height: 100%; background-size: cover;"
+							data-tooltiptarget="tooltip-similar" data-id=""></div>
+							<div class="filename-box"><p class="filename-text" id="tile-text-2">Placeholder</p></div>
+					</div>
+
+					<div id="tile-3" class='tile image-tile-wrapper'>
+						<div id="tile-image-3" class="image-tile tooltip"
+							style="width: 100%; height: 100%; background-size: cover;"
+							data-tooltiptarget="tooltip-similar" data-id=""></div>
+							<div class="filename-box"><p class="filename-text" id="tile-text-3">Placeholder</p></div>
+					</div>
+
+					<div id="tile-4" class='tile image-tile-wrapper'>
+						<div id="tile-image-4" class="image-tile tooltip"
+							style="width: 100%; height: 100%; background-size: cover;"
+							data-tooltiptarget="tooltip-similar" data-id=""></div>
+							<div class="filename-box"><p class="filename-text" id="tile-text-4">Placeholder</p></div>
+					</div>
+
+					<div id="tile-5" class='tile image-tile-wrapper'>
+						<div id="tile-image-5" class="image-tile tooltip"
+							style="width: 100%; height: 100%; background-size: cover;"
+							data-tooltiptarget="tooltip-similar" data-id=""></div>
+							<div class="filename-box"><p class="filename-text" id="tile-text-5">Placeholder</p></div>
+					</div>
+
+					<div id="tile-6" class='tile image-tile-wrapper'>
+						<div id="tile-image-6" class="image-tile tooltip"
+							style="width: 100%; height: 100%; background-size: cover;"
+							data-tooltiptarget="tooltip-similar" data-id="">
+							<div class="filename-box"><p class="filename-text" id="tile-text-6">Placeholder</p></div>
+						</div>
+						
+					</div>
+
+					<div id="tile-7" class='tile image-tile-wrapper'>
+						<div id="tile-image-7" class="image-tile tooltip"
+							style="width: 100%; height: 100%; background-size: cover;"
+							data-tooltiptarget="tooltip-similar" data-id=""></div>
+							<div class="filename-box"><p class="filename-text" id="tile-text-7">Placeholder</p></div>
+					</div>
+
+					<div id="tile-8" class='tile image-tile-wrapper'>
+						<div id="tile-image-8" class="image-tile tooltip"
+							style="width: 100%; height: 100%; background-size: cover;"
+							data-tooltiptarget="tooltip-similar" data-id=""></div>
+							<div class="filename-box"><p class="filename-text" id="tile-text-8">Placeholder</p></div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<div id="tooltip-similar" class="tooltip-popup">
+			<strong>Click to find similar images</strong>
+		</div>
+
+	</main>
+</body>
+
+</html>

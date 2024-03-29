@@ -45,7 +45,7 @@ model = dict(
     video_test_mode=True,
     img_backbone=dict(
         type="ResNet",
-        depth=101,
+        depth=50,
         num_stages=4,
         out_indices=(1, 2, 3),
         frozen_stages=1,
@@ -191,7 +191,7 @@ model = dict(
 )
 
 dataset_type = "CustomNuScenesDataset"
-data_root = "data/nuscenes/v1.0-mini/"
+data_root = "data/nuscenes/"
 file_client_args = dict(backend="disk")
 
 
@@ -291,7 +291,7 @@ lr_config = dict(
     warmup_ratio=1.0 / 3,
     min_lr_ratio=1e-3,
 )
-total_epochs = 1
+total_epochs = 2
 evaluation = dict(interval=1, pipeline=test_pipeline)
 
 runner = dict(type="EpochBasedRunner", max_epochs=total_epochs)

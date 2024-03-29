@@ -168,9 +168,8 @@ model = dict(
             pc_range=point_cloud_range))))
 
 dataset_type = 'CustomNuScenesDataset'
-data_root = 'data/mmdet-nuscenes/'
+data_root = "data/nuscenes/v1.0-mini/"
 file_client_args = dict(backend='disk')
-
 
 train_pipeline = [
     dict(type='LoadMultiViewImageFromFiles', to_float32=True),

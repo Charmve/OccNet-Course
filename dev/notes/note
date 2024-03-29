@@ -1,0 +1,12 @@
+
+# which pip
+## maptr-3.8
+export PATH="/home/qcraft/anaconda3/envs/maptr-3.8/bin:$PATH"
+## base python 3.9
+# export PATH="/home/qcraft/anaconda3/bin:$PATH"
+
+export PYTHONPATH=${PYTHONPATH}:/home/qcraft/qcraft/workspace/OccNet-Course/code/MapTR/projects/mmdet3d_plugin/maptr/modules/ops/geometric_kernel_attn
+export PYTHONPATH=${PYTHONPATH}:/home/qcraft/qcraft/workspace/OccNet-Course/code/MapTR/
+export PYTHONPATH=${PYTHONPATH}:/home/qcraft/qcraft/workspace/OccNet-Course/code/BEVFormer
+
+export PYTHONPATH=${PYTHONPATH}:~/workspace/OccNet-Course/code/MapTR/projects/mmdet3d_plugin/maptr/modules/ops/geometric_kernel_attn/build/lib.linux-x86_64-3.8

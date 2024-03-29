@@ -1,0 +1,12 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =6
+let g:netrw_dirhist_6='/Users/charmve/workspace/meedu-h5/public'
+let g:netrw_dirhist_5='/Users/charmve/Downloads/ailabx_11.22/gui'
+let g:netrw_dirhist_4='/Users/charmve/Downloads/ailabx_11.22'
+let g:netrw_dirhist_3='/Users/charmve/workspace/slidev-work/video2pdf'
+let g:netrw_dirhist_2='/Users/charmve/workspace/slidev-work'
+let g:netrw_dirhist_1='/Users/charmve/Qbot/pyfunds/fund-strategy/.vscode'
+let g:netrw_dirhist_0='/Users/charmve/workspace/project/stock'
+let g:netrw_dirhist_9='/Users/charmve/workspace/BenchRT/tests'
+let g:netrw_dirhist_8='/Users/charmve/workspace/BenchRT'
+let g:netrw_dirhist_7='/Users/charmve/workspace/llvm-x-toolchain/tests/scripts/run_tests'

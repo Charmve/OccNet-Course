@@ -4,7 +4,7 @@ class_names = [
     'motorcycle', 'bicycle', 'pedestrian', 'traffic_cone'
 ]
 dataset_type = 'CustomNuScenesDataset'
-data_root = 'data/nuscenes/v1.0-mini/'
+data_root = 'data/nuscenes/'
 input_modality = dict(
     use_lidar=False,
     use_camera=True,
@@ -93,8 +93,8 @@ data = dict(
     workers_per_gpu=0,
     train=dict(
         type='CustomNuScenesDataset',
-        data_root='data/nuscenes/v1.0-mini/',
-        ann_file='data/nuscenes/v1.0-mini/nuscenes_infos_temporal_train.pkl',
+        data_root='data/nuscenes/',
+        ann_file='data/nuscenes/nuscenes_infos_temporal_train.pkl',
         pipeline=[
             dict(type='LoadMultiViewImageFromFiles', to_float32=True),
             dict(type='PhotoMetricDistortionMultiViewImage'),
@@ -147,7 +147,7 @@ data = dict(
         queue_length=4),
     val=dict(
         type='CustomNuScenesDataset',
-        ann_file='data/nuscenes/v1.0-mini/nuscenes_infos_temporal_val.pkl',
+        ann_file='data/nuscenes/nuscenes_infos_temporal_val.pkl',
         pipeline=[
             dict(type='LoadMultiViewImageFromFiles', to_float32=True),
             dict(
@@ -185,13 +185,13 @@ data = dict(
             use_external=True),
         test_mode=True,
         box_type_3d='LiDAR',
-        data_root='data/nuscenes/v1.0-mini/',
+        data_root='data/nuscenes/',
         bev_size=(200, 200),
         samples_per_gpu=1),
     test=dict(
         type='CustomNuScenesDataset',
-        data_root='data/nuscenes/v1.0-mini/',
-        ann_file='data/nuscenes/v1.0-mini/nuscenes_infos_temporal_val.pkl',
+        data_root='data/nuscenes/',
+        ann_file='data/nuscenes/nuscenes_infos_temporal_val.pkl',
         pipeline=[
             dict(type='LoadMultiViewImageFromFiles', to_float32=True),
             dict(
@@ -288,7 +288,7 @@ model = dict(
     video_test_mode=True,
     img_backbone=dict(
         type='ResNet',
-        depth=101,
+        depth=50,
         num_stages=4,
         out_indices=(1, 2, 3),
         frozen_stages=1,
@@ -413,6 +413,6 @@ lr_config = dict(
     warmup_iters=500,
     warmup_ratio=0.3333333333333333,
     min_lr_ratio=0.001)
-total_epochs = 1
-runner = dict(type='EpochBasedRunner', max_epochs=1)
-gpu_ids = range(0, 1)
+total_epochs = 2
+runner = dict(type='EpochBasedRunner', max_epochs=2)
+gpu_ids = range(0, 2)

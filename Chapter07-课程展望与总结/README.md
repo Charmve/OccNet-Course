@@ -38,7 +38,7 @@
       - OCC与Nerf联合标注
       - [面向BEV感知的4D标注方案](https://zhuanlan.zhihu.com/p/642735557?utm_psn=1706841959639998464)
     - 数据合成：DrivingDiffusion、[MagicDrive](https://zhuanlan.zhihu.com/p/675303127)、UrbanSyn
-    - https://github.com/runnanchen/CLIP2Scene
+    - CLIP2Scene https://github.com/runnanchen/CLIP2Scene
 
 - <b>仿真</b>
     - [UniSim](https://waabi.ai/unisim/)
