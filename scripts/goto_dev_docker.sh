@@ -108,7 +108,9 @@ function main() {
 
 	xhost +local:"${USER}" &>/dev/null
 
-	nvidia-docker run \
+	# nvidia-docker run \
+	docker run \
+		--gpus all \
 		-it \
 		-v "/media:/media" \
 		-v "${HOME}:/hosthome:rw" \
@@ -117,7 +119,6 @@ function main() {
 		--workdir=/maiwei \
 		--shm-size 16g \
 		"$X86_64_DEV_REPO" /bin/bash
-	# charmve/maiwei-dev-x86_64-20231116 /bin/bash
 
 	xhost -local:"${USER}" 1>/dev/null 2>&1
 }

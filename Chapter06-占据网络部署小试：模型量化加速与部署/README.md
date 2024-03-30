@@ -3,6 +3,8 @@
 
 ### Overview
 
+[模型压缩部署概述](https://github.com/HarleysZhang/dl_note/blob/main/5-model_deploy/.md)
+
 0. 模型量化部署
 
 ![QAT、PTQ简介](https://developer.horizon.ai/api/v1/fileData/horizon_j5_open_explorer_v1_1_33_cn_doc/_images/qat_ptq_contrast.png)
@@ -17,7 +19,7 @@ BEV部署：https://developer.horizon.cc/api/v1/fileData/horizon_j5_reference_pa
 https://github.com/fundamentalvision/BEVFormer
 
 
-2. [BEVFusion CUDA部署](./CUDA-BEVFusion)
+2. [BEVFusion CUDA部署](./BEVFusion-TRT)
 
 [BEVFusion: 基于统一BEV表征的多任务多传感器融合](https://zhuanlan.zhihu.com/p/521821929)
 

@@ -74,6 +74,8 @@ function determine_volume_mounts() {
 		"${top_dir}/.cache:/maiwei_cache"
 		"${HOME}:/hosthome:rw"
 		"/media:/media"
+		"/data:/data"
+		"${HOME}:/hosthome:rw"
 		"/var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket"
 		"/etc/localtime:/etc/localtime"
 		"/etc/machine-id:/etc/machine-id"
@@ -88,6 +90,8 @@ function generate_docker_run_command() {
 	readonly env_vars=(
 		"USER=${DOCKER_USER}"
 		"DOCKER_IMG=${image}"
+		"LANG=C.UTF-8"
+		"PS1="[\[\e[1;32m\]\u\[\e[m\]\[\e[1;33m\]@\[\e[m\]\[\e[1;35m\]\h\[\e[m\]:\[\e[0;32m\]\w\[\e[0m\]$(__git_ps1 "\[\e[33m\](%s) \[\e[0m\]")\[\e[31m\]$(git_dirty)\[\e[0m\]] $ ""
 	)
 
 	declare -a vmounts
@@ -97,8 +101,11 @@ function generate_docker_run_command() {
 	hostname_dev="${DEV_CONTAINER//_/-}"
 
 	_result+=(
-		nvidia-docker
-		run
+		#nvidia-docker
+		#run
+		docker 
+		run 
+		--gpus all
 		-itd
 		--privileged
 		"--ipc=host"
@@ -149,7 +156,7 @@ function main() {
 	elif docker pull ${dev_image}; then
 		docker tag ${dev_image} ${dev_image}
 	elif [ -f "$TOP_DIR"/docker/TAG ]; then
-		cd "$TOP_DIR"/code/cuda-quant/CUDA-BEVFusion/bevfusion/docker
+		cd "$TOP_DIR"/code/cuda-quant/BEVFusion-TRT/bevfusion/docker
 		docker build . -t "${DEV_CONTAINER}"
 	else
 		error "Dev Docker image '${dev_image}' not found locally."

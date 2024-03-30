@@ -1,7 +1,7 @@
 set number
 
-" Insert namespace qcraft
-ab ns namespace qcraft {}
+" Insert namespace maiwei
+ab ns namespace maiwei {}
 
 " 定义快捷键的前缀，即<Leader>
 let mapleader=";"
