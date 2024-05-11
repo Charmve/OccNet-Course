@@ -20,13 +20,64 @@
 </tr>
 </table>
 
+<details><summary><kbd>More</kbd></summary>
+<table align="center" style="table-layout: auto; width: 100%;">
+  <tbody>
+    <tr>
+        <td width=25%>s
+            <div align="center">
+              <img src="src/imgs/course/profile-chapter02.png">
+            </div>
+        </td>
+       <td width=25%>
+            <div align="center">
+              <img src="src/imgs/course/course-picture02.png">
+            </div>
+        </td>
+        <td width=25%>
+            <div align="center">
+              <img src="src/imgs/course/course-picture03.png">
+            </div>
+        </td>
+        <td width=25%>
+            <div align="center">
+              <img src="src/imgs/course/course-picture04.png">
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td width=25%>
+            <div align="center">
+              <img src="src/imgs/course/course-picture05.png">
+            </div>
+        </td>
+       <td width=25%>
+            <div align="center">
+              <img src="src/imgs/course/course-picture06.png">
+            </div>
+        </td>
+        <td width=25%>
+            <div align="center">
+              <img src="src/imgs/course/course-picture07.png">
+            </div>
+        </td>
+        <td width=25%>
+            <div align="center">
+              <img src="src/imgs/course/course-picture01.png">
+            </div>
+        </td>
+    </tr>
+  </tbody>
+</table>
+</details>
+
 <div align="center">
   <b>不建议 fork 项目，本项目会持续更新，只 fork 看不到更新，建议 Star ⭐️ ~</b> 
   <br><br>
   <img src="https://github.com/Charmve/OccNet-Course/assets/29084184/d44f4683-17fd-4193-9f5e-34ceec52db80">
 </div>
 
-<code>文档</code>&nbsp;<code>源代码</code>&nbsp;<code>视频</code>&nbsp;<code>课后答疑</code>
+<code>源代码</code>&nbsp;<code>开发环境</code>&nbsp;<code>文档/课件PPT</code>&nbsp;<code>视频</code>&nbsp;<code>课后答疑</code>
 
 # OccNet-Course
 
@@ -168,7 +219,7 @@ Occupancy网络可以识别移动部分和非移动部分、未知障碍物等�
         课件PPT
     </td>
     <td>
-        源代码
+        节选
     </td>
    </tr>
    <tr>
@@ -183,21 +234,23 @@ Occupancy网络可以识别移动部分和非移动部分、未知障碍物等�
 - 1.2 BEV感知算法的基本介绍
 - 1.3 相比于PV视角的差异性
 - 1.4 BEV和OccNet的联系
-- 1.5 主流的方法一览（2周）
+- 1.5 主流的方法一览（前向预测和反向映射）
    - 1.5.1 LSS
    - 1.5.2 BEVDet
    - 1.5.3 BEVFormer
    - 1.5.4 DETR3D
    - 1.5.5 FUTR3D
+- 1.6 小结与课后习题
     </details>
     </td>
     <td>
-	[<a href="Chapter01-BEV感知概述/占据网络专题-第一章-BEV感知概述.pptx"><code>📹</code> Video</a>] | [<code><img height="18" src="https://user-images.githubusercontent.com/29084184/127970991-fcb23d68-8369-47af-918a-fef8f0becccd.png" alt="Baidu Cloud" title="Baidu Cloud" style="vertical-align:bottom;"/></code><a href="https://pan.baidu.com/s/1xEIUdzMF81zfFGXnTYih0g">百度网盘</a>] 提取码: 4jja
+	[<a href="Chapter01-BEV感知概述/占据网络专题-第一章-BEV感知概述.pptx"><code>📹</code> Video</a>] | [<code><img height="18" src="https://user-images.githubusercontent.com/29084184/127970991-fcb23d68-8369-47af-918a-fef8f0becccd.png" alt="Baidu Cloud" title="Baidu Cloud" style="vertical-align:bottom;"/></code><a href="https://pan.baidu.com/s/1xEIUdzMF81zfFGXnTYih0g">百度网盘 <code>4jja</code></a>]
     </td>
     <td>
-      [PPT](Chapter01-BEV感知概述/占据网络专题-第一章-BEV感知概述.pptx) | [百度网盘]
+      <a href="Chapter01-BEV感知概述/占据网络专题-第一章-BEV感知概述.pptx">PPT</a> | [百度网盘]
     </td>
     <td>
+      <img src="src/imgs/course/profile-chapter01.png">
     </td>
    </tr>
    <tr>
@@ -208,22 +261,24 @@ Occupancy网络可以识别移动部分和非移动部分、未知障碍物等�
     <details><summary>二、占据栅格网络概述(1.5周)</summary>
 
 [课程目录](Chapter02-占据栅格网络概述)
-- 2.1 3D语义场景补全（SSC）介绍
+- 2.1 3D语义场景补全（SSC）与3D场景预测
 - 2.2 占据网络基本思路
 - 2.3 纯视觉和多模态分类
   - 2.3.1 纯视觉方案
   - 2.3.2 点云方案
 - 2.4 Occpuancy网络基本流程梳理
 - 2.5 优势与挑战
+- 2.6 小结与课后习题
     </details>
     </td>
     <td>
-     [<a href="Chapter02-占据栅格网络概述/占据网络专题-第二章-占据网络概述.mp4"><code>📹</code> Video</a>] | [<code><img height="18" src="https://user-images.githubusercontent.com/29084184/127970991-fcb23d68-8369-47af-918a-fef8f0becccd.png" alt="Baidu Cloud" title="Baidu Cloud" style="vertical-align:bottom;"/></code><a href="https://pan.baidu.com/s/1plGllIymkCrJFfVLvuWXXw">百度网盘</a>] 提取码: wl1f
+     [<a href="Chapter02-占据栅格网络概述/占据网络专题-第二章-占据网络概述.mp4"><code>📹</code> Video</a>] | [<code><img height="18" src="https://user-images.githubusercontent.com/29084184/127970991-fcb23d68-8369-47af-918a-fef8f0becccd.png" alt="Baidu Cloud" title="Baidu Cloud" style="vertical-align:bottom;"/></code><a href="https://pan.baidu.com/s/1plGllIymkCrJFfVLvuWXXw">百度网盘<code>wl1f</code></a>]
     </td>
     <td>
-      [PPT]() | [百度网盘]()
+      [PPT] | [百度网盘]
     </td>
     <td>
+      <img src="src/imgs/course/profile-chapter02.png">
     </td>
    </tr>
    <tr>
@@ -236,19 +291,24 @@ Occupancy网络可以识别移动部分和非移动部分、未知障碍物等�
 - 3.1. 主流数据集介绍
   - 3.1.1 nuScenes
   - 3.1.2 SemanticKITTI
+  - 3.1.3 如何自制Occ数据集(SurroundOcc)
 - 3.2. Benchmark对比
   - 3.2.1 指标介绍
-  - 3.2.2 当前现状
+  - 3.2.2 [当前现状](Chapter03-重要数据集和Benchmark介绍)
+    - 3.2.2.1 Occ3D
+    - 3.2.2.2 OpenOccupancy
 - 3.3. 主要的竞赛Challenge介绍
+- 3.4 小结与课后习题
 </details>
     </td>
     <td>
-     [📹 Video] | [百度网盘]()
+     [📹 Video] | [百度网盘]
     </td>
     <td>
-      [PPT]() | [百度网盘]()
+      [PPT] | [百度网盘]
     </td>
     <td>
+      <img src="src/imgs/course/profile-chapter03.png">
     </td>
    </tr>
    <tr>
@@ -261,15 +321,41 @@ Occupancy网络可以识别移动部分和非移动部分、未知障碍物等�
 - 4.1 纯视觉方法概括
 - 4.2 多目相机方案（3周）
   - 4.2.1 方案概述
-  - 4.2.2 TPVFormer 
+  - 4.2.2 TPVFormer
+    - 4.2.2.1 算法动机/开创性思想
+    - 4.2.2.2 主体结构
+    - 4.2.2.3 损失函数
+    - 4.2.2.4 实验方法和性能分析
   - 4.2.3 OccFormer
+    - 4.2.2.1 算法动机/开创性思想
+    - 4.2.2.2 主体结构
+    - 4.2.2.3 损失函数
+    - 4.2.2.4 实验方法和性能分析
   - 4.2.4 OccDepth
-  - 4.2.5 voxformer
+    - 4.2.2.1 算法动机/开创性思想
+    - 4.2.2.2 主体结构
+    - 4.2.2.3 损失函数
+    - 4.2.2.4 实验方法和性能分析
+  - 4.2.5 VoxFormer
   - 4.2.6 Occ-BEV
-  - 4.2.7 BEV-IO
-  - 4.2.8 SurroundOcc
-  - 4.2.9方法对比
-  - 4.2.10代码实战（1周）
+  - 4.2.7 OccNeRF
+    - 4.2.7.1 算法动机/开创性思想
+    - 4.2.7.2 主体结构
+    - 4.2.7.3 损失函数
+    - 4.2.7.4 实验方法和性能分析
+  - 4.2.8 SelfOcc
+    - 4.2.8.1 算法动机/开创性思想
+    - 4.2.8.2 主体结构
+    - 4.2.8.3 损失函数
+    - 4.2.8.4 实验方法和性能分析
+  - 4.2.9 BEV-IO
+  - 4.2.10 SurroundOcc
+  - 4.2.11 方法对比
+  - 4.2.12 代码实战(复现SurroundOcc)
+    - 4.2.12.1 数据处理
+    - 4.2.12.2 模型结构源代码分析
+    - 4.2.12.3 训练方法（真值监督与loss）
+    - 4.2.12.4 训练与推理可视化
 - 4.3 单目相机方案（2周）
   - 4.3.1 方法概述
   - 4.3.2 单目相机3D检测
@@ -281,16 +367,18 @@ Occupancy网络可以识别移动部分和非移动部分、未知障碍物等�
     - 4.3.3.1 MonoScene 原理
     - 4.3.3.2 StereoScene 原理
   - 4.3.4 方法对比
-  - 4.3.5 代码实战
+  - 4.3.5 代码实战（复现MonoScene）
+- 4.4 小结与课后习题
 </details>
     </td>
     <td>
-      [📹 Video] | [百度网盘]()
+      [📹 Video] | [百度网盘]
     </td>
     <td>
-      [PPT]() | [百度网盘]()
+      [PPT] | [百度网盘]
     </td>
     <td>
+      <img src="src/imgs/course/profile-chapter04.png">
     </td>
    </tr>
    <tr>
@@ -304,20 +392,28 @@ Occupancy网络可以识别移动部分和非移动部分、未知障碍物等�
 - 5.2 点云3D检测网络介绍（1.5周）
   - 5.2.1 VoxelNet
   - 5.2.2 PointPillar
-- 5.3  BEV下的3D点云感知（2周）
+- 5.3 基于点云监督的Occ方案（2周）
   - 5.3.1 FastPillars
   - 5.3.2 SECOND
   - 5.3.3 OpenOccupancy
-- 5.4 方案对比
+  - 5.3.4 OccFusion
+  - 5.3.4 PointOcc
+- 5.4 代码实战（复现PointOcc）
+  - 5.4.1 数据处理
+  - 5.4.2 模型结构源代码分析
+  - 5.4.3 训练方法（真值监督与loss）
+  - 5.4.4 训练与推理可视化
+- 5.5 小结与课后习题
 </details>
     </td>
     <td>
-     [📹 Video] | [百度网盘]()
+     [📹 Video] | [百度网盘]
     </td>
     <td>
-      [PPT]() | [百度网盘]()
+      [PPT] | [百度网盘]
     </td>
     <td>
+      <img src="src/imgs/course/profile-chapter05.png">
     </td>
    </tr>
    <tr>
@@ -326,11 +422,24 @@ Occupancy网络可以识别移动部分和非移动部分、未知障碍物等�
     <td>
     <details><summary>六、占据网络部署小试（1.5周）</summary>
 
-[课程目录](Chapter06-占据网络部署小试)
-- 6.1 Cuda 基本概述
-- 6.2 TensorRT 基本概述
-- 6.3 BEVFormer 部署实战
-- 6.4 VoxFormer 部署实战
+[课程目录](Chapter06-占据网络部署小试：模型量化加速与部署)
+- 6.1 模型量化部署概述
+  - 6.1.1 PTQ （训练后量化、低比特量化）
+  - 6.1.2 QAT 量化感知训练
+- 6.2 英伟达芯片量化部署工具链
+  - 6.2.1 Cuda 基本概述
+  - 6.2.2 TensorRT 基本概述
+  - 6.2.3 模型转换(torch2onnx\onnx2trt)
+  - 6.2.4 低比特量化PTQ
+  - 6.2.5 BEVFusion 部署实战
+  - 6.2.6 BEVFormer 部署实战
+- 6.3 地平线J5量化部署工具链
+  - 6.3.1 导引：MobileNet 低比特量化
+  - 6.3.2 ‘天工开物’量化部署基本流程
+  - 6.3.3 模型转换(torch2onnx\onnx2trt)
+  - 6.3.4 低比特量化PTQ
+  - 6.3.5 FlashOCC 部署实战
+  - 6.3.6 FastBEV 部署实战
 </details>
     </td>
     <td>
@@ -339,6 +448,7 @@ Occupancy网络可以识别移动部分和非移动部分、未知障碍物等�
     <td>
     </td>
     <td>
+      <img src="src/imgs/course/profile-chapter06.png">
     </td>
    </tr>
    <tr>
@@ -348,8 +458,33 @@ Occupancy网络可以识别移动部分和非移动部分、未知障碍物等�
     <details><summary>七、课程展望与总结（1周）</summary>
 
 [课程目录](Chapter07-课程展望与总结)
-- 7.1 Occ应用Nerf的一些思考
-- 7.2 基本现状和发展趋势
+- 7.1 基本现状、发展趋势和挑战
+- 7.2 Occ应用Nerf的一些思考
+  - 7.2.1 OccNerf、SelfOcc自监督训练方式
+  - 7.2.2 4D数据标注
+  - 7.2.3 3D gaussian-splatting 三维场景重建（训练、仿真）
+- 7.3 算法框架
+  - 短期：
+    - 7.3.1 感知-预测联合模型
+    - 7.3.2 数据驱动的端到端 [UniAD](https://github.com/OpenDriveLab/UniAD)
+    - 7.3.3 矢量地图在线建图：MapTR/MapTRv2、ScalableMap、VectorMapNet、HDMapNet、GeMap、MapEX、(HybriMap)[https://mp.weixin.qq.com/s/DrerkRzdiIIz7OZMz_9p0g]
+    - 7.3.4 BEV-OCC-Transformer: OccFormer、OccWorld、Occupancy-Flow
+  - 长期：
+    - 7.3.2 大模型 [LMDrive](https://github.com/opendilab/LMDrive) [关于大模型和自动驾驶的几个迷思](关于大模型和自动驾驶的几个迷思.md)
+    - 7.3.3 通用视觉大模型(世界模型)（常识推理、自监督/弱监督）：Drive-WM、DriveDreamer
+    - 7.3.4 模型稀疏化（我们其实不需要那么多数据量做训练？）
+    - 7.3.5 训练加速&端侧大模型推理加速
+- 7.4 数据
+  - 7.4.1 4D数据自动标注
+  - 7.4.2 数据合成
+    - DrivingDiffusion、[MagicDrive](https://zhuanlan.zhihu.com/p/675303127)、UrbanSyn
+    - CLIP2Scene https://github.com/runnanchen/CLIP2Scene
+- 7.5 端到端闭环仿真（[NeuroNCAP](https://research.zenseact.com/publications/neuro-ncap/)、[NeuRAD](https://research.zenseact.com/publications/neurad/)、VAD、UniAD、UniSim）
+- 7.6 其他
+  - 7.6.1 舱驾一体
+  - 7.6.1 AI 编译器: MLIR、TVM、XLA、Triton
+  - 7.6.1 模型剪枝、模型蒸馏、模型压缩、模型量化（PTQ、QAT）
+  - 7.6.1 自动驾驶系统评测方案
 </details>
     </td>
     <td>
@@ -358,6 +493,7 @@ Occupancy网络可以识别移动部分和非移动部分、未知障碍物等�
     <td>
     </td>
     <td>
+      <img src="src/imgs/course/profile-chapter07.png">
     </td>
    </tr>
    <tr>
@@ -367,7 +503,7 @@ Occupancy网络可以识别移动部分和非移动部分、未知障碍物等�
     <details><summary>八、大作业(实践内容)（2周）</summary>
 
 [课程目录](Chapter08-FinalProject)
-- 8.1 复现一个纯视觉方案，走通数据标定、3D目标检测、BEV视角坐标对齐、3D语义场景补全补全完整流程。
+- 8.1 复现一个纯视觉方案: 走通数据标定、BEV视角坐标对齐，实现3D目标检测、3D语义场景补全补全完整流程。
 - 8.2 参考答案
 </details>
     </td>
@@ -375,9 +511,10 @@ Occupancy网络可以识别移动部分和非移动部分、未知障碍物等�
      [📹 Video] | [百度网盘]
     </td>
     <td>
-      [PPT]() | [百度网盘]
+      [PPT] | [百度网盘]
     </td>
     <td>
+      <img src="src/imgs/course/profile-chapter08.png">
     </td>
    </tr>
    <tr>
@@ -413,6 +550,7 @@ Occupancy网络可以识别移动部分和非移动部分、未知障碍物等�
     <td>
     </td>
     <td>
+      <img src="src/imgs/course/profile-chapter09.png">
     </td>
    </tr>
   </tbody>

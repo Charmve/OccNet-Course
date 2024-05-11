@@ -23,6 +23,27 @@ https://www.nuscenes.org/nuscenes#download
 - OpenOccupancy
 - SurroundOcc
 
+The stats of the dataset are summarized [here](dataset_stats.md).
+
+<center>
+
+|  Dataset  | Original Database |      Sensor Data (hr)    |   Flow | Semantic Categories                               |
+|:---------:|:-----------------:|:--------------------:|:------:|:--------------------------------------------:|
+| [MonoScene](https://github.com/astra-vision/MonoScene)  |      NYUv2 / SemanticKITTI     | 5 / 6  |  :x:     | 10 / 19   |
+| [Occ3D](https://github.com/Tsinghua-MARS-Lab/Occ3D)   |      nuScenes / Waymo    | 5.5 / 5.7 |  :x:    | 16 / 14 |
+| [Occupancy-for-nuScenes](https://github.com/FANG-MING/occupancy-for-nuscenes)   |      nuScenes     | 5.5  |  :x:     | 16  |
+| [SurroundOcc](https://github.com/weiyithu/SurroundOcc)   |      nuScenes     | 5.5  |   :x:    | 16  |
+| [OpenOccupancy](https://github.com/JeffWang987/OpenOccupancy)   |      nuScenes     | 5.5  |  :x:     | 16  |
+| [SSCBench](https://github.com/ai4ce/SSCBench)   |      KITTI-360 / nuScenes / Waymo     | 1.8 / 4.7 / 5.6  |   :x:     | 19 / 16 / 14  |
+| [OccNet](https://github.com/OpenDriveLab/OccNet)   |      nuScenes     | 5.5  |   :x:     | 16   |
+| **OpenScene** |       nuPlan      | **:boom: 120**  |   **:heavy_check_mark:**    | **`TODO`** |
+
+</center>
+
+> - The time span of LiDAR frames accumulated for each occupancy annotation is **20** seconds.
+> - Flow: the annotation of motion direction and velocity for each occupancy grid.
+> - `TODO`: Full semantic labels of grids would be released in future version
+
 ### 3D Occupancy Prediction Challenge at CVPR 2023 (Server remains `active`)
 
 Please refer to [this link](https://opendrivelab.com/AD23Challenge.html#Track3). If you wish to add new / modify results to the leaderboard, please drop us an email to <a href="mailto:contact@opendrivelab.com">contact@opendrivelab.com</a>

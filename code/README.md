@@ -13,16 +13,19 @@
  * Licensed under the MIT License.
 -->
 
-```
+```bash
 git clone https://github.com/Charmve/OccNet-Course --recursive
 
 ./scripts/start_dev_docker.sh
 ./scripts/goto_dev_docker.sh
-cd code/
 
+# env config
 export PS1="[\[\e[1;32m\]\u\[\e[m\]\[\e[1;33m\]@\[\e[m\]\[\e[1;35m\]\h\[\e[m\]:\[\e[0;32m\]\w\[\e[0m\]$(__git_ps1 "\[\e[33m\](%s) \[\e[0m\]")\[\e[31m\]$(git_dirty)\[\e[0m\]] $ "
 cp ./docker/dev/rcfiles/user.bash_aliases /home/$USER/.bash_aliases
 cp ./docker/dev/rcfiles/user.vimrc /home/$USER/.vimrc
+
+cd code/
+
 ```
 
 
