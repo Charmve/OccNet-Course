@@ -9,29 +9,35 @@ on:
       placeholder:
         description: "placeholder, no effect"
         required: false
+
 jobs:
   check_license_and_format:
     name: License and format
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v3
         with:
           ref: ${{ github.event.pull_request.head.ref }}
           repository: ${{github.event.pull_request.head.repo.full_name}}
+
       - name: format
         id: format_check
         run: |
           bash ./scripts/format.sh --git
-     - name: install clang-format
+
+      - name: install clang-format
         id: clang-format
         run: sudo apt install clang-format
-     - name: check for changes
+
+      - name: check for changes
         run: |
           if git diff --exit-code; then
             echo "has_changes=false" >> $GITHUB_ENV
           else
             echo "has_changes=true" >> $GITHUB_ENV
           fi
+
       - name: Git push
         if: ${{ env.has_changes == 'true' }}
         id: git_push
