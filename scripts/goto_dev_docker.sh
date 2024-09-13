@@ -115,10 +115,13 @@ function main() {
 		-v "/media:/media" \
 		-v "${HOME}:/hosthome:rw" \
 		-v "$HOME/workspace/OccNet-Course:/maiwei" \
+		\
+		\
 		--hostname=maiwei-dev \
 		--workdir=/maiwei \
 		--shm-size 16g \
-		"$X86_64_DEV_REPO" /bin/bash
+		"$X86_64_DEV_REPO" /bin/bash # -e USER="${USER}" \
+	# -u "${USER}" \
 
 	xhost -local:"${USER}" 1>/dev/null 2>&1
 }

@@ -299,7 +299,8 @@ Surrounding Semantic Occupancy Perception Course for Autonomous Driving
   - 5.3.2 SECOND
   - 5.3.3 OpenOccupancy
   - 5.3.4 OccFusion
-  - 5.3.4 PointOcc
+  - 5.3.4 [PointOcc](https://github.com/wzzheng/PointOcc)
+  - 5.3.5 [Occ4cast](https://github.com/ai4ce/Occ4cast)
 - 5.4 代码实战（复现PointOcc）
   - 5.4.1 数据处理
   - 5.4.2 模型结构源代码分析
@@ -473,11 +474,13 @@ Surrounding Semantic Occupancy Perception Course for Autonomous Driving
 ## Quick-start
 
 ```bash
-git clone https://github.com/Charmve/OccNet-Course ～/workspace/OccNet-Course
+git clone https://github.com/Charmve/OccNet-Course --recursive ～/workspace/OccNet-Course
 cd ～/workspace/OccNet-Course
 
-scripts/start_dev_docker.sh
-scripts/goto_dev_docker.sh
+./scripts/start_dev_docker.sh
+./scripts/goto_dev_docker.sh
+
+bash docker/run_after_start_docker.sh # inside docker
 
 cd code/
 ```
@@ -500,7 +503,7 @@ cd code/
 
 但有了occupancy network之后，感知就可以输出这部分的网格是被占用的，达到类似激光雷达点云的作用，从而给出位置和速度。规控就可以对这种被占用的位置做响应。
 
-<img title="occupancy" src="src/imgs/20231026-135500.jpg">
+<img title="occupancy" src="src/imgs/20231026-135501.jpg">
 
 > occupancy networks 效果图
 

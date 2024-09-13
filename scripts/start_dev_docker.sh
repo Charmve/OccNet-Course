@@ -10,6 +10,7 @@ source "${TOP_DIR}/docker/scripts/docker_helper.sh"
 DOCKER_USER="${USER:-charmve}"
 
 DEV_CONTAINER="maiwei_dev_${DOCKER_USER}"
+DOCKER_IMG="charmve/maiwei-dev-x86_64-20231116:latest"
 ENFORCE=false
 
 function usage() {
@@ -91,7 +92,7 @@ function generate_docker_run_command() {
 		"USER=${DOCKER_USER}"
 		"DOCKER_IMG=${image}"
 		"LANG=C.UTF-8"
-		"PS1="[\[\e[1;32m\]\u\[\e[m\]\[\e[1;33m\]@\[\e[m\]\[\e[1;35m\]\h\[\e[m\]:\[\e[0;32m\]\w\[\e[0m\]$(__git_ps1 "\[\e[33m\](%s) \[\e[0m\]")\[\e[31m\]$(git_dirty)\[\e[0m\]] $ ""
+		"PS1='[\[\e[1;32m\]\u\[\e[m\]\[\e[1;33m\]@\[\e[m\]\[\e[1;35m\]\h\[\e[m\]:\[\e[0;32m\]\w\[\e[0m\]$(__git_ps1 "\[\e[33m\](%s) \[\e[0m\]")\[\e[31m\]$(git_dirty)\[\e[0m\]] $ '"
 	)
 
 	declare -a vmounts
@@ -103,8 +104,8 @@ function generate_docker_run_command() {
 	_result+=(
 		#nvidia-docker
 		#run
-		docker 
-		run 
+		docker
+		run
 		--gpus all
 		-itd
 		--privileged
@@ -141,15 +142,35 @@ function docker_start_user() {
 	group="$(id -g -n)"
 	gid="$(id -g)"
 
+	info "Starting docker container \"${DEV_CONTAINER}\" ..."
+	echo "============ VARS BEGIN ==============="
+	echo "DOCKER_IMG: ${DOCKER_IMG}"
+	echo "DEV_CONTAINER: ${container}"
+	echo "USER: ${USER}(uid=${uid}, gid=${gid}, home=${HOME})"
+	echo "============ VARS END ==============="
+
+	# docker run -u $user "${container}" bash -c "addgroup $user"
+
+	# docker exec -u root "${container}" bash -c "addgroup qcraft"
+	# docker exec -u root "${container}" bash -c "adduser --ingroup qcraft qcraft"
+
 	docker exec -u root "${container}" \
 		bash -c "/maiwei/docker/scripts/docker_start_user.sh ${user} ${uid} ${group} ${gid}"
 }
 
 function main() {
+	if [[ "$(id -u)" == 0 ]]; then
+		error "Start Dev Docker as ROOT is prohibited."
+		# exit 0
+	fi
+	check_host_environment
+	git_lfs_check
+
 	parse_cmdline_args "$@"
+
 	local dev_image
 	# dev_image="$(determine_dev_docker_image)"
-	dev_image="charmve/maiwei-dev-x86_64-20231116:latest"
+	dev_image="$DOCKER_IMG"
 
 	if docker_image_exists "${dev_image}"; then
 		info "Dev Docker image ${dev_image} found, will be used."

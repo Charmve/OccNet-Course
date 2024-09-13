@@ -53,24 +53,6 @@ function ml_docker_tag_default() {
 	awk -F'=' -v key="ml-${arch}" '$1 == key {print $2}' "${TOP_DIR}/docker/TAG"
 }
 
-function dev_docker_image() {
-	local tag="${1:-}"
-	local arch="${2:-}"
-	if [[ -z "${arch}" ]]; then
-		arch="$(uname -m)"
-	fi
-
-	if [[ -z "${tag}" ]]; then
-		tag="$(dev_docker_tag_default "${arch}")"
-	fi
-
-	if [[ "${arch}" == "x86_64" ]]; then
-		echo "${X86_64_DEV_REPO}:${tag}"
-	else
-		echo "${AARCH64_DEV_REPO}:${tag}"
-	fi
-}
-
 function docker_image_size() {
 	docker inspect -f "{{ .Size }}" "$1" | numfmt --to si --format "%.1f"
 }

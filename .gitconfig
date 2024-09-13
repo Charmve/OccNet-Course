@@ -36,8 +36,8 @@
     process = git-lfs filter-process
     required = true
 [core]
-        quotepath = false
-        editor = vim
+    quotepath = false
+    editor = vim
 [i18n]
     commitencoding = utf-8
     logoutputencoding = utf-8

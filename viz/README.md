@@ -31,7 +31,7 @@
 <img src="https://www.xiaobin.info/posts/adas/002_ads_simulation/0015.png">
 <img src="https://www.xiaobin.info/posts/adas/002_ads_simulation/0014.jpg">
 <img src="https://www.xiaobin.info/posts/adas/002_ads_simulation/0013.jpg">
-<img alt="Waymo Carcraft" src="https://www.xiaobin.info/posts/adas/002_ads_simulation/0007.png">
+<img alt="Waymo CarCraft" src="https://www.xiaobin.info/posts/adas/002_ads_simulation/0007.png">
 <img src="">
 <img src="">
 

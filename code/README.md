@@ -14,18 +14,15 @@
 -->
 
 ```bash
-git clone https://github.com/Charmve/OccNet-Course --recursive
+git clone https://github.com/Charmve/OccNet-Course --recursive ～/workspace/OccNet-Course
+cd ～/workspace/OccNet-Course
 
 ./scripts/start_dev_docker.sh
 ./scripts/goto_dev_docker.sh
 
-# env config
-export PS1="[\[\e[1;32m\]\u\[\e[m\]\[\e[1;33m\]@\[\e[m\]\[\e[1;35m\]\h\[\e[m\]:\[\e[0;32m\]\w\[\e[0m\]$(__git_ps1 "\[\e[33m\](%s) \[\e[0m\]")\[\e[31m\]$(git_dirty)\[\e[0m\]] $ "
-cp ./docker/dev/rcfiles/user.bash_aliases /home/$USER/.bash_aliases
-cp ./docker/dev/rcfiles/user.vimrc /home/$USER/.vimrc
+bash docker/run_after_start_docker.sh # inside docker
 
 cd code/
-
 ```
 
 

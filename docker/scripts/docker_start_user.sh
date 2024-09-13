@@ -19,6 +19,11 @@ function create_user_account() {
   usermod -aG sudo "${user_name}"
 }
 
+function grant_device_permissions() {
+  [[ -e /dev/snd ]] && usermod -a -G audio "$1"
+  usermod -aG video "${user_name}"
+}
+
 function setup_user_account_if_non_exist() {
   local user_name="$1"
   local uid="$2"
@@ -50,7 +55,9 @@ function docker_start_user() {
   fi
   setup_user_account_if_non_exist "$@"
 
-  sudoer_without_password "${user_name}"
+  # sudoer_without_password "${user_name}"
+
+  # grant_device_permissions "${user_name}"
 }
 
 docker_start_user "$@"
