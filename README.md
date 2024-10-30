@@ -10,7 +10,7 @@
 	<td colspan="3" rowspan="1">
 		
 ## ✨ News! ✨
-- <b>2023.11.20:</b> 💻  OccNet-Course 在线学习网站上线 ！ <a href="http://111.229.117.200:7003/" target="_blank"><img src="https://img.shields.io/badge/在线课程-BEV/Occ-000000.svg?style=flat-square&amp;logo=GitBook" alt="Occ-Course Website" align="center" valign="center" style="vertical-align:bottom;"/></a> http://111.229.117.200:7003/
+- <b>2023.11.20:</b> 💻  OccNet-Course 在线学习网站上线 ！ <a href="http://111.229.117.200:8100/" target="_blank"><img src="https://img.shields.io/badge/在线课程-BEV/Occ-000000.svg?style=flat-square&amp;logo=GitBook" alt="Occ-Course Website" align="center" valign="center" style="vertical-align:bottom;"/></a> http://111.229.117.200:8100/
 - <b>2023.9.10:</b> 📝  课程提案
 
 更多更新日志会同步到 [CHANGELOG](CHANGELOG.md)，持续更新中，感谢大家的支持与喜欢！
