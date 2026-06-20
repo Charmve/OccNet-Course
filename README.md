@@ -131,7 +131,7 @@ Surrounding Semantic Occupancy Perception Course for Autonomous Driving
     <td>
     <details><summary>一、BEV感知概述（3周）</summary>
 
-[课程目录 >](Chapter01-BEV感知概述)
+[课程目录 >](Chapter01_Overview-of-BEV-Perception)
 - 1.1 课程介绍和内容设计
 - 1.2 BEV感知算法的基本介绍
 - 1.3 相比于PV视角的差异性
@@ -146,10 +146,10 @@ Surrounding Semantic Occupancy Perception Course for Autonomous Driving
     </details>
     </td>
     <td>
-	[<a href="Chapter01-BEV感知概述/占据网络专题-第一章-BEV感知概述.pptx"><code>📹</code> Video</a>] | [<code><img height="18" src="https://user-images.githubusercontent.com/29084184/127970991-fcb23d68-8369-47af-918a-fef8f0becccd.png" alt="Baidu Cloud" title="Baidu Cloud" style="vertical-align:bottom;"/></code><a href="https://pan.baidu.com/s/1xEIUdzMF81zfFGXnTYih0g">百度网盘 <code>4jja</code></a>]
+	[<a href="Chapter01_Overview-of-BEV-Perception/占据网络专题-第一章-BEV感知概述.pptx"><code>📹</code> Video</a>] | [<code><img height="18" src="https://user-images.githubusercontent.com/29084184/127970991-fcb23d68-8369-47af-918a-fef8f0becccd.png" alt="Baidu Cloud" title="Baidu Cloud" style="vertical-align:bottom;"/></code><a href="https://pan.baidu.com/s/1xEIUdzMF81zfFGXnTYih0g">百度网盘 <code>4jja</code></a>]
     </td>
     <td>
-      <a href="Chapter01-BEV感知概述/占据网络专题-第一章-BEV感知概述.pptx">PPT</a> | [百度网盘]
+      <a href="Chapter01_Overview-of-BEV-Perception/占据网络专题-第一章-BEV感知概述.pptx">PPT</a> | [百度网盘]
     </td>
     <td>
       <img src="src/imgs/course/profile-chapter01.png">
@@ -162,7 +162,7 @@ Surrounding Semantic Occupancy Perception Course for Autonomous Driving
     <td>
     <details><summary>二、占据栅格网络概述(1.5周)</summary>
 
-[课程目录 >](Chapter02-占据栅格网络概述)
+[课程目录 >](Chapter02_Overview-of-Occupancy-Grid-Networks)
 - 2.1 3D语义场景补全（SSC）与3D场景预测
 - 2.2 占据网络基本思路
 - 2.3 纯视觉和多模态分类
@@ -174,7 +174,7 @@ Surrounding Semantic Occupancy Perception Course for Autonomous Driving
     </details>
     </td>
     <td>
-     [<a href="Chapter02-占据栅格网络概述/占据网络专题-第二章-占据网络概述.mp4"><code>📹</code> Video</a>] | [<code><img height="18" src="https://user-images.githubusercontent.com/29084184/127970991-fcb23d68-8369-47af-918a-fef8f0becccd.png" alt="Baidu Cloud" title="Baidu Cloud" style="vertical-align:bottom;"/></code><a href="https://pan.baidu.com/s/1plGllIymkCrJFfVLvuWXXw">百度网盘<code>wl1f</code></a>]
+     [<a href="Chapter02_Overview-of-Occupancy-Grid-Networks/占据网络专题-第二章-占据网络概述.mp4"><code>📹</code> Video</a>] | [<code><img height="18" src="https://user-images.githubusercontent.com/29084184/127970991-fcb23d68-8369-47af-918a-fef8f0becccd.png" alt="Baidu Cloud" title="Baidu Cloud" style="vertical-align:bottom;"/></code><a href="https://pan.baidu.com/s/1plGllIymkCrJFfVLvuWXXw">百度网盘<code>wl1f</code></a>]
     </td>
     <td>
       [PPT] | [百度网盘]
@@ -189,14 +189,14 @@ Surrounding Semantic Occupancy Perception Course for Autonomous Driving
     <td>
     <details><summary>三、重要数据集和Benchmark介绍（1周）</summary>
 
-[课程目录 >](Chapter03-重要数据集和Benchmark介绍)
+[课程目录 >](Chapter03_Introduction-to-Key-Datasets-and-Benchmarks)
 - 3.1. 主流数据集介绍
   - 3.1.1 nuScenes
   - 3.1.2 SemanticKITTI
   - 3.1.3 如何自制Occ数据集(SurroundOcc)
 - 3.2. Benchmark对比
   - 3.2.1 指标介绍
-  - 3.2.2 [当前现状](Chapter03-重要数据集和Benchmark介绍)
+  - 3.2.2 [当前现状](Chapter03_Introduction-to-Key-Datasets-and-Benchmarks)
     - 3.2.2.1 Occ3D
     - 3.2.2.2 OpenOccupancy
 - 3.3. 主要的竞赛Challenge介绍
@@ -219,7 +219,7 @@ Surrounding Semantic Occupancy Perception Course for Autonomous Driving
     <td>
     <details><summary>四、基于纯视觉的Occ算法（6周）</summary>
 
-[课程目录 >](Chapter04-基于纯视觉的Occ算法)
+[课程目录 >](Chapter04_Vision-Based-Occupancy-Algorithms)
 - 4.1 纯视觉方法概括
 - 4.2 多目相机方案（3周）
   - 4.2.1 方案概述
@@ -289,7 +289,7 @@ Surrounding Semantic Occupancy Perception Course for Autonomous Driving
     <td>
     <details><summary>五、基于点云和多模态融合的Occ方案（4周）</summary>
 
-[课程目录 >](Chapter05-基于点云和多模态融合的Occ方案)
+[课程目录 >](Chapter05_Point-Cloud-and-Multimodal-Fusion-Based-Occupancy-Schemes)
 - 5.1 多模态方式Occ概述
 - 5.2 点云3D检测网络介绍（1.5周）
   - 5.2.1 VoxelNet
@@ -325,7 +325,7 @@ Surrounding Semantic Occupancy Perception Course for Autonomous Driving
     <td>
     <details><summary>六、占据网络部署小试（1.5周）</summary>
 
-[课程目录 >](Chapter06-占据网络部署小试：模型量化加速与部署)
+[课程目录 >](Chapter06_Hands-on-Model-Deployment-Quantization-Acceleration-and-Deployment)
 - 6.1 模型量化部署概述
   - 6.1.1 PTQ （训练后量化、低比特量化）
   - 6.1.2 QAT 量化感知训练
@@ -360,7 +360,7 @@ Surrounding Semantic Occupancy Perception Course for Autonomous Driving
     <td>
     <details><summary>七、课程展望与总结（1周）</summary>
 
-[课程目录 >](Chapter07-课程展望与总结)
+[课程目录 >](Chapter07_Course-Outlook-and-Summary)
 - 7.1 基本现状、发展趋势和挑战
 - 7.2 Occ应用Nerf的一些思考
   - 7.2.1 OccNerf、SelfOcc自监督训练方式
@@ -405,7 +405,7 @@ Surrounding Semantic Occupancy Perception Course for Autonomous Driving
     <td>
     <details><summary>八、大作业(实践内容)（2周）</summary>
 
-[课程目录 >](Chapter08-FinalProject)
+[课程目录 >](Chapter08_FinalProject)
 - 8.1 复现一个纯视觉方案: 走通数据标定、BEV视角坐标对齐，实现3D目标检测、3D语义场景补全补全完整流程。
 - 8.2 参考答案
 </details>
@@ -427,7 +427,7 @@ Surrounding Semantic Occupancy Perception Course for Autonomous Driving
     <td>
     <details><summary>九、补充材料（1周）</summary>
 
-[课程目录 >](Chapter09-Appendix)
+[课程目录 >](Chapter09_Appendix)
 - 9.1 Transformer in Vision
 - 9.2 BEV+Transformer
 - 9.3 E2E、LLM、Data-driven
@@ -469,13 +469,14 @@ Surrounding Semantic Occupancy Perception Course for Autonomous Driving
 - [CVPR2023 Occupancy Prediction比赛方案总结](https://mp.weixin.qq.com/s/dJXvkX-b6qiYe7dzB43FMQ)
 - [迈向BEV的大一统 | 基于纯视觉策略的BEV感知](https://mp.weixin.qq.com/s/43sQJtblSOILLWBr46oMVw)
 - [BEVFusion+BEVFormer讲解](https://www.bilibili.com/video/BV1Eg4y1A7JD/?spm_id_from=333.337.search-card.all.click&vd_source=57394ba751fad8e6886be567cccfa5bb)
-- 有基础的同学，可进一步看本课程的[补充材料](Chapter09-Appendix)
+- 有基础的同学，可进一步看本课程的[补充材料](Chapter09_Appendix)
 
 ## Quick-start
 
 ```bash
-git clone https://github.com/Charmve/OccNet-Course --recursive ～/workspace/OccNet-Course
-cd ～/workspace/OccNet-Course
+mkdir -p ~/workspace
+git clone https://github.com/Charmve/OccNet-Course --recursive ~/workspace/OccNet-Course
+cd ~/workspace/OccNet-Course
 
 ./scripts/start_dev_docker.sh
 ./scripts/goto_dev_docker.sh
@@ -705,7 +706,7 @@ Occupancy网络可以识别移动部分和非移动部分、未知障碍物等�
 
 ## Closed-loop Simulator
 
-[课程展望与总结 >](Chapter07-课程展望与总结)
+[Course-Outlook-and-Summary >](Chapter07_Course-Outlook-and-Summary)
 
 <img src="https://github.com/Charmve/OccNet-Course/blob/main/src/imgs/animated_overview.gif">
 
